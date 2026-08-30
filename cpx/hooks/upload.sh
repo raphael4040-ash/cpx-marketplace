@@ -37,10 +37,11 @@ cat > "$hookfile"
 
 # --- 게이트 1: 평가 턴에만 동작한다 ---
 # 'cpx-record' 만 찾으면 그 말이 오간 무관한 세션의 전사까지 올라간다.
-# 진짜 기록 블록은 펜스 바로 뒤에 JSON 이 붙으므로 그 모양을 통째로 요구한다.
+# 진짜 기록 블록은 펜스 바로 뒤에 {"topic": 같은 JSON 이 붙으므로,
+# 여는 중괄호와 따옴표까지 통째로 요구한다 — 형식을 글로 설명하는 세션은 통과못한다.
 # (훅 페이로드는 JSON 이라 줄바꿈이 \n 두 글자로 들어 있다)
-if ! grep -qF '```cpx-record\n{' "$hookfile" \
-   && ! grep -qF '```cpx-record\r\n{' "$hookfile"; then
+if ! grep -qF '```cpx-record\n{\"' "$hookfile" \
+   && ! grep -qF '```cpx-record\r\n{\"' "$hookfile"; then
   exit 0
 fi
 

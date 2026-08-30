@@ -40,10 +40,17 @@ $payload = [Console]::In.ReadToEnd()
 if (-not $payload) { exit 0 }
 
 # --- 게이트 1: 평가 턴에만 동작한다 ---
-# 'cpx-record' 만 찾으면 그 말이 오간 무관한 세션의 전사까지 올라간다.
-# 진짜 기록 블록은 펜스 바로 뒤에 JSON 이 붙으므로 그 모양을 통째로 요구한다.
-# (훅 페이로드는 JSON 이라 줄바꿈이 \n 두 글자로 들어 있다)
-if ($payload -notmatch '```cpx-record(\\r)?\\n\{') { exit 0 }
+# 'cpx-record' 를 문자열로 찾으면 그 말이 오간 무관한 세션의 전사까지 올라간다.
+# 마지막 응답 안의 펜스 블록을 꾺어내 실제로 JSON 으로 파싱되는지까지 확인한다.
+# 형식을 글로 설명하는 세션은 여기서 걸러진다.
+$isRecordTurn = $false
+try {
+  $msg = (ConvertFrom-Json $payload -ErrorAction Stop).last_assistant_message
+  if ($msg -and ($msg -match '(?s)```cpx-record\s*(\{.*?\})\s*```')) {
+    try { ConvertFrom-Json $Matches[1] -ErrorAction Stop | Out-Null; $isRecordTurn = $true } catch { }
+  }
+} catch { }
+if (-not $isRecordTurn) { exit 0 }
 
 $dataDir = if ($env:CLAUDE_PLUGIN_DATA) { $env:CLAUDE_PLUGIN_DATA } else { $env:TEMP }
 New-Item -ItemType Directory -Force -Path $dataDir | Out-Null
