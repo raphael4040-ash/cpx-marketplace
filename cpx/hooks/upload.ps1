@@ -9,10 +9,22 @@ $ErrorActionPreference = 'SilentlyContinue'
 # sh 가 있으면 upload.sh 가 이미 처리한다. 중복 업로드를 막기 위해 여기서 빠진다.
 if (Get-Command sh -ErrorAction SilentlyContinue) { exit 0 }
 
-# 배포된 Cloudflare Worker 주소. CPX_ENDPOINT 환경변수로 덮어쓸 수 있다.
-$endpoint = if ($env:CPX_ENDPOINT) { $env:CPX_ENDPOINT } else { 'https://cpx-upload.raphael40402652.workers.dev/upload' }
-
 $cpxHome = Join-Path $env:USERPROFILE '.cpx'
+
+# 배포된 Cloudflare Worker 주소.
+# 예전에는 CPX_ENDPOINT 환경변수로 덮어쓸 수 있었다. 환경변수는 프로젝트 설정만
+# 건드려도 심을 수 있어서, 그것만으로 토큰과 전사가 통째로 남의 서버로 갔다.
+# 이제 주소는 사용자 홈의 ~/.cpx/config 에서만 읽는다 (자체 배포용 탈출구는 유지).
+$endpoint = 'https://cpx-upload.raphael40402652.workers.dev/upload'
+$cpxConfig = Join-Path $cpxHome 'config'
+if (Test-Path $cpxConfig) {
+  $line = @(Get-Content $cpxConfig) | Where-Object { $_ -match '^endpoint=' } | Select-Object -First 1
+  if ($line) {
+    $alt = ($line -replace '^endpoint=\s*', '').Trim()
+    # https 가 아니면 무시한다 — 평문으로 토큰을 흘리지 않기 위해서다.
+    if ($alt -like 'https://*') { $endpoint = $alt }
+  }
+}
 $token = $env:CPX_TOKEN
 if (-not $token) {
   $tokenPath = Join-Path $cpxHome 'token'
@@ -28,7 +40,10 @@ $payload = [Console]::In.ReadToEnd()
 if (-not $payload) { exit 0 }
 
 # --- 게이트 1: 평가 턴에만 동작한다 ---
-if ($payload -notmatch 'cpx-record') { exit 0 }
+# 'cpx-record' 만 찾으면 그 말이 오간 무관한 세션의 전사까지 올라간다.
+# 진짜 기록 블록은 펜스 바로 뒤에 JSON 이 붙으므로 그 모양을 통째로 요구한다.
+# (훅 페이로드는 JSON 이라 줄바꿈이 \n 두 글자로 들어 있다)
+if ($payload -notmatch '```cpx-record(\\r)?\\n\{') { exit 0 }
 
 $dataDir = if ($env:CLAUDE_PLUGIN_DATA) { $env:CLAUDE_PLUGIN_DATA } else { $env:TEMP }
 New-Item -ItemType Directory -Force -Path $dataDir | Out-Null
@@ -42,6 +57,7 @@ Set-Content -Path $lock -Value $key -Encoding ascii
 
 $hookFile = Join-Path $dataDir ("cpx-hook-$PID.json")
 $trFile   = Join-Path $dataDir ("cpx-tr-$PID.jsonl")
+$cfgFile  = Join-Path $dataDir ("cpx-curl-$PID.conf")
 [IO.File]::WriteAllText($hookFile, $payload, [Text.UTF8Encoding]::new($false))
 
 try {
@@ -59,9 +75,13 @@ try {
     } catch { $transcriptPath = $null }
   }
 
+  # 토큰을 -H 로 넘기면 프로세스 인자에 그대로 남는다. -K 설정 파일로 옮겨 뺀다.
+  # (PowerShell 5.1 은 네이티브 stdin 에 BOM 을 붙여 -K - 를 못 쓴다)
+  [IO.File]::WriteAllText($cfgFile, "header = `"Authorization: Bearer $token`"`n", [Text.UTF8Encoding]::new($false))
+
   $args = @(
+    '-K', $cfgFile,
     '-sS', '-m', '20', '-X', 'POST', $endpoint,
-    '-H', "Authorization: Bearer $token",
     '-F', "hook=@$hookFile;type=application/json"
   )
 
@@ -73,7 +93,7 @@ try {
 
   & curl.exe @args
 } finally {
-  Remove-Item $hookFile, $trFile -Force -ErrorAction SilentlyContinue
+  Remove-Item $hookFile, $trFile, $cfgFile -Force -ErrorAction SilentlyContinue
 }
 
 exit 0

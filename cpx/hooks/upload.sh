@@ -6,10 +6,18 @@
 # 게이트를 통과하기 전에는 네트워크를 절대 건드리지 않는다.
 set -u
 
-# 배포된 Cloudflare Worker 주소. CPX_ENDPOINT 환경변수로 덮어쓸 수 있다.
-ENDPOINT="${CPX_ENDPOINT:-https://cpx-upload.raphael40402652.workers.dev/upload}"
-
 CPX_HOME="${HOME:-$USERPROFILE}/.cpx"
+
+# 배포된 Cloudflare Worker 주소.
+# 예전에는 CPX_ENDPOINT 환경변수로 덮어쓸 수 있었다. 환경변수는 프로젝트 설정만
+# 건드려도 심을 수 있어서, 그것만으로 토큰과 전사가 통째로 남의 서버로 갔다.
+# 이제 주소는 사용자 홈의 ~/.cpx/config 에서만 읽는다 (자체 배포용 탈출구는 유지).
+ENDPOINT="https://cpx-upload.raphael40402652.workers.dev/upload"
+if [ -f "$CPX_HOME/config" ]; then
+  alt=$(sed -n 's/^endpoint=[[:space:]]*//p' "$CPX_HOME/config" 2>/dev/null | head -n1 | tr -d '\r\n')
+  # https 가 아니면 무시한다 — 평문으로 토큰을 흘리지 않기 위해서다.
+  case "$alt" in https://*) ENDPOINT="$alt" ;; esac
+fi
 TOKEN="${CPX_TOKEN:-}"
 [ -n "$TOKEN" ] || TOKEN=$(cat "$CPX_HOME/token" 2>/dev/null | tr -d '\r\n')
 
@@ -28,7 +36,13 @@ trap cleanup EXIT
 cat > "$hookfile"
 
 # --- 게이트 1: 평가 턴에만 동작한다 ---
-grep -q 'cpx-record' "$hookfile" || exit 0
+# 'cpx-record' 만 찾으면 그 말이 오간 무관한 세션의 전사까지 올라간다.
+# 진짜 기록 블록은 펜스 바로 뒤에 JSON 이 붙으므로 그 모양을 통째로 요구한다.
+# (훅 페이로드는 JSON 이라 줄바꿈이 \n 두 글자로 들어 있다)
+if ! grep -qF '```cpx-record\n{' "$hookfile" \
+   && ! grep -qF '```cpx-record\r\n{' "$hookfile"; then
+  exit 0
+fi
 
 # --- 게이트 2: 같은 턴 중복 업로드 방지 (sh/ps1 훅이 둘 다 도는 환경 대비) ---
 key=$(cksum < "$hookfile" | cut -d' ' -f1)
@@ -51,16 +65,20 @@ if [ "$send_transcript" = "1" ]; then
        | head -n1)
 fi
 
+# 토큰을 -H 로 넘기면 ps 에 그대로 뜼다 — 같은 기계의 다른 로컬 사용자에게 보인다.
+# -K - 로 설정을 stdin 에서 읽게 해 프로세스 인자에서 토큰을 뺀다.
+send() {
+  printf 'header = "Authorization: Bearer %s"\n' "$TOKEN" | curl -K - "$@"
+}
+
 if [ -n "$tp" ] && [ -f "$tp" ]; then
   # 전사가 길면 Firestore 문서 상한을 넘으므로 뒷부분만 보낸다.
   tail -n 3000 "$tp" > "$trfile" 2>/dev/null
-  curl -sS -m 20 -X POST "$ENDPOINT" \
-    -H "Authorization: Bearer $TOKEN" \
+  send -sS -m 20 -X POST "$ENDPOINT" \
     -F "hook=@$hookfile;type=application/json" \
     -F "transcript=@$trfile;type=application/jsonl" 2>/dev/null
 else
-  curl -sS -m 20 -X POST "$ENDPOINT" \
-    -H "Authorization: Bearer $TOKEN" \
+  send -sS -m 20 -X POST "$ENDPOINT" \
     -F "hook=@$hookfile;type=application/json" 2>/dev/null
 fi
 
