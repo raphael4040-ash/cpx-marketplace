@@ -4,6 +4,10 @@
 Claude Code 안에서 문진·신체진찰을 연습하고 100점 배점으로 채점받으며,
 결과는 웹 기록판의 본인 계정에 자동으로 쌓입니다.
 
+📄 **[사용 설명서 PDF](https://cpx-practice.github.io/cpx-manual.pdf)** — 설치부터 면담·채점·기록판
+사용법, 저장되는 것과 끄는 방법, 문제해결까지 담은 15쪽 문서입니다. 처음이라면 이것부터 보세요.
+아래는 요약입니다.
+
 ## 설치 (유저용)
 
 ```bash
@@ -83,3 +87,7 @@ claude plugin validate ./cpx
 
 케이스나 채점 기준을 고칠 때는 `cpx/.claude-plugin/plugin.json` 의 `version` 을 올려야
 기존 유저에게 업데이트가 전달됩니다.
+
+같은 변경이 두 곳에 더 걸립니다. 기록판 저장소의 `docs/topics.js`(케이스 목록)와
+`manual/cpx-manual.html`(설명서 4장 배점, 부록 A 케이스 목록)입니다. 설명서 PDF 를 다시 뽑는
+명령은 그 저장소 README 에 있습니다.
