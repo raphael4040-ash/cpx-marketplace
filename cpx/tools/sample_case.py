@@ -424,6 +424,13 @@ def build(topic, data, scenario_id=None):
 
     person = draw_person(scenario, personas)
     slots = draw_slots(scenario, person)
+    # 상황문의 {{age}}·{{sexText}} 가 따로 뽑히면 "62세 여성"이라 써놓고 인물은 64세가 된다.
+    # 인물 값으로 덮어써서 한 케이스 안에서 나이·성별이 하나만 존재하게 한다.
+    if "age" in slots:
+        slots["age"] = person["age"]
+    if "sexText" in slots:
+        slots["sexText"] = "남성" if person["sex"] == "male" else "여성"
+
     person["slots"] = slots
     guardian = draw_guardian(scenario, person, personas, slots)
     if guardian:
@@ -595,8 +602,12 @@ def as_json(case):
     pe.pop("vitals", None)
     pe.pop("findings", None)
     pe = fill_deep(pe, slots)
-    pe["vitals"] = case["vitals"]
-    pe["findings"] = case["findings"]
+    if case["vitals"].get("_raw") is None and "sbp" not in case["vitals"]:
+        pe.pop("vitals", None)          # 술기 카드는 활력징후 밴드가 없다
+    else:
+        pe["vitals"] = case["vitals"]
+    if case["findings"]:
+        pe["findings"] = case["findings"]
 
     # 원본 칸에는 "인물 카드를 따르되 ..." 같은 지시문이 남아 있다. 스킬이 그것을 읽지 않도록
     # 통합본으로 갈아끼운다. 답이 하나만 남아야 학생에게 지시문이 새지 않는다.
