@@ -112,6 +112,13 @@ def check_file(path):
             if len(s.get("redFlags") or {}) < 4:
                 warns.append("%s: redFlags 가 4개 미만" % tag)
 
+        # informant 가 문자열이면 보호자 관계 자리에 설명문이 통째로 찍힌다
+        info = s.get("informant")
+        if info is not None and not isinstance(info, dict):
+            errs.append("%s: informant 는 relation 을 가진 객체여야 한다" % tag)
+        elif isinstance(info, dict) and not info.get("relation"):
+            errs.append("%s: informant.relation 없음" % tag)
+
         disc = s.get("disclosure") or {}
         if not disc.get("onlyIfAsked"):
             warns.append("%s: disclosure.onlyIfAsked 없음 — 물어야 나오는 정보가 없으면 문진 난이도가 사라진다" % tag)
