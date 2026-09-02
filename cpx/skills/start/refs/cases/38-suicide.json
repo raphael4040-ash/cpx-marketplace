@@ -94,7 +94,7 @@
     {
       "id": "sui-alcohol-impulsive",
       "dx": "알코올사용장애를 동반한 충동적 자살시도 직후",
-      "constraints": { "ageRange": [30, 58], "sex": "any", "requiredRisk": ["음주"], "requiredRiskMin": 1, "forbidden": [] },
+      "constraints": { "ageRange": [30, 58], "sex": "any", "requiredRisk": ["음주"], "requiredRiskMin": 1, "forbidden": [], "alcoholLabel": "매일 소주 {{bottles}}병" },
       "occupationBias": ["construct", "driver", "selfemp", "cook", "jobless"],
       "iceHint": ["denial", "family", "repeat"],
       "opening": ["손목을 좀 다쳐서 왔어요. 별거 아니에요.", "집사람이 억지로 데려와서 왔어요."],
@@ -131,7 +131,7 @@
       "meds": "없음",
       "allergy": "없음",
       "fh": "{{fhVar}}",
-      "sh": "인물 카드를 따르되 음주는 매일 소주 {{bottles}}병 수준이며 최근 일이 끊겨 경제적 어려움이 있음. 처음에는 '별거 아니다'라며 축소하고 방어적이지만, 비판단적으로 물으면 그날의 상황과 반복된 시도를 말한다.",
+      "sh": "인물 카드를 따르되 최근 일이 끊겨 경제적 어려움이 있음. 처음에는 '별거 아니다'라며 축소하고 방어적이지만, 비판단적으로 물으면 그날의 상황과 반복된 시도를 말한다.",
       "pe": {
         "vitals": { "sbp": [128, 150], "dbp": [78, 94], "hr": [88, 106], "rr": [16, 20], "temp": [36.4, 37.2], "spo2": [96, 99],
                     "invariant": "경한 빈맥과 다소 높은 혈압을 유지한다. 수축기 90 미만이나 의식 저하는 나오지 않는다." },
@@ -162,7 +162,7 @@
         "daysAgo": [1, 2, 3],
         "severity": [6, 7, 8],
         "attemptCount": ["두", "세"],
-        "bottles": ["한", "한 병 반", "두"],
+        "bottles": ["한", "1.5", "두"],
         "pastAttempt": ["몇 년 전에도 술 먹고 비슷한 일이 있었어요.", "작년에도 한 번 있었는데 그땐 병원에 안 갔어요."],
         "protective": ["애가 아직 학생이라 제가 벌어야죠.", "집사람 생각하면 그러면 안 되는데요."],
         "pmhVar": ["특이 병력 없음", "건강검진에서 간 수치가 높다고 들었어요."],

@@ -97,7 +97,7 @@
         "약에 대한 환자의 거부감이나 걱정 확인",
         "추적 계획"
       ],
-      "constraints": { "ageRange": [26, 48], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [26, 48], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [], "smoking": "never", "alcohol": "never" },
       "occupationBias": ["office", "teacher", "nurse", "selfemp", "student"],
       "iceHint": ["family", "internet", "test"],
       "opening": ["콜레스테롤이 너무 높게 나왔다고 해서요.", "아버지가 일찍 심장으로 돌아가셔서 걱정돼 왔어요."],
@@ -129,7 +129,7 @@
       "meds": "없음",
       "allergy": "없음",
       "fh": "아버지 {{fatherAge}}세 심근경색 사망. {{familyTested}}",
-      "sh": "인물 카드를 따르되 음주는 적고 흡연은 하지 않음",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": { "sbp": [112, 130], "dbp": [68, 82], "hr": [64, 84], "rr": [14, 18], "temp": [36.3, 36.8], "spo2": [97, 99],
                     "invariant": "활력징후는 정상을 유지한다. 이 케이스의 단서는 수치와 신체 소견이지 활력징후가 아니다." },
@@ -251,7 +251,7 @@
         "당장 바꿀 것 한두 가지를 구체적으로 합의",
         "복통이 생기면 즉시 오라는 안전 안내"
       ],
-      "constraints": { "ageRange": [35, 58], "sex": "any", "requiredRisk": ["당뇨병"], "requiredRiskMin": 1, "forbidden": [] },
+      "constraints": { "ageRange": [35, 58], "sex": "any", "requiredRisk": ["당뇨병"], "requiredRiskMin": 1, "forbidden": [], "alcoholLabel": "주 {{drinkDays}}회 이상" },
       "occupationBias": ["selfemp", "driver", "construct", "cook", "market"],
       "iceHint": ["denial", "test", "work"],
       "opening": ["중성지방이 너무 높다고 해서 왔어요.", "피가 뿌옇게 나왔다고 다시 오라고 했어요."],
@@ -283,7 +283,7 @@
       "meds": "경구 당뇨약을 처방받았으나 불규칙하게 복용",
       "allergy": "없음",
       "fh": "특이사항 없음",
-      "sh": "흡연은 인물 카드를 따르되 음주는 주 {{drinkDays}}회 이상으로 고정",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": { "sbp": [124, 146], "dbp": [76, 90], "hr": [72, 92], "rr": [14, 18], "temp": [36.3, 36.9], "spo2": [96, 99],
                     "invariant": "발열과 빈맥은 넣지 않는다. 생기면 급성 췌장염이 되어 케이스가 달라진다." },
@@ -304,7 +304,7 @@
       "variations": {
         "onsetDays": [3, 5, 7],
         "tg": [1120, 1450, 1780], "a1c": ["9.8%", "10.6%", "11.2%"],
-        "dmYears": [6, 9, 12], "drinkDays": [3, 4, 5], "bottles": ["한", "한 병 반", "두"],
+        "dmYears": [6, 9, 12], "drinkDays": [3, 4, 5], "bottles": ["한", "1.5", "두"],
         "waist": [98, 104, 110], "bmi": ["29.5", "30.8", "31.6"],
         "eruptive": ["팔꿈치와 엉덩이 쪽에 좁쌀 같은 노란 발진이 무리지어 있다", "특이소견 없음"],
         "pancreatitis": ["재작년에 췌장염으로 입원한 적 있어요.", "그런 적은 없어요."]

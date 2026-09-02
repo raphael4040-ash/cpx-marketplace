@@ -159,7 +159,7 @@ def check_file(path):
             if not isinstance(pool, list):
                 continue
             for item in pool:
-                text = item.get("text", "") if isinstance(item, dict) else str(item)
+                text = str(item.get("text", "")) if isinstance(item, dict) else str(item)
                 for nested in re.findall(r"\{\{(\w+)\}\}", text):
                     errs.append("%s: variations.%s 값 안에 {{%s}} 가 중첩되어 있음"
                                 % (tag, vkey, nested))

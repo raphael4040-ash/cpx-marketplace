@@ -15,14 +15,10 @@
           76
         ],
         "sex": "any",
-        "requiredRisk": [
-          "고혈압",
-          "당뇨병",
-          "이상지질혈증",
-          "흡연"
-        ],
+        "requiredRisk": ["고혈압", "당뇨병", "이상지질혈증"],
         "requiredRiskMin": 2,
-        "forbidden": []
+        "forbidden": [],
+        "smoking": "ever"
       },
       "occupationBias": [
         "driver",
@@ -82,7 +78,7 @@
       "meds": "혈압약 하루 한 알. 아스피린은 안 먹음",
       "allergy": "없음",
       "fh": "아버지가 60대에 심근경색으로 돌아가심",
-      "sh": "인물 카드의 흡연 항목을 따르되 최소 과거 흡연 이상",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": {
           "sbp": [
@@ -377,14 +373,14 @@
       },
       "redFlags": {
         "숨이 찬가": "네, 가만히 있어도 숨이 차요.",
-        "최근 오래 앉아 있거나 누워 있었나": "{{riskEvent}}",
+        "최근 오래 앉아 있거나 누워 있었나, 수술·깁스한 적은": "{{riskEvent}}",
         "종아리 붓기나 통증": "며칠 전부터 한쪽 종아리가 좀 붓고 당겼어요.",
         "피 섞인 가래": "아니요, 그런 건 없었어요.",
         "실신": "일어설 때 어지럽긴 했는데 쓰러지진 않았어요.",
-        "다리 수술이나 깁스한 적": "{{riskEvent}}"
+        "암 진단이나 치료를 받은 적": "아니요, 그런 건 없어요."
       },
-      "pmh": "특이 병력 없음. 부동 위험인자는 redFlags 의 답변을 그대로 쓴다",
-      "meds": "복용 약 없음. 여성·50세 이하일 때만 피임약 변주를 쓴다",
+      "pmh": "특이 병력 없음",
+      "meds": "복용 약 없음",
       "allergy": "없음",
       "fh": "특이사항 없음",
       "sh": "인물 카드를 따름",
@@ -763,16 +759,12 @@
       "id": "chest-ptx",
       "dx": "일차성 자연기흉",
       "constraints": {
-        "ageRange": [
-          18,
-          32
-        ],
+        "ageRange": [19, 32],
         "sex": "male",
-        "requiredRisk": [
-          "흡연"
-        ],
-        "requiredRiskMin": 1,
-        "forbidden": []
+        "requiredRisk": [],
+        "requiredRiskMin": 0,
+        "forbidden": [],
+        "smoking": "current"
       },
       "occupationBias": [
         "student",
@@ -825,7 +817,7 @@
       "meds": "없음",
       "allergy": "없음",
       "fh": "특이사항 없음",
-      "sh": "흡연자로 고정. 인물 카드의 흡연 항목을 덮어쓴다",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": {
           "sbp": [

@@ -12,7 +12,7 @@
     {
       "id": "sub-alcohol-ud",
       "dx": "알코올사용장애 (중등도, 경한 금단 동반)",
-      "constraints": { "ageRange": [32, 62], "sex": "any", "requiredRisk": ["음주"], "requiredRiskMin": 1, "forbidden": [] },
+      "constraints": { "ageRange": [32, 62], "sex": "any", "requiredRisk": ["음주"], "requiredRiskMin": 1, "forbidden": [], "alcoholLabel": "매일 소주 {{bottles}}병" },
       "occupationBias": ["construct", "driver", "selfemp", "market", "cook"],
       "iceHint": ["family", "denial", "medicine"],
       "opening": ["집사람이 가보라고 해서 왔어요. 저는 별문제 없는데요.", "아침에 손이 떨리고 속이 안 좋아서 왔어요."],
@@ -49,7 +49,7 @@
       "meds": "없음",
       "allergy": "없음",
       "fh": "{{fhVar}}",
-      "sh": "인물 카드를 따르되 음주는 매일 소주 {{bottles}}병 수준으로 고정한다. 처음에는 양을 줄여 말하고 '남들만큼 마신다'며 방어적이지만, 의사가 비판단적으로 공감하며 물으면 실제 양과 술 때문에 생긴 문제를 더 말한다. 나무라거나 훈계하면 말수가 줄고 축소한다.",
+      "sh": "인물 카드를 따르되 처음에는 양을 줄여 말하고 '남들만큼 마신다'며 방어적이지만, 의사가 비판단적으로 공감하며 물으면 실제 양과 술 때문에 생긴 문제를 더 말한다. 나무라거나 훈계하면 말수가 줄고 축소한다.",
       "pe": {
         "vitals": { "sbp": [130, 152], "dbp": [80, 94], "hr": [90, 108], "rr": [16, 20], "temp": [36.4, 37.2], "spo2": [95, 98],
                     "invariant": "경한 빈맥과 다소 높은 혈압을 유지한다. 38도 이상 발열, 수축기 90 미만, 지남력 장애는 나오지 않는다(금단 섬망이 되어 케이스가 달라진다)." },
@@ -80,7 +80,7 @@
         "onsetYears": [5, 7, 10],
         "worseMonths": [3, 6, 12],
         "severity": [3, 4, 5],
-        "bottles": ["한", "한 병 반", "두"],
+        "bottles": ["한", "1.5", "두"],
         "pmhVar": ["특이 병력 없음", "건강검진에서 간 수치가 높다고 들었어요.", "위염으로 약 먹은 적 있어요."],
         "fhVar": ["아버지도 술을 많이 드셨어요.", "특이사항 없음"]
       },
@@ -388,7 +388,7 @@
       "variations": {
         "onsetYears": [2, 3, 5],
         "severity": [2, 3],
-        "bottles": ["두", "두 병 반", "세"],
+        "bottles": ["두", "2.5", "세"],
         "timesPerWeek": ["한", "두"],
         "fhVar": ["특이사항 없음", "아버지가 술을 즐기시지만 문제는 없었어요."]
       },

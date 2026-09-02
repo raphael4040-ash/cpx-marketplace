@@ -21,7 +21,7 @@
         "지금 끊으라고 강요하는 대신 문을 열어두기 — 마음이 바뀌면 언제든 돕겠다",
         "다음 방문 때 다시 이야기하자는 약속"
       ],
-      "constraints": { "ageRange": [45, 68], "sex": "any", "requiredRisk": ["흡연"], "requiredRiskMin": 1, "forbidden": [] },
+      "constraints": { "ageRange": [45, 68], "sex": "any", "requiredRisk": ["흡연"], "requiredRiskMin": 1, "forbidden": [], "smokingLabel": "하루 {{packs}}갑, {{years}}년" },
       "occupationBias": ["construct", "driver", "welder", "market", "selfemp"],
       "iceHint": ["denial", "work", "medicine"],
       "opening": ["감기 때문에 왔는데요.", "기침약이나 좀 받으러 왔어요."],
@@ -53,7 +53,7 @@
       "meds": "없음",
       "allergy": "없음",
       "fh": "{{fhx}}",
-      "sh": "흡연 필수. 인물 카드의 흡연 항목을 덮어쓴다. 하루 {{packs}}갑 {{years}}년",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": { "sbp": [126, 148], "dbp": [76, 90], "hr": [70, 90], "rr": [16, 20], "temp": [36.3, 37.0], "spo2": [94, 97],
                     "invariant": "산소포화도를 94~97 로 유지해 정상보다 약간 낮게 둔다. 고열은 넣지 않는다." },
@@ -72,7 +72,7 @@
         "negatives": ["수포음 없음", "곤봉지 없음", "발열 없음", "림프절 비대 없음"]
       },
       "variations": {
-        "onsetDays": [4, 5, 7], "severity": [3, 4], "packs": [1, "1.5", 2], "years": [25, 30, 35],
+        "onsetDays": [4, 5, 7], "severity": [3, 4], "packs": [1, "1.5", 2], "years": [{ "text": 25, "minAge": 44 }, { "text": 30, "minAge": 49 }, { "text": 35, "minAge": 54 }],
         "intent": ["딱히 없어요. 이 나이에 끊는다고 뭐가 달라지겠어요.",
                    "생각은 없어요. 스트레스 받으면 이거라도 피워야죠.",
                    "주변에서 하도 뭐라 해서 듣긴 하는데, 지금은 아니에요."],
@@ -96,7 +96,7 @@
         "금연 보조요법(니코틴 대체제·약물)의 존재를 알리기",
         "결심이 서면 날짜를 잡자는 다음 단계 제시"
       ],
-      "constraints": { "ageRange": [28, 48], "sex": "any", "requiredRisk": ["흡연"], "requiredRiskMin": 1, "forbidden": [] },
+      "constraints": { "ageRange": [28, 48], "sex": "any", "requiredRisk": ["흡연"], "requiredRiskMin": 1, "forbidden": [], "smokingLabel": "하루 {{packs}}갑, {{years}}년" },
       "occupationBias": ["office", "delivery", "cook", "selfemp", "parttime"],
       "iceHint": ["family", "work", "medicine"],
       "opening": ["담배를 끊어야 하나 싶어서요.", "애가 생기고 나서 고민이 돼서 왔어요."],
@@ -129,7 +129,7 @@
       "meds": "없음",
       "allergy": "없음",
       "fh": "특이사항 없음",
-      "sh": "흡연 필수. 하루 {{packs}}갑 {{years}}년. 음주는 인물 카드를 따름",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": { "sbp": [116, 136], "dbp": [70, 84], "hr": [68, 88], "rr": [14, 18], "temp": [36.3, 36.8], "spo2": [96, 99],
                     "invariant": "활력징후는 대체로 정상. 이 케이스의 초점은 신체 소견이 아니라 변화 단계다." },
@@ -147,7 +147,7 @@
         "negatives": ["수포음 없음", "천명음 없음", "곤봉지 없음"]
       },
       "variations": {
-        "onsetMonths": [2, 3, 6], "packs": ["0.5", 1], "years": [8, 12, 15],
+        "onsetMonths": [2, 3, 6], "packs": ["0.5", 1], "years": [{ "text": 8, "minAge": 27 }, { "text": 12, "minAge": 31 }, { "text": 15, "minAge": 34 }],
         "motivation": ["아이가 태어나서요. 안고 있으면 냄새가 배는 게 신경 쓰여요.",
                        "아내가 계속 뭐라고 해서요.",
                        "돈이 아깝기도 하고 아침마다 기침이 나서요."],
@@ -175,7 +175,7 @@
         "주변에 알리기, 담배와 재떨이 치우기 같은 구체적 준비 행동",
         "추적 방문 일정 잡기"
       ],
-      "constraints": { "ageRange": [32, 60], "sex": "any", "requiredRisk": ["흡연"], "requiredRiskMin": 1, "forbidden": [] },
+      "constraints": { "ageRange": [32, 60], "sex": "any", "requiredRisk": ["흡연"], "requiredRiskMin": 1, "forbidden": [], "smokingLabel": "하루 {{packs}}갑, {{years}}년" },
       "occupationBias": ["office", "teacher", "selfemp", "driver", "market"],
       "iceHint": ["medicine", "family", "test"],
       "opening": ["이번에는 진짜 끊으려고요. 도와주세요.", "다음 달부터 끊기로 했는데 방법을 알고 싶어요."],
@@ -209,7 +209,7 @@
       "meds": "{{meds}}",
       "allergy": "없음",
       "fh": "특이사항 없음",
-      "sh": "흡연 필수. 하루 {{packs}}갑 {{years}}년",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": { "sbp": [120, 142], "dbp": [72, 86], "hr": [68, 88], "rr": [14, 18], "temp": [36.3, 36.8], "spo2": [95, 98],
                     "invariant": "활력징후는 대체로 정상 또는 경한 고혈압." },
@@ -227,7 +227,7 @@
         "negatives": ["곤봉지 없음", "구강 내 백반증 없음", "림프절 비대 없음"]
       },
       "variations": {
-        "onsetWeeks": [1, 2, 3], "packs": [1, "1.5"], "years": [15, 20, 25],
+        "onsetWeeks": [1, 2, 3], "packs": [1, "1.5"], "years": [{ "text": 15, "minAge": 34 }, { "text": 20, "minAge": 39 }, { "text": 25, "minAge": 44 }],
         "firstCig": ["일어나자마자요.", "한 시간쯤 뒤에요."],
         "trigger": ["건강검진에서 폐에 뭐가 보인다고 해서 겁이 났어요.",
                     "아버지가 폐암 진단을 받으셨어요.",
@@ -259,7 +259,7 @@
         "약물 보조와 흡입기 순응도를 함께 다루기",
         "짧은 재시도라도 이득이 있음을 알리고 다음 약속 잡기"
       ],
-      "constraints": { "ageRange": [58, 78], "sex": "any", "requiredRisk": ["흡연"], "requiredRiskMin": 1, "forbidden": [] },
+      "constraints": { "ageRange": [58, 78], "sex": "any", "requiredRisk": ["흡연"], "requiredRiskMin": 1, "forbidden": [], "smokingLabel": "현재 하루 {{packsNow}}갑 (과거 {{packYears}}갑년)" },
       "occupationBias": ["retired", "construct", "welder", "farmer", "driver"],
       "iceHint": ["guilty", "denial", "family"],
       "opening": ["끊었다가 다시 피우게 됐어요.", "숨이 차서 왔는데 담배를 다시 피우고 있어요."],
@@ -293,7 +293,7 @@
       "meds": "흡입기를 처방받았으나 불규칙하게 사용",
       "allergy": "없음",
       "fh": "특이사항 없음",
-      "sh": "흡연 필수. 과거 {{packYears}}갑년, 현재 하루 {{packsNow}}갑",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": { "sbp": [120, 144], "dbp": [70, 86], "hr": [78, 98], "rr": [18, 24], "temp": [36.3, 37.0], "spo2": [90, 94],
                     "invariant": "저산소혈증(94 이하)을 유지한다. 고열은 넣지 않는다 — 생기면 급성 악화나 폐렴이 되어 케이스가 달라진다." },

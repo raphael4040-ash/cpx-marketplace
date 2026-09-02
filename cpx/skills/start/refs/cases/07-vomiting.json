@@ -205,7 +205,7 @@
     {
       "id": "vom-hyperemesis",
       "dx": "임신 오조 (임신에 동반된 구토)",
-      "constraints": { "ageRange": [21, 38], "sex": "female", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [21, 38], "sex": "female", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [], "smoking": "never", "alcohol": "never" },
       "occupationBias": ["office", "nurse", "student", "selfemp", "parttime", "teacher"],
       "iceHint": ["denial", "family", "internet"],
       "opening": ["아침마다 토해서 아무것도 못 먹어요.", "한 주 넘게 계속 토해요."],
@@ -237,7 +237,7 @@
       "meds": "없음 (임신 가능성 때문에 약을 피하고 있음)",
       "allergy": "없음",
       "fh": "특이사항 없음",
-      "sh": "인물 카드를 따르되 흡연·음주는 하지 않음",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": { "sbp": [96, 112], "dbp": [58, 72], "hr": [92, 108], "rr": [16, 20], "temp": [36.4, 37.0], "spo2": [98, 100],
                     "invariant": "발열이 없고 경한 빈맥과 낮은 정상 혈압을 유지한다. 수축기 90 미만으로 내리지 않는다." },

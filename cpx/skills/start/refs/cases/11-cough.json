@@ -488,7 +488,8 @@
           "고혈압"
         ],
         "requiredRiskMin": 1,
-        "forbidden": []
+        "forbidden": [],
+        "smoking": "notCurrent"
       },
       "occupationBias": [
         "retired",
@@ -544,7 +545,7 @@
       "meds": "혈압약을 몇 달 전 다른 것으로 변경(성분명을 물으면 모른다고 답하고, 처방전을 보여달라고 하면 라미프릴이라고 답한다)",
       "allergy": "없음",
       "fh": "특이사항 없음",
-      "sh": "인물 카드를 따르되 비흡연 또는 과거 흡연",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": {
           "sbp": [
@@ -630,7 +631,8 @@
           "흡연"
         ],
         "requiredRiskMin": 1,
-        "forbidden": []
+        "forbidden": [],
+        "smoking": "heavy"
       },
       "occupationBias": [
         "retired",
@@ -687,7 +689,7 @@
       "meds": "흡입기 처방받았으나 불규칙하게 사용",
       "allergy": "없음",
       "fh": "특이사항 없음",
-      "sh": "흡연 필수. 인물 카드의 흡연 항목을 덮어쓴다",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": {
           "sbp": [

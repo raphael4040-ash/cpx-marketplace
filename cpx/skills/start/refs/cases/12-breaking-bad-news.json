@@ -30,7 +30,8 @@
           "smoking:heavy"
         ],
         "requiredRiskMin": 1,
-        "forbidden": []
+        "forbidden": [],
+        "smoking": "heavy"
       },
       "occupationBias": [
         "driver",
@@ -118,7 +119,7 @@
       "meds": "암로디핀",
       "allergy": "없음",
       "fh": "특이사항 없음",
-      "sh": "인물 카드를 따르되 흡연은 하루 한 갑 이상 20년 이상",
+      "sh": "인물 카드를 따름",
       "variations": {
         "weeks": [
           4,

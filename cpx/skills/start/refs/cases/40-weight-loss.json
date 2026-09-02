@@ -706,7 +706,9 @@
         "sex": "female",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": [],
+        "smoking": "never",
+        "alcohol": "never"
       },
       "occupationBias": [
         "student",
@@ -765,7 +767,7 @@
       "meds": "없음",
       "allergy": "없음",
       "fh": "특이사항 없음",
-      "sh": "인물 카드를 따르되 흡연·음주는 하지 않음. 식사는 가족과 따로 함",
+      "sh": "인물 카드를 따르되 식사는 가족과 따로 함",
       "pe": {
         "vitals": {
           "sbp": [

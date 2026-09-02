@@ -89,6 +89,25 @@ def person_tokens(p):
     }
 
 
+# 카드 작성자가 모델에게 남긴 지시문. 학생이 읽으면 안 된다.
+# "인물 카드를 따르되 ..." 처럼 뒤에 실제 내용이 붙는 형태는 앞부분만 떼고,
+# 문장 전체가 지시문이면 문장째 버린다.
+DIRECTIVE_PREFIXES = (r"^인물 카드를 따르되[,]?\s*", r"^인물 카드를 따름[.,]?\s*")
+DIRECTIVE_MARKS = ("인물 카드", "덮어쓴다", "그대로 쓴다", "변주를 쓴다", "변주는",
+                   "확인이 중요", "로 읽는다", "항목을 따르", "필수", "반드시", "보유")
+
+
+def strip_directives(text):
+    """지시문 문장을 걷어낸다. 마침표가 없는 마지막 문장도 본다."""
+    if not text:
+        return ""
+    for pat in DIRECTIVE_PREFIXES:
+        text = re.sub(pat, "", text)
+    kept = [s for s in re.split(r"(?<=\.)\s+", text)
+            if s.strip() and not any(m in s for m in DIRECTIVE_MARKS)]
+    return " ".join(kept).strip()
+
+
 def validate(person, scenario, personas, problems):
     """규칙 위반을 problems 리스트에 문자열로 쌓는다."""
     age = person["age"]
@@ -120,6 +139,9 @@ def validate(person, scenario, personas, problems):
             cap = val.get("maxAge")
             if cap is not None and age > cap:
                 problems.append("연령 제한 변주: %s (최대 %s세인데 %d세)" % (slot, cap, age))
+            floor = val.get("minAge")
+            if floor is not None and age < floor:
+                problems.append("연령 제한 변주: %s (최소 %s세인데 %d세)" % (slot, floor, age))
 
     c = scenario["constraints"]
     lo, hi = c["ageRange"]
@@ -127,6 +149,15 @@ def validate(person, scenario, personas, problems):
         problems.append("시나리오 연령 범위 밖: %d세 (%d~%d)" % (age, lo, hi))
     if c.get("sex", "any") != "any" and c["sex"] != sex:
         problems.append("시나리오 성별 불일치")
+
+    # 카드가 요구한 흡연·음주를 못 맞추면 조용히 넘어가지 않는다.
+    # 넘어가면 "비흡연" 인 사람이 금연 상담을 받으러 온 카드가 만들어진다.
+    for key in ("smoking", "alcohol"):
+        want = c.get(key)
+        if want and not c.get(key + "Label"):
+            if person[key]["id"] not in HABIT_IDS[key].get(want, ()):
+                problems.append("카드가 요구한 %s(%s) 미적용: %s"
+                                % (key, want, person[key]["label"]))
 
     v = (scenario.get("pe") or {}).get("vitals")
     if isinstance(v, dict):
@@ -250,7 +281,38 @@ def draw_person(scenario, personas):
                     person["illness"] = match[0]
     person["forcedRisk"] = forced
 
+    # 카드가 흡연·음주를 요구하면 여기서 값으로 확정한다. 예전에는 이 요구가 sh 에
+    # 문장으로만 적혀 있어 실행되지 않았고, 금연 상담 카드의 환자가 "비흡연"으로 나왔다.
+    force_habit(person, "smoking", c.get("smoking"), c.get("smokingLabel"), personas, age)
+    force_habit(person, "alcohol", c.get("alcohol"), c.get("alcoholLabel"), personas, age)
+
     return person
+
+
+HABIT_IDS = {
+    "smoking": {"current": ("occasional", "light", "heavy"),
+                "ever": ("occasional", "light", "heavy", "ex"),
+                "heavy": ("light", "heavy"),
+                "notCurrent": ("never", "ex"),
+                "never": ("never",)},
+    "alcohol": {"drinker": ("social", "heavy"),
+                "never": ("none",)},
+}
+
+
+def force_habit(person, key, want, label, personas, age):
+    """카드가 지정한 흡연·음주를 사람에게 실제로 적용한다."""
+    if label:
+        person[key] = {"id": "card", "label": label, "minAge": 0}
+        return
+    ids = HABIT_IDS[key].get(want or "")
+    if not ids:
+        return
+    pool = [x for x in personas[key] if x["id"] in ids and age_ok(x, age)]
+    if key == "smoking":
+        pool = [x for x in pool if years_in(x["label"]) <= age - SMOKING_START_AGE]
+    if pool:
+        person[key] = weighted(pool)
 
 
 def draw_guardian(scenario, person, personas, slots):
@@ -337,6 +399,8 @@ def draw_slots(scenario, person):
                 if v.get("sexOnly") and v["sexOnly"] != person["sex"]:
                     continue
                 if v.get("maxAge") is not None and person["age"] > v["maxAge"]:
+                    continue
+                if v.get("minAge") is not None and person["age"] < v["minAge"]:
                     continue
             candidates.append(v)
         if not candidates:
@@ -455,6 +519,12 @@ def build(topic, data, scenario_id=None):
         slots["age"] = person["age"]
     if "sexText" in slots:
         slots["sexText"] = "남성" if person["sex"] == "male" else "여성"
+
+    # 카드가 흡연·음주 문구를 직접 지정했다면 그 안의 슬롯도 치환한다.
+    # 슬롯은 인물을 뽑은 뒤에야 정해지므로 여기서 한다.
+    for key in ("smoking", "alcohol"):
+        if person[key].get("id") == "card":
+            person[key] = dict(person[key], label=fill(person[key]["label"], slots))
 
     person["slots"] = slots
     guardian = draw_guardian(scenario, person, personas, slots)
@@ -604,7 +674,7 @@ def as_json(case):
     # 따로 두면 "특이 병력 없음"과 "고혈압 보유"가 동시에 참이 되어 학생이 물었을 때 답이 갈린다.
     card_pmh = fill(s.get("pmh") or "", slots)
     # 카드 작성자가 모델에게 남긴 지시문은 답변에서 뺀다. 그대로 읽으면 학생에게 노출된다.
-    card_pmh = re.sub(r"[^.]*?인물 카드[^.]*\.\s*", "", card_pmh).strip()
+    card_pmh = strip_directives(card_pmh)
     illness = p["illness"]["label"]
     parts = []
     # 카드가 이미 그 병을 말하고 있으면 앞에 또 붙이지 않는다
@@ -620,14 +690,11 @@ def as_json(case):
         parts.append(card_pmh)
     person["pmhResolved"] = ". ".join(parts) if parts else "특이 병력 없음"
 
-    meds_card = fill(s.get("meds") or "", slots)
+    meds_card = strip_directives(fill(s.get("meds") or "", slots))
     med_list = [m for m in (p["illness"].get("meds") or [])]
     # 사회력도 같은 문제가 있다. 카드의 sh 에는 "인물 카드를 따르되 ..." 같은 지시문이 섞여 있어
     # 그대로 읽으면 학생에게 지시문이 노출된다. 지시문을 떼고 인물의 값과 합친다.
-    sh_card = fill(s.get("sh") or "", slots)
-    sh_card = re.sub(r"^인물 카드를 따르되\s*", "", sh_card)
-    sh_card = re.sub(r"^인물 카드를 따름[.,]?\s*", "", sh_card)
-    sh_card = re.sub(r"[^.]*?확인이 중요[^.]*\.?", "", sh_card).strip()
+    sh_card = strip_directives(fill(s.get("sh") or "", slots))
     sh_base = "직업 %s · 흡연 %s · 음주 %s" % (
         p["occupation"]["label"], p["smoking"]["label"], p["alcohol"]["label"])
     person["shResolved"] = (sh_base + (". " + sh_card if sh_card else "")).strip()
@@ -635,7 +702,7 @@ def as_json(case):
     # 인물의 약과 카드의 약을 합친다. 다만 카드가 "없음"이라고만 적혀 있으면
     # 인물의 약 뒤에 붙이지 않는다. "에스시탈로프람. 없음" 이 되어 버린다.
     NONE_MEDS = ("없음", "복용 약 없음", "없어요", "먹는 약 없음", "따로 먹는 약은 없어요.")
-    card_is_none = meds_card.strip() in NONE_MEDS
+    card_is_none = meds_card.strip().rstrip(".") in NONE_MEDS
     if med_list and card_is_none:
         person["medsResolved"] = ", ".join(med_list)
     elif med_list and meds_card:

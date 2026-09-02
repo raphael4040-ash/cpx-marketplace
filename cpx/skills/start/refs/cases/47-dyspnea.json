@@ -23,7 +23,8 @@
         "sex": "any",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": [],
+        "smoking": "notCurrent"
       },
       "occupationBias": [
         "student",
@@ -80,7 +81,7 @@
       "meds": "증상 완화 흡입기만 사용, 예방 흡입기는 처방받았으나 잘 안 씀",
       "allergy": "{{atopy}}",
       "fh": "{{fhx}}",
-      "sh": "인물 카드를 따르되 비흡연 또는 과거 흡연",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": {
           "sbp": [

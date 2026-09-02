@@ -316,7 +316,7 @@
     {
       "id": "mood-alcohol",
       "dx": "알코올사용장애에 동반된 우울 (물질 유발 기분 변화)",
-      "constraints": { "ageRange": [35, 62], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [35, 62], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [], "alcoholLabel": "매일 소주 {{bottles}}병" },
       "occupationBias": ["construct", "driver", "selfemp", "market", "cook"],
       "iceHint": ["family", "denial", "medicine"],
       "opening": ["요즘 우울하고 잠을 못 자요.", "집사람이 가보라고 해서 왔어요. 기분이 계속 안 좋아서요."],
@@ -353,7 +353,7 @@
       "meds": "없음",
       "allergy": "없음",
       "fh": "{{fhVar}}",
-      "sh": "인물 카드를 따르되 음주는 매일 소주 {{bottles}}병 수준으로 고정",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": { "sbp": [124, 148], "dbp": [76, 92], "hr": [84, 100], "rr": [16, 20], "temp": [36.4, 37.1], "spo2": [96, 99],
                     "invariant": "경한 빈맥과 다소 높은 혈압을 유지한다. 38도 이상 발열이나 수축기 90 미만은 나오지 않는다(금단 섬망이 되어 케이스가 달라진다)." },
@@ -380,7 +380,7 @@
       "variations": {
         "onsetMonths": [4, 6, 12],
         "severity": [5, 6, 7],
-        "bottles": ["한", "한 병 반", "두"],
+        "bottles": ["한", "1.5", "두"],
         "trigger": ["일이 끊긴", "가게가 어려워진", "아버지가 돌아가신"],
         "pastAttempt": ["시도한 적은 없어요.", "술 먹고 한 번 크게 사고를 낼 뻔한 적은 있어요."],
         "protective": ["아직 애가 학생이라 제가 벌어야죠.", "집사람 생각하면 그럴 수 없죠."],
