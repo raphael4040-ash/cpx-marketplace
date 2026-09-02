@@ -285,19 +285,44 @@ def draw_guardian(scenario, person, personas, slots):
         lo, hi = age + 22, age + 40
         g_sex = "female" if random.random() < 0.7 else "male"
 
+    # 관계가 성별을 정하는 경우에는 추첨 결과를 덮어쓴다.
+    # 예전에는 '딸'인데 남자 보호자가 나왔다.
+    FEMALE_REL = ("딸", "며느리", "어머니", "엄마", "아내", "누나", "언니", "할머니", "이모", "고모")
+    MALE_REL = ("아들", "사위", "아버지", "아빠", "남편", "형", "오빠", "할아버지", "삼촌")
+    if any(w in rel for w in FEMALE_REL):
+        g_sex = "female"
+    elif any(w in rel for w in MALE_REL):
+        g_sex = "male"
+
     lo, hi = max(lo, 22), min(hi, 88)
     if lo > hi:
         lo = hi = max(22, min(88, hi))
     g_age = random.randint(lo, hi)
 
+    # 보호자 직업도 성비를 반영한다. 예전에는 55세 여성 보호자가 용접공으로 나왔다.
     g_occ = [o for o in personas["occupations"] if occupation_ok(o, g_age)]
-    return {
+    bag = []
+    for o in g_occ:
+        w = int((o.get("sexWeight") or {}).get(g_sex, 1))
+        bag.extend([o] * max(w, 1))
+
+    # 성격과 건강정보 수준을 환자에게서 물려받으면 두 사람이 늘 같은 사람이 된다.
+    # 따로 뽑아야 "축소하는 환자와 걱정 많은 보호자" 같은 조합이 나온다.
+    g_person = random.choice(personas["personalities"])
+    g_lit = weighted(personas["healthLiteracy"])
+
+    out = {
         "age": g_age, "sex": g_sex,
-        "occupation": random.choice(g_occ) if g_occ else None,
-        "personality": person["personality"],
-        "healthLiteracy": person["healthLiteracy"],
+        "occupation": random.choice(bag) if bag else None,
+        "personality": g_person,
+        "healthLiteracy": g_lit,
         "role": info,
     }
+    # 카드에 보호자 voice 가 있으면 그것이 태도를 정한다. 뽑힌 성격은 말투만 물들인다.
+    # 둘이 부딪히면(걱정 많은 보호자인데 축소형) voice 가 이긴다.
+    if isinstance(info, dict) and info.get("voice"):
+        out["voiceWins"] = True
+    return out
 
 
 # ---------------------------------------------------------------- 변주·활력징후
