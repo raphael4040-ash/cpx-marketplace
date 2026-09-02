@@ -1,0 +1,619 @@
+# -*- coding: utf-8 -*-
+"""케이스 카드 샘플러 · 규칙 검증기
+
+카드(진단 시나리오) + personas.json(인물) + variations(표현 변주)를 조합해
+한 세션 분량의 완성된 환자 설정을 만든다. personas.json 의 _validation 규칙을
+여기서 실제로 강제한다 — 규칙이 문서에만 있으면 지켜지지 않는다.
+
+사용법
+    python sample_case.py                     무작위 주호소 하나를 뽑아 출력
+    python sample_case.py 01-chest-pain       해당 주호소에서 뽑아 출력
+    python sample_case.py 01-chest-pain chest-mi   시나리오까지 지정
+    python sample_case.py --check 2000        전 카드에서 N회 뽑아 규칙 위반을 보고
+    python sample_case.py 01-chest-pain --json  스킬이 그대로 읽을 JSON 으로 출력
+"""
+from __future__ import unicode_literals
+import io, json, os, random, re, sys, glob
+
+# 윈도우 콘솔 기본 코드페이지(cp949)에서 한글·기호 출력이 죽지 않게 한다.
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+CASES = os.path.normpath(os.path.join(HERE, "..", "skills", "start", "refs", "cases"))
+
+MAX_RETRY = 20          # 항목 단위 재추첨 한도
+SMOKING_START_AGE = 19  # 흡연 기간이 (나이 - 이 값) 을 넘으면 모순
+
+
+def load(path):
+    with io.open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def topic_files():
+    out = []
+    for p in sorted(glob.glob(os.path.join(CASES, "*.json"))):
+        if os.path.basename(p) in ("personas.json", "index.json"):
+            continue
+        d = load(p)
+        if d.get("scenarios"):
+            out.append((os.path.basename(p)[:-5], d))
+    return out
+
+
+# ---------------------------------------------------------------- 추첨 보조
+
+def weighted(pool):
+    """weight 필드를 존중해 하나 고른다. weight 가 없으면 1로 본다."""
+    bag = []
+    for item in pool:
+        bag.extend([item] * int(item.get("weight", 1)))
+    return random.choice(bag)
+
+
+def years_in(label):
+    """'하루 한 갑 이상, 20년 이상' → 20. 숫자가 없으면 0."""
+    m = re.findall(r"(\d+)\s*년", label or "")
+    return max(int(x) for x in m) if m else 0
+
+
+def age_ok(item, age):
+    return age >= int(item.get("minAge", 0))
+
+
+def occupation_ok(occ, age):
+    lo, hi = occ.get("ageRange", [0, 200])
+    return lo <= age <= hi
+
+
+# ---------------------------------------------------------------- 검증
+
+def incompatible_pairs(personas):
+    """_incompatible 을 (종류:id, 종류:id) 집합으로 바꾼다."""
+    pairs = set()
+    for rule in personas.get("_incompatible", []):
+        a, b = rule["a"], rule["b"]
+        pairs.add(frozenset([a, b]))
+    return pairs
+
+
+def person_tokens(p):
+    return {
+        "personality:" + p["personality"]["id"],
+        "healthLiteracy:" + p["healthLiteracy"]["id"],
+        "ice:" + p["ice"]["id"],
+        "occupation:" + p["occupation"]["id"],
+    }
+
+
+def validate(person, scenario, personas, problems):
+    """규칙 위반을 problems 리스트에 문자열로 쌓는다."""
+    age = person["age"]
+
+    if not occupation_ok(person["occupation"], age):
+        problems.append("직업-나이: %s / %d세" % (person["occupation"]["label"], age))
+
+    for key in ("smoking", "alcohol", "illness"):
+        item = person[key]
+        if not age_ok(item, age):
+            problems.append("%s-나이: %s / %d세 (minAge %s)"
+                            % (key, item["label"], age, item.get("minAge")))
+
+    yrs = years_in(person["smoking"]["label"])
+    if yrs and yrs > age - SMOKING_START_AGE:
+        problems.append("흡연기간: %d년 / %d세" % (yrs, age))
+
+    toks = person_tokens(person)
+    for pair in incompatible_pairs(personas):
+        if pair <= toks:
+            problems.append("상충 조합: %s" % " + ".join(sorted(pair)))
+
+    sex = person["sex"]
+    for slot, val in person["slots"].items():
+        if isinstance(val, dict):
+            only = val.get("sexOnly")
+            if only and only != sex:
+                problems.append("성별 제한 변주: %s (%s 전용인데 %s)" % (slot, only, sex))
+            cap = val.get("maxAge")
+            if cap is not None and age > cap:
+                problems.append("연령 제한 변주: %s (최대 %s세인데 %d세)" % (slot, cap, age))
+
+    c = scenario["constraints"]
+    lo, hi = c["ageRange"]
+    if not (lo <= age <= hi):
+        problems.append("시나리오 연령 범위 밖: %d세 (%d~%d)" % (age, lo, hi))
+    if c.get("sex", "any") != "any" and c["sex"] != sex:
+        problems.append("시나리오 성별 불일치")
+
+    v = (scenario.get("pe") or {}).get("vitals")
+    if isinstance(v, dict):
+        for k in ("sbp", "dbp", "hr", "rr", "temp", "spo2"):
+            if k not in v:
+                problems.append("활력징후 밴드 누락: %s" % k)
+        if "invariant" not in v:
+            problems.append("활력징후 invariant 누락")
+    elif scenario.get("pe"):
+        problems.append("활력징후 형식: 밴드가 아님")
+
+    for key, val in ((scenario.get("pe") or {}).get("findings") or {}).items():
+        if isinstance(val, dict):
+            if not (0.0 < float(val.get("p", 0)) < 1.0):
+                problems.append("확률 소견 p 범위: %s" % key)
+            for need in ("detected", "notDetected"):
+                if not val.get(need):
+                    problems.append("확률 소견 %s 누락: %s" % (need, key))
+
+
+# ---------------------------------------------------------------- 인물 추첨
+
+def draw_person(scenario, personas):
+    c = scenario["constraints"]
+    lo, hi = c["ageRange"]
+    age = random.randint(lo, hi)
+
+    sex = c.get("sex", "any")
+    if sex == "any":
+        sex = random.choice(["male", "female"])
+
+    surname = random.choice(personas["surnames"])
+    pool = personas["givenNames"]["male" if sex == "male" else "female"]
+    if isinstance(pool, dict):
+        band = "young" if age <= 25 else ("mid" if age <= 55 else "old")
+        given = random.choice(pool[band])
+    else:
+        given = random.choice(pool)   # 예전 평면 배열 형식도 계속 읽는다
+
+    # 직업 — occupationBias 를 60% 확률로 존중하되 나이에 맞는 것만.
+    # sexWeight 가 있으면 성비로 저울질한다 (0 은 없으므로 드문 조합도 나온다).
+    def by_sex(pool):
+        bag = []
+        for o in pool:
+            w = int((o.get("sexWeight") or {}).get(sex, 1))
+            bag.extend([o] * max(w, 1))
+        return random.choice(bag) if bag else None
+
+    bias = [o for o in personas["occupations"]
+            if o["id"] in scenario.get("occupationBias", []) and occupation_ok(o, age)]
+    allowed = [o for o in personas["occupations"] if occupation_ok(o, age)]
+    if not allowed:
+        # 나이에 맞는 직업이 하나도 없으면 아무거나 고르지 않고 가장 가까운 것을 쓴다.
+        # 예전에는 전체에서 뽑아 나이 제약이 조용히 무시됐다.
+        def distance(o):
+            lo, hi = o.get("ageRange", [0, 200])
+            return (lo - age) if age < lo else (age - hi)
+        allowed = sorted(personas["occupations"], key=distance)[:3]
+    occupation = by_sex(bias) if (bias and random.random() < 0.6) else by_sex(allowed)
+
+    personality = random.choice(personas["personalities"])
+    literacy = weighted(personas["healthLiteracy"])
+
+    hints = scenario.get("iceHint") or []
+    ice_pool = [i for i in personas["iceStyles"] if i["id"] in hints] or personas["iceStyles"]
+    ice = random.choice(ice_pool)
+
+    def pick_aged(key):
+        pool = [x for x in personas[key] if age_ok(x, age)]
+        return weighted(pool or [personas[key][0]])
+
+    illness = pick_aged("backgroundIllness")
+    smoking = pick_aged("smoking")
+    alcohol = pick_aged("alcohol")
+
+    # 흡연 기간이 나이를 넘지 않도록 다시 뽑는다
+    tries = 0
+    while years_in(smoking["label"]) > age - SMOKING_START_AGE and tries < MAX_RETRY:
+        smoking = pick_aged("smoking")
+        tries += 1
+
+    person = {
+        "name": surname + given, "age": age, "sex": sex,
+        "occupation": occupation, "personality": personality,
+        "healthLiteracy": literacy, "ice": ice,
+        "illness": illness, "smoking": smoking, "alcohol": alcohol,
+    }
+
+    # 상충 조합이 나오면 뒤쪽 항목만 다시 뽑는다
+    pairs = incompatible_pairs(personas)
+    tries = 0
+    while tries < MAX_RETRY:
+        toks = person_tokens(person)
+        hit = [p for p in pairs if p <= toks]
+        if not hit:
+            break
+        # ICE 후보가 하나뿐인 시나리오(iceHint 가 좁을 때)에서는 ice 만 다시 뽑아도
+        # 영원히 못 빠져나온다. 성격도 함께 다시 뽑는다.
+        person["ice"] = random.choice(ice_pool)
+        person["healthLiteracy"] = weighted(personas["healthLiteracy"])
+        person["personality"] = random.choice(personas["personalities"])
+        tries += 1
+
+    # 시나리오가 요구하는 위험인자를 마지막에 덮어쓴다
+    required = list(c.get("requiredRisk", []))
+    need = int(c.get("requiredRiskMin", 0))
+    forced = []
+    if required and need:
+        forced = random.sample(required, min(need, len(required)))
+        for r in forced:
+            if r == "흡연":
+                heavy = [s for s in personas["smoking"]
+                         if s["id"] in ("light", "heavy", "ex") and age_ok(s, age)
+                         and years_in(s["label"]) <= age - SMOKING_START_AGE]
+                if heavy:
+                    person["smoking"] = random.choice(heavy)
+            else:
+                match = [b for b in personas["backgroundIllness"]
+                         if b["label"] == r and age_ok(b, age)]
+                if match:
+                    person["illness"] = match[0]
+    person["forcedRisk"] = forced
+
+    # 보호자 동반 케이스(소아·의식장애·기억력저하)는 실제로 답하는 사람이 따로 있다.
+    # 환자의 직업 칸은 나이에 맞는 소아 항목이 들어가고, 성격·건강정보 수준은 보호자 것을 쓴다.
+    if scenario.get("informant"):
+        g_age = random.randint(max(age + 22, 26), max(age + 40, 48))
+        g_sex = "female" if random.random() < 0.7 else "male"
+        g_occ = [o for o in personas["occupations"] if occupation_ok(o, g_age)]
+        person["guardian"] = {
+            "age": g_age,
+            "sex": g_sex,
+            "occupation": random.choice(g_occ) if g_occ else None,
+            "personality": person["personality"],
+            "healthLiteracy": person["healthLiteracy"],
+            # informant 안에도 {{슬롯}} 이 있을 수 있다. 여기서 치환하지 않으면
+            # 보호자 설명에 슬롯 글자가 그대로 남는다.
+            "role": scenario.get("informant"),
+            "_needsFill": True,
+        }
+        # 성격·건강정보는 보호자의 것이므로 환자 쪽에서는 표시만 남긴다
+        person["speaksForSelf"] = age >= 13
+
+    return person
+
+
+# ---------------------------------------------------------------- 변주·활력징후
+
+def draw_slots(scenario, person):
+    """variations 에서 슬롯값을 하나씩 뽑는다. 성별·연령 제한이 붙은 값은 거른다."""
+    slots = {}
+    for key, pool in (scenario.get("variations") or {}).items():
+        candidates = []
+        for v in pool:
+            if isinstance(v, dict):
+                if v.get("sexOnly") and v["sexOnly"] != person["sex"]:
+                    continue
+                if v.get("maxAge") is not None and person["age"] > v["maxAge"]:
+                    continue
+            candidates.append(v)
+        if not candidates:
+            candidates = [x for x in pool if not isinstance(x, dict)] or [""]
+        slots[key] = random.choice(candidates)
+    return slots
+
+
+def draw_vitals(scenario, person, slots=None):
+    v = (scenario.get("pe") or {}).get("vitals")
+    if not isinstance(v, dict):
+        return {"_raw": v}
+
+    def band(key, step=1):
+        lo, hi = v[key]
+        if isinstance(lo, float) or isinstance(hi, float):
+            return round(random.uniform(lo, hi), 1)
+        val = random.randint(int(lo), int(hi))
+        return val - (val % step)
+
+    sbp = band("sbp", 2)
+    bonus = 0
+    if person["illness"]["label"] == "고혈압":
+        bonus += random.randint(5, 15)
+    if person["age"] >= 70:
+        bonus += random.randint(0, 10)
+    sbp = min(sbp + bonus, int(v["sbp"][1]))
+    sbp -= sbp % 2
+
+    out = {
+        "sbp": sbp, "dbp": band("dbp", 2), "hr": band("hr"),
+        "rr": band("rr"), "temp": band("temp"), "spo2": band("spo2"),
+    }
+    # 수축기와 이완기를 따로 뽑으므로 맥압이 비현실적으로 좁아질 수 있다.
+    # 밴드 안에서 이완기를 낮춰 최소 맥압을 확보한다.
+    MIN_PP = 20
+    if out["sbp"] - out["dbp"] < MIN_PP:
+        target = out["sbp"] - MIN_PP
+        out["dbp"] = max(target - (target % 2), int(v["dbp"][0]))
+
+    if "armDiff" in v:
+        lo, hi = v["armDiff"]
+        out["armDiff"] = random.randint(int(lo), int(hi))
+
+    # 변주 슬롯이 vitalsShift 를 들고 있으면 활력징후를 함께 움직인다.
+    # 예: 자궁외임신에서 어깨끝 통증이 뽑히면 출혈이 더 진행한 것이므로
+    # 혈압이 내려가고 맥박이 올라야 한다. 밴드 밖으로는 나가지 않는다.
+    shifts = []
+    for key, val in (slots or {}).items():
+        if isinstance(val, dict) and val.get("vitalsShift"):
+            shifts.append((key, val["vitalsShift"]))
+    # 밴드는 기본 상태를 뜻한다. 이동은 그 밖으로 나갈 수 있어야 두 상태가 갈린다.
+    # 다만 무한정 나가면 다른 진단이 되므로 shiftBounds 로 안전선을 둔다.
+    bounds = v.get("shiftBounds") or {}
+    for key, sh in shifts:
+        for field, delta in sh.items():
+            if field not in out or field == "invariant":
+                continue
+            lo, hi = bounds.get(field, v.get(field, [out[field], out[field]]))
+            moved = out[field] + delta
+            moved = max(min(moved, hi), lo)
+            out[field] = round(moved, 1) if field == "temp" else int(moved)
+        out.setdefault("_shiftedBy", []).append(key)
+
+    out["invariant"] = v.get("invariant", "")
+    return out
+
+
+def resolve_findings(scenario, slots):
+    """확률적 소견({p, detected, notDetected})을 세션 시작 때 한 번 뽑아 고정한다.
+    한 세션 안에서는 다시 물어도 같은 답이 나와야 하므로 여기서 확정한다."""
+    out, rolled = {}, []
+    for key, val in ((scenario.get("pe") or {}).get("findings") or {}).items():
+        if isinstance(val, dict) and "p" in val:
+            hit = random.random() < float(val["p"])
+            out[key] = fill(val["detected"] if hit else val["notDetected"], slots)
+            rolled.append((key, hit, float(val["p"])))
+        else:
+            out[key] = fill(val, slots)
+    return out, rolled
+
+
+def fill(text, slots):
+    """{{슬롯}} 을 치환한다. 값이 dict 면 text 키를 쓴다."""
+    if not isinstance(text, str):
+        return text
+    for k, val in slots.items():
+        if isinstance(val, dict):
+            val = val.get("text", "")
+        text = text.replace("{{%s}}" % k, str(val))
+    return text
+
+
+def fill_deep(node, slots):
+    if isinstance(node, dict):
+        return dict((k, fill_deep(v, slots)) for k, v in node.items())
+    if isinstance(node, list):
+        return [fill_deep(x, slots) for x in node]
+    return fill(node, slots)
+
+
+# ---------------------------------------------------------------- 조립
+
+def build(topic, data, scenario_id=None):
+    personas = load(os.path.join(CASES, "personas.json"))
+    pool = data["scenarios"]
+    scenario = next((s for s in pool if s["id"] == scenario_id), None) if scenario_id else None
+    if scenario is None:
+        scenario = random.choice(pool)
+
+    person = draw_person(scenario, personas)
+    slots = draw_slots(scenario, person)
+    person["slots"] = slots
+    if person.get("guardian", {}).get("_needsFill"):
+        person["guardian"]["role"] = fill_deep(person["guardian"]["role"], slots)
+        person["guardian"].pop("_needsFill", None)
+
+    problems = []
+    validate(person, scenario, personas, problems)
+
+    findings, rolled = resolve_findings(scenario, slots)
+    return {
+        "topic": data["topic"], "topicFile": topic,
+        "scenario": scenario, "person": person,
+        "slots": slots, "vitals": draw_vitals(scenario, person, slots),
+        "findings": findings, "rolled": rolled,
+        "problems": problems,
+    }
+
+
+# ---------------------------------------------------------------- 출력
+
+def render(case):
+    s, p = case["scenario"], case["person"]
+    slots = case["slots"]
+    L = []
+    L.append("[%s] %s — %s" % (case["topicFile"], case["topic"], s["dx"]))
+    L.append("")
+    L.append("환자   %s · %d세 · %s · %s" % (
+        p["name"], p["age"], "남" if p["sex"] == "male" else "여", p["occupation"]["label"]))
+    L.append("성격   %s / 건강정보 %s" % (p["personality"]["label"], p["healthLiteracy"]["label"]))
+    L.append("       %s" % p["personality"]["voice"])
+    if p.get("guardian"):
+        g = p["guardian"]
+        occ = g["occupation"]["label"] if g["occupation"] else "-"
+        L.append("보호자 %d세 · %s · %s   (%s)" % (
+            g["age"], "여" if g["sex"] == "female" else "남", occ,
+            g["role"] if isinstance(g["role"], str) else "동반 보호자"))
+        L.append("       환자 본인 응답 %s" % ("가능" if p.get("speaksForSelf") else "불가 — 보호자가 대신 답한다"))
+    L.append("ICE    %s" % p["ice"]["idea"])
+    L.append("배경   %s · 흡연 %s · 음주 %s%s" % (
+        p["illness"]["label"], p["smoking"]["label"], p["alcohol"]["label"],
+        ("  (필수 위험인자: %s)" % ", ".join(p["forcedRisk"])) if p["forcedRisk"] else ""))
+    L.append("")
+    L.append("첫 대사  %s" % fill(random.choice(s["opening"]), slots))
+    L.append("")
+    hpi = fill_deep(s["hpi"], slots)
+    for k in ("onset", "character", "location", "radiation",
+              "aggravating", "relieving", "severity", "course"):
+        if hpi.get(k):
+            L.append("  %-11s %s" % (k, hpi[k]))
+    L.append("")
+    v = case["vitals"]
+    if "sbp" in v:
+        line = "활력   %s/%s · 맥박 %s · 호흡 %s · 체온 %s · SpO2 %s" % (
+            v["sbp"], v["dbp"], v["hr"], v["rr"], v["temp"], v["spo2"])
+        if "armDiff" in v:
+            line += " · 양팔차 %s" % v["armDiff"]
+        L.append(line)
+    L.append("")
+    if case.get("rolled"):
+        L.append("확률 소견")
+        for key, hit, p in case["rolled"]:
+            L.append("  %-16s %s (p=%.1f)  %s" % (
+                key, "잡힘" if hit else "안 잡힘", p, case["findings"][key]))
+        L.append("")
+    L.append("먼저 말함    %s" % ", ".join(s["disclosure"]["spontaneous"]))
+    L.append("물어야 나옴  %s" % ", ".join(fill_deep(s["disclosure"]["onlyIfAsked"], slots)))
+    if case["problems"]:
+        L.append("")
+        L.append("규칙 위반")
+        for x in case["problems"]:
+            L.append("  - %s" % x)
+    return "\n".join(L)
+
+
+def check(n):
+    files = topic_files()
+    if not files:
+        print("케이스 파일이 없습니다: %s" % CASES)
+        return 1
+    counts, total = {}, 0
+    for _ in range(n):
+        topic, data = random.choice(files)
+        case = build(topic, data)
+        total += 1
+        for prob in case["problems"]:
+            key = prob.split(":")[0]
+            counts.setdefault(key, []).append("%s/%s · %s" % (topic, case["scenario"]["id"], prob))
+
+    print("표본 %d회 · 카드 %d개 · 시나리오 %d개"
+          % (total, len(files), sum(len(d["scenarios"]) for _, d in files)))
+    if not counts:
+        print("규칙 위반 0건")
+        return 0
+    print("규칙 위반 %d건" % sum(len(v) for v in counts.values()))
+    for key in sorted(counts, key=lambda k: -len(counts[k])):
+        rows = counts[key]
+        print("\n  %s — %d건" % (key, len(rows)))
+        for r in sorted(set(rows))[:5]:
+            print("    %s" % r)
+        if len(set(rows)) > 5:
+            print("    ... 그 외 %d종" % (len(set(rows)) - 5))
+    return 1
+
+
+def as_json(case):
+    """스킬이 그대로 읽을 수 있는 형태로 조합 결과를 펼친다.
+    변주는 이미 치환돼 있고 확률 소견도 확정돼 있다."""
+    s, p, slots = case["scenario"], case["person"], case["slots"]
+    filled = fill_deep({k: v for k, v in s.items()
+                        if k not in ("pe", "variations", "constraints", "occupationBias", "iceHint")},
+                       slots)
+    person = {
+        "name": p["name"], "age": p["age"],
+        "sex": "남" if p["sex"] == "male" else "여",
+        "occupation": p["occupation"]["label"],
+        "personality": p["personality"]["label"],
+        "personalityVoice": p["personality"]["voice"],
+        "healthLiteracy": p["healthLiteracy"]["label"],
+        "healthLiteracyVoice": p["healthLiteracy"]["voice"],
+        "ice": p["ice"]["idea"],
+        "backgroundIllness": p["illness"]["label"],
+        "smoking": p["smoking"]["label"],
+        "alcohol": p["alcohol"]["label"],
+        "forcedRisk": p.get("forcedRisk") or [],
+    }
+    if p.get("guardian"):
+        g = p["guardian"]
+        person["guardian"] = {
+            "age": g["age"], "sex": "여" if g["sex"] == "female" else "남",
+            "occupation": (g["occupation"] or {}).get("label", "-"),
+            "role": g["role"],
+        }
+        person["speaksForSelf"] = p.get("speaksForSelf", True)
+
+    # 케이스 카드의 pmh 는 진단과 관련된 병력, 인물 카드의 배경질환은 그와 무관한 지병이다.
+    # 따로 두면 "특이 병력 없음"과 "고혈압 보유"가 동시에 참이 되어 학생이 물었을 때 답이 갈린다.
+    card_pmh = fill(s.get("pmh") or "", slots)
+    # 카드 작성자가 모델에게 남긴 지시문은 답변에서 뺀다. 그대로 읽으면 학생에게 노출된다.
+    card_pmh = re.sub(r"[^.]*?인물 카드[^.]*\.\s*", "", card_pmh).strip()
+    illness = p["illness"]["label"]
+    parts = []
+    # 카드가 이미 그 병을 말하고 있으면 앞에 또 붙이지 않는다
+    if illness and illness != "없음" and illness not in card_pmh:
+        parts.append(illness)
+    if card_pmh and not (illness and illness != "없음" and card_pmh.startswith("특이 병력 없음")):
+        parts.append(card_pmh)
+    elif card_pmh.startswith("특이 병력 없음") and not parts:
+        parts.append(card_pmh)
+    person["pmhResolved"] = ". ".join(parts) if parts else "특이 병력 없음"
+
+    meds_card = fill(s.get("meds") or "", slots)
+    med_list = [m for m in (p["illness"].get("meds") or [])]
+    # 사회력도 같은 문제가 있다. 카드의 sh 에는 "인물 카드를 따르되 ..." 같은 지시문이 섞여 있어
+    # 그대로 읽으면 학생에게 지시문이 노출된다. 지시문을 떼고 인물의 값과 합친다.
+    sh_card = fill(s.get("sh") or "", slots)
+    sh_card = re.sub(r"^인물 카드를 따르되\s*", "", sh_card)
+    sh_card = re.sub(r"^인물 카드를 따름[.,]?\s*", "", sh_card)
+    sh_card = re.sub(r"[^.]*?확인이 중요[^.]*\.?", "", sh_card).strip()
+    sh_base = "직업 %s · 흡연 %s · 음주 %s" % (
+        p["occupation"]["label"], p["smoking"]["label"], p["alcohol"]["label"])
+    person["shResolved"] = (sh_base + (". " + sh_card if sh_card else "")).strip()
+
+    person["medsResolved"] = (
+        (", ".join(med_list) + (". " if med_list and meds_card else "")) + meds_card).strip() or "복용 약 없음"
+
+    pe = dict(s.get("pe") or {})
+    pe.pop("vitals", None)
+    pe.pop("findings", None)
+    pe = fill_deep(pe, slots)
+    pe["vitals"] = case["vitals"]
+    pe["findings"] = case["findings"]
+
+    # 원본 칸에는 "인물 카드를 따르되 ..." 같은 지시문이 남아 있다. 스킬이 그것을 읽지 않도록
+    # 통합본으로 갈아끼운다. 답이 하나만 남아야 학생에게 지시문이 새지 않는다.
+    for key, resolved in (("pmh", "pmhResolved"), ("meds", "medsResolved"), ("sh", "shResolved")):
+        if resolved in person:
+            filled[key] = person[resolved]
+
+    return {
+        "topic": case["topic"], "topicFile": case["topicFile"],
+        "scenarioId": s["id"], "dx": s.get("dx") or s.get("situation"),
+        "person": person, "scenario": filled, "pe": pe,
+        "rolledProbabilistic": [
+            {"finding": k, "detected": hit, "p": pr} for k, hit, pr in case.get("rolled", [])],
+        "problems": case["problems"],
+    }
+
+
+def main(argv):
+    if argv and argv[0] == "--check":
+        return check(int(argv[1]) if len(argv) > 1 else 1000)
+
+    want_json = "--json" in argv
+    argv = [a for a in argv if a != "--json"]
+
+    files = topic_files()
+    if not files:
+        print("케이스 파일이 없습니다: %s" % CASES)
+        return 1
+    if argv:
+        want = argv[0]
+        match = [(t, d) for t, d in files if t == want or t.startswith(want)]
+        if not match:
+            print("그런 주호소 파일이 없습니다: %s" % want)
+            print("가능한 값: %s" % ", ".join(t for t, _ in files))
+            return 1
+        topic, data = match[0]
+    else:
+        topic, data = random.choice(files)
+
+    case = build(topic, data, argv[1] if len(argv) > 1 else None)
+    if want_json:
+        print(json.dumps(as_json(case), ensure_ascii=False, indent=2))
+    else:
+        print(render(case))
+    return 1 if case["problems"] else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))
