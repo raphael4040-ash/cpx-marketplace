@@ -608,11 +608,15 @@ def as_json(case):
     illness = p["illness"]["label"]
     parts = []
     # 카드가 이미 그 병을 말하고 있으면 앞에 또 붙이지 않는다
+    NONE_PMH = ("특이 병력 없음", "특이사항 없음", "없음", "특별한 병은 없어요.",
+                "큰 병력 없음", "병력 없음")
+    card_is_none = card_pmh.strip() in NONE_PMH or card_pmh.startswith("특이 병력 없음")
+
     if illness and illness != "없음" and illness not in card_pmh:
         parts.append(illness)
-    if card_pmh and not (illness and illness != "없음" and card_pmh.startswith("특이 병력 없음")):
-        parts.append(card_pmh)
-    elif card_pmh.startswith("특이 병력 없음") and not parts:
+    # 배경질환이 있는데 카드가 "없음"이면 그 말은 버린다.
+    # 붙이면 "고혈압. 특이사항 없음" 이 되어 무엇이 없다는 건지 알 수 없다.
+    if card_pmh and not (parts and card_is_none):
         parts.append(card_pmh)
     person["pmhResolved"] = ". ".join(parts) if parts else "특이 병력 없음"
 
@@ -628,8 +632,16 @@ def as_json(case):
         p["occupation"]["label"], p["smoking"]["label"], p["alcohol"]["label"])
     person["shResolved"] = (sh_base + (". " + sh_card if sh_card else "")).strip()
 
-    person["medsResolved"] = (
-        (", ".join(med_list) + (". " if med_list and meds_card else "")) + meds_card).strip() or "복용 약 없음"
+    # 인물의 약과 카드의 약을 합친다. 다만 카드가 "없음"이라고만 적혀 있으면
+    # 인물의 약 뒤에 붙이지 않는다. "에스시탈로프람. 없음" 이 되어 버린다.
+    NONE_MEDS = ("없음", "복용 약 없음", "없어요", "먹는 약 없음", "따로 먹는 약은 없어요.")
+    card_is_none = meds_card.strip() in NONE_MEDS
+    if med_list and card_is_none:
+        person["medsResolved"] = ", ".join(med_list)
+    elif med_list and meds_card:
+        person["medsResolved"] = ", ".join(med_list) + ". " + meds_card
+    else:
+        person["medsResolved"] = (", ".join(med_list) or meds_card).strip() or "복용 약 없음"
 
     pe = dict(s.get("pe") or {})
     pe.pop("vitals", None)

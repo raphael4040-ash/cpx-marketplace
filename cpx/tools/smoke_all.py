@@ -75,6 +75,13 @@ def scan(case, path, problems):
     if re.match(r"^[^.]{2,20}\.\s*(이런 건 )?(처음|없어요|없습니다|없음)", pmh):
         problems.append("과거력이 주어를 잃음: %s" % pmh[:44])
 
+    # 인물 값과 카드 값이 합쳐지며 뒤에 "없음"이 매달리지 않았는지.
+    # "에스시탈로프람. 없음" 은 약이 있다는 건지 없다는 건지 알 수 없다.
+    for key in ("pmh", "meds", "sh"):
+        v = s.get(key) or ""
+        if re.search(r"[^.]\.\s*(없음|없어요|복용 약 없음|특이사항 없음)\s*$", v):
+            problems.append("병합 뒤에 '없음'이 매달림 %s: %s" % (key, v[:44]))
+
     # 첫 대사가 비어 있는지
     if not s.get("opening"):
         problems.append("opening 이 비어 있음")
