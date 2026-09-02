@@ -112,6 +112,16 @@ def check_file(path):
             if len(s.get("redFlags") or {}) < 4:
                 warns.append("%s: redFlags 가 4개 미만" % tag)
 
+        # 짝지은 슬롯은 길이가 같아야 자리끼리 맞물린다
+        vars_ = s.get("variations") or {}
+        for group in (s.get("pairedVariations") or []):
+            miss = [k for k in group if k not in vars_]
+            if miss:
+                errs.append("%s: pairedVariations 의 %s 가 variations 에 없음" % (tag, ", ".join(miss)))
+                continue
+            if len({len(vars_[k]) for k in group}) > 1:
+                errs.append("%s: 짝지은 슬롯 %s 의 값 개수가 다름" % (tag, ", ".join(group)))
+
         # informant 가 문자열이면 보호자 관계 자리에 설명문이 통째로 찍힌다
         info = s.get("informant")
         if info is not None and not isinstance(info, dict):

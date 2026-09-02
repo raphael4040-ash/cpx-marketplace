@@ -261,7 +261,7 @@
       },
       "variations": {
         "onsetMonths": [4, 6, 10], "severity": [3, 4], "interval": [3, 4, 5], "weightGain": [4, 5, 6],
-        "menses": ["생리 양이 많아지고 길어졌어요.", "폐경한 지 오래됐어요.", "해당 없음(남성)"],
+        "menses": [{"text": "생리 양이 많아지고 길어졌어요.", "sexOnly": "female"}, {"text": "폐경한 지 오래됐어요.", "sexOnly": "female"}, {"text": "해당 없음(남성)", "sexOnly": "male"}],
         "fhx": ["어머니가 갑상선약을 드세요.", "가족 중에는 없어요."]
       },
       "disclosure": {

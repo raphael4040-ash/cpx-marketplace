@@ -403,23 +403,44 @@ def draw_guardian(scenario, person, personas, slots):
 
 # ---------------------------------------------------------------- 변주·활력징후
 
+def allowed(v, person):
+    """이 값이 이 사람에게 쓸 수 있는가. 성별·연령 제한을 본다."""
+    if not isinstance(v, dict):
+        return True
+    if v.get("sexOnly") and v["sexOnly"] != person["sex"]:
+        return False
+    if v.get("maxAge") is not None and person["age"] > v["maxAge"]:
+        return False
+    if v.get("minAge") is not None and person["age"] < v["minAge"]:
+        return False
+    return True
+
+
 def draw_slots(scenario, person):
     """variations 에서 슬롯값을 하나씩 뽑는다. 성별·연령 제한이 붙은 값은 거른다."""
     slots = {}
     for key, pool in (scenario.get("variations") or {}).items():
-        candidates = []
-        for v in pool:
-            if isinstance(v, dict):
-                if v.get("sexOnly") and v["sexOnly"] != person["sex"]:
-                    continue
-                if v.get("maxAge") is not None and person["age"] > v["maxAge"]:
-                    continue
-                if v.get("minAge") is not None and person["age"] < v["minAge"]:
-                    continue
-            candidates.append(v)
+        candidates = [v for v in pool if allowed(v, person)]
         if not candidates:
             candidates = [x for x in pool if not isinstance(x, dict)] or [""]
         slots[key] = random.choice(candidates)
+
+    # 함께 움직여야 하는 슬롯은 같은 자리에서 뽑는다. 따로 뽑으면
+    # "다리는 별 이상 없어요" 와 "한쪽 종아리가 굵고 압통" 이 같이 나온다.
+    pools = scenario.get("variations") or {}
+    for group in (scenario.get("pairedVariations") or []):
+        keys = [k for k in group if k in pools]
+        if len(keys) < 2:
+            continue
+        # 짝을 맞추더라도 성별·연령 제한은 그대로 지킨다.
+        # 안 지키면 남성이 "유방암 치료를 받았어요" 로 짝지어진다.
+        usable = [i for i in range(min(len(pools[k]) for k in keys))
+                  if all(allowed(pools[k][i], person) for k in keys)]
+        if not usable:
+            continue
+        idx = random.choice(usable)
+        for k in keys:
+            slots[k] = pools[k][idx]
     return slots
 
 
