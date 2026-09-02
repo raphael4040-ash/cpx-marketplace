@@ -69,6 +69,12 @@ def scan(case, path, problems):
             if re.search(r"(제가|저는|아파요|없어요|있어요|같아요)", v):
                 problems.append("진찰 소견에 환자 1인칭 대사 '%s': %s" % (k, v[:46]))
 
+    # 배경질환과 합쳐진 과거력이 주어를 잃지 않았는지.
+    # "이상지질혈증. 처음이에요." 는 무엇이 처음인지 알 수 없다.
+    pmh = s.get("pmh") or ""
+    if re.match(r"^[^.]{2,20}\.\s*(이런 건 )?(처음|없어요|없습니다|없음)", pmh):
+        problems.append("과거력이 주어를 잃음: %s" % pmh[:44])
+
     # 첫 대사가 비어 있는지
     if not s.get("opening"):
         problems.append("opening 이 비어 있음")
