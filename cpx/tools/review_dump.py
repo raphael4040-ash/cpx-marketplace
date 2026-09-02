@@ -44,8 +44,9 @@ def render(case, draw_no):
     L.append("  인물   %s %s세 %s · %s · %s / 건강정보 %s" % (
         p["name"], p["age"], p["sex"], p["occupation"],
         p["personality"], p["healthLiteracy"]))
-    L.append("  배경   %s · 흡연 %s · 음주 %s%s" % (
-        p["backgroundIllness"], p["smoking"], p["alcohol"],
+    habits = "" if p["age"] < sc.ADULT_AGE else " · 흡연 %s · 음주 %s" % (p["smoking"], p["alcohol"])
+    L.append("  배경   %s%s%s" % (
+        p["backgroundIllness"], habits,
         ("  (필수 위험인자 %s)" % ", ".join(p["forcedRisk"])) if p.get("forcedRisk") else ""))
     L.append("  ICE    %s" % p["ice"])
     if p.get("guardian"):
@@ -115,6 +116,23 @@ def render(case, draw_no):
     d = s.get("disclosure") or {}
     block("공개 규칙", ["먼저 말함    %s" % ", ".join(d.get("spontaneous") or []),
                    "물어야 나옴  %s" % ", ".join(d.get("onlyIfAsked") or [])], L)
+
+    # 위에서 따로 그리지 않은 칸도 반드시 보여준다. 검토지에 안 나오는 칸은
+    # 통독에서 읽히지 않고, 읽지 않은 칸의 결함은 영원히 남는다.
+    DRAWN = {"situation", "opening", "hpi", "assoc", "redFlags", "pmh", "meds",
+             "allergy", "fh", "sh", "expectedSequence", "distractors",
+             "counselingTargets", "stage", "reaction", "disclosure", "dx", "id"}
+    for key, val in s.items():
+        if key in DRAWN or key.startswith("_") or not val:
+            continue
+        if isinstance(val, dict):
+            body = ["%-14s %s" % (k, v) for k, v in val.items()]
+        elif isinstance(val, list):
+            body = [("- %s" % v) if not isinstance(v, dict) else
+                    ("- " + ", ".join("%s: %s" % kv for kv in v.items())) for v in val]
+        else:
+            body = [str(val)]
+        block(key, body, L)
 
     if case["problems"]:
         block("규칙 위반", case["problems"], L)

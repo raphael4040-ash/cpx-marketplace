@@ -26,6 +26,7 @@ CASES = os.path.normpath(os.path.join(HERE, "..", "skills", "start", "refs", "ca
 
 MAX_RETRY = 20          # 항목 단위 재추첨 한도
 SMOKING_START_AGE = 19  # 흡연 기간이 (나이 - 이 값) 을 넘으면 모순
+ADULT_AGE = 19          # 이 아래는 사회력에 흡연·음주를 적지 않는다
 
 
 def load(path):
@@ -150,6 +151,11 @@ def validate(person, scenario, personas, problems):
     if c.get("sex", "any") != "any" and c["sex"] != sex:
         problems.append("시나리오 성별 불일치")
 
+    banned = set(c.get("forbidden") or [])
+    ill = person["illness"]
+    if ill["id"] in banned or ill["label"] in banned:
+        problems.append("카드가 금지한 지병: %s" % ill["label"])
+
     # 카드가 요구한 흡연·음주를 못 맞추면 조용히 넘어가지 않는다.
     # 넘어가면 "비흡연" 인 사람이 금연 상담을 받으러 온 카드가 만들어진다.
     for key in ("smoking", "alcohol"):
@@ -229,7 +235,12 @@ def draw_person(scenario, personas):
         pool = [x for x in personas[key] if age_ok(x, age)]
         return weighted(pool or [personas[key][0]])
 
-    illness = pick_aged("backgroundIllness")
+    # 카드가 금지한 지병은 애초에 뽑지 않는다. 갑상선기능항진증 케이스에
+    # 갑상선기능저하증 병력이 붙으면 진단 자체가 무너진다.
+    banned = set(c.get("forbidden") or [])
+    ill_pool = [x for x in personas["backgroundIllness"]
+                if age_ok(x, age) and x["id"] not in banned and x["label"] not in banned]
+    illness = weighted(ill_pool) if ill_pool else pick_aged("backgroundIllness")
     smoking = pick_aged("smoking")
     alcohol = pick_aged("alcohol")
 
@@ -695,8 +706,13 @@ def as_json(case):
     # 사회력도 같은 문제가 있다. 카드의 sh 에는 "인물 카드를 따르되 ..." 같은 지시문이 섞여 있어
     # 그대로 읽으면 학생에게 지시문이 노출된다. 지시문을 떼고 인물의 값과 합친다.
     sh_card = strip_directives(fill(s.get("sh") or "", slots))
-    sh_base = "직업 %s · 흡연 %s · 음주 %s" % (
-        p["occupation"]["label"], p["smoking"]["label"], p["alcohol"]["label"])
+    # 아이에게 흡연·음주 칸을 붙이면 안 된다. 한 살 아기의 사회력에
+    # "흡연 비흡연 · 음주 안 마심" 이 붙어 있었다.
+    if p["age"] < ADULT_AGE:
+        sh_base = "직업 %s" % p["occupation"]["label"]
+    else:
+        sh_base = "직업 %s · 흡연 %s · 음주 %s" % (
+            p["occupation"]["label"], p["smoking"]["label"], p["alcohol"]["label"])
     person["shResolved"] = (sh_base + (". " + sh_card if sh_card else "")).strip()
 
     # 인물의 약과 카드의 약을 합친다. 다만 카드가 "없음"이라고만 적혀 있으면
