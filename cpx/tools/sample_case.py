@@ -320,7 +320,7 @@ def draw_guardian(scenario, person, personas, slots):
     }
     # 카드에 보호자 voice 가 있으면 그것이 태도를 정한다. 뽑힌 성격은 말투만 물들인다.
     # 둘이 부딪히면(걱정 많은 보호자인데 축소형) voice 가 이긴다.
-    if isinstance(info, dict) and info.get("voice"):
+    if isinstance(info, dict) and (info.get("voice") or info.get("style")):
         out["voiceWins"] = True
     return out
 
@@ -588,8 +588,16 @@ def as_json(case):
         person["guardian"] = {
             "age": g["age"], "sex": "여" if g["sex"] == "female" else "남",
             "occupation": (g["occupation"] or {}).get("label", "-"),
+            # 보호자의 성격·건강정보를 빼면 따로 뽑은 의미가 없다.
+            # 스킬은 이 값으로 보호자를 환자와 다른 사람으로 연기한다.
+            "personality": g["personality"]["label"],
+            "personalityVoice": g["personality"]["voice"],
+            "healthLiteracy": g["healthLiteracy"]["label"],
+            "healthLiteracyVoice": g["healthLiteracy"]["voice"],
             "role": g["role"],
         }
+        if g.get("voiceWins"):
+            person["guardian"]["voiceWins"] = True
         person["speaksForSelf"] = p.get("speaksForSelf", True)
 
     # 케이스 카드의 pmh 는 진단과 관련된 병력, 인물 카드의 배경질환은 그와 무관한 지병이다.
