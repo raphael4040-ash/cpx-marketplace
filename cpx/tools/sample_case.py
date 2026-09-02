@@ -307,6 +307,9 @@ HABIT_IDS = {
                 "notCurrent": ("never", "ex"),
                 "never": ("never",)},
     "alcohol": {"drinker": ("social", "heavy"),
+                # 폭음이 섞이면 체중감소·탈수를 술로 설명하게 되어 초점이 흐려지는
+                # 카드가 있다(방임 노인). 그럴 때 쓴다.
+                "notHeavy": ("none", "social"),
                 "never": ("none",)},
 }
 
@@ -542,6 +545,9 @@ def build(topic, data, scenario_id=None):
     if guardian:
         person["guardian"] = guardian
         person["speaksForSelf"] = person["age"] >= 13
+    # 본인이 답하지 못하는 아이의 ICE 를 아이 것으로 두면, 다섯 살의 생각이
+    # "약만 좀 지어주면 될 것 같다" 가 된다. 그 생각은 데려온 보호자의 것이다.
+    person["iceOwner"] = "보호자" if (guardian and not person.get("speaksForSelf")) else "환자"
 
     problems = []
     validate(person, scenario, personas, problems)
@@ -576,9 +582,12 @@ def render(case):
         L.append("보호자 %d세 · %s · %s   (%s)" % (
             g["age"], "여" if g["sex"] == "female" else "남", occ, rel or "동반 보호자"))
         L.append("       환자 본인 응답 %s" % ("가능" if p.get("speaksForSelf") else "불가 — 보호자가 대신 답한다"))
-    L.append("ICE    %s" % p["ice"]["idea"])
-    L.append("배경   %s · 흡연 %s · 음주 %s%s" % (
-        p["illness"]["label"], p["smoking"]["label"], p["alcohol"]["label"],
+    L.append("ICE    (%s) %s" % (p.get("iceOwner", "환자"), p["ice"]["idea"]))
+    # 아이에게 흡연·음주 칸을 붙이지 않는다
+    habits = "" if p["age"] < ADULT_AGE else " · 흡연 %s · 음주 %s" % (
+        p["smoking"]["label"], p["alcohol"]["label"])
+    L.append("배경   %s%s%s" % (
+        p["illness"]["label"], habits,
         ("  (필수 위험인자: %s)" % ", ".join(p["forcedRisk"])) if p["forcedRisk"] else ""))
     L.append("")
     L.append("첫 대사  %s" % fill(random.choice(s["opening"]), slots))
@@ -659,6 +668,8 @@ def as_json(case):
         "healthLiteracy": p["healthLiteracy"]["label"],
         "healthLiteracyVoice": p["healthLiteracy"]["voice"],
         "ice": p["ice"]["idea"],
+        # 아이가 스스로 답하지 못하면 그 생각은 보호자의 것이다
+        "iceOwner": p.get("iceOwner", "환자"),
         "backgroundIllness": p["illness"]["label"],
         "smoking": p["smoking"]["label"],
         "alcohol": p["alcohol"]["label"],

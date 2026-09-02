@@ -127,7 +127,7 @@
     {
       "id": "dv-elder-neglect",
       "dx": "동거 가족에 의한 노인학대 (신체적 학대와 방임 동반)",
-      "constraints": { "ageRange": [72, 86], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [72, 86], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [], "alcohol": "notHeavy" },
       "occupationBias": ["retired", "farmer", "housewife"],
       "iceHint": ["denial", "medicine", "family"],
       "opening": ["엉덩이가 아파서 왔어요.", "며칠 전에 침대에서 떨어졌다고 하네요."],
