@@ -250,27 +250,54 @@ def draw_person(scenario, personas):
                     person["illness"] = match[0]
     person["forcedRisk"] = forced
 
-    # 보호자 동반 케이스(소아·의식장애·기억력저하)는 실제로 답하는 사람이 따로 있다.
-    # 환자의 직업 칸은 나이에 맞는 소아 항목이 들어가고, 성격·건강정보 수준은 보호자 것을 쓴다.
-    if scenario.get("informant"):
-        g_age = random.randint(max(age + 22, 26), max(age + 40, 48))
-        g_sex = "female" if random.random() < 0.7 else "male"
-        g_occ = [o for o in personas["occupations"] if occupation_ok(o, g_age)]
-        person["guardian"] = {
-            "age": g_age,
-            "sex": g_sex,
-            "occupation": random.choice(g_occ) if g_occ else None,
-            "personality": person["personality"],
-            "healthLiteracy": person["healthLiteracy"],
-            # informant 안에도 {{슬롯}} 이 있을 수 있다. 여기서 치환하지 않으면
-            # 보호자 설명에 슬롯 글자가 그대로 남는다.
-            "role": scenario.get("informant"),
-            "_needsFill": True,
-        }
-        # 성격·건강정보는 보호자의 것이므로 환자 쪽에서는 표시만 남긴다
-        person["speaksForSelf"] = age >= 13
-
     return person
+
+
+def draw_guardian(scenario, person, personas, slots):
+    """보호자를 뽑는다. 관계 이름이 슬롯일 수 있으므로 치환이 끝난 뒤에 부른다.
+    치환 전에 부르면 '{{caregiver}}' 를 못 읽어 나이 방향이 뒤집힌다."""
+    info = fill_deep(scenario.get("informant"), slots)
+    if not info:
+        return None
+    age = person["age"]
+    rel = str(info.get("relation") or "") if isinstance(info, dict) else str(info)
+
+    YOUNGER = ("딸", "아들", "자녀", "며느리", "사위", "손자", "손녀", "조카")
+    OLDER = ("어머니", "아버지", "엄마", "아빠", "부모", "할머니", "할아버지")
+    SAME = ("배우자", "남편", "아내", "형", "누나", "언니", "오빠", "동생", "친구", "이웃", "동료")
+
+    if any(w in rel for w in SAME):
+        kind = "same"
+    elif any(w in rel for w in YOUNGER):
+        kind = "younger"
+    elif any(w in rel for w in OLDER):
+        kind = "older"
+    else:
+        kind = "younger" if age >= 60 else ("older" if age <= 17 else "same")
+
+    if kind == "younger":
+        lo, hi = age - 40, age - 22
+        g_sex = "female" if random.random() < 0.6 else "male"
+    elif kind == "same":
+        lo, hi = age - 8, age + 8
+        g_sex = "male" if random.random() < 0.5 else "female"
+    else:
+        lo, hi = age + 22, age + 40
+        g_sex = "female" if random.random() < 0.7 else "male"
+
+    lo, hi = max(lo, 22), min(hi, 88)
+    if lo > hi:
+        lo = hi = max(22, min(88, hi))
+    g_age = random.randint(lo, hi)
+
+    g_occ = [o for o in personas["occupations"] if occupation_ok(o, g_age)]
+    return {
+        "age": g_age, "sex": g_sex,
+        "occupation": random.choice(g_occ) if g_occ else None,
+        "personality": person["personality"],
+        "healthLiteracy": person["healthLiteracy"],
+        "role": info,
+    }
 
 
 # ---------------------------------------------------------------- 변주·활력징후
@@ -398,9 +425,10 @@ def build(topic, data, scenario_id=None):
     person = draw_person(scenario, personas)
     slots = draw_slots(scenario, person)
     person["slots"] = slots
-    if person.get("guardian", {}).get("_needsFill"):
-        person["guardian"]["role"] = fill_deep(person["guardian"]["role"], slots)
-        person["guardian"].pop("_needsFill", None)
+    guardian = draw_guardian(scenario, person, personas, slots)
+    if guardian:
+        person["guardian"] = guardian
+        person["speaksForSelf"] = person["age"] >= 13
 
     problems = []
     validate(person, scenario, personas, problems)
@@ -430,9 +458,10 @@ def render(case):
     if p.get("guardian"):
         g = p["guardian"]
         occ = g["occupation"]["label"] if g["occupation"] else "-"
+        role = g["role"]
+        rel = role.get("relation") if isinstance(role, dict) else role
         L.append("보호자 %d세 · %s · %s   (%s)" % (
-            g["age"], "여" if g["sex"] == "female" else "남", occ,
-            g["role"] if isinstance(g["role"], str) else "동반 보호자"))
+            g["age"], "여" if g["sex"] == "female" else "남", occ, rel or "동반 보호자"))
         L.append("       환자 본인 응답 %s" % ("가능" if p.get("speaksForSelf") else "불가 — 보호자가 대신 답한다"))
     L.append("ICE    %s" % p["ice"]["idea"])
     L.append("배경   %s · 흡연 %s · 음주 %s%s" % (
