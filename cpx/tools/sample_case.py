@@ -409,12 +409,29 @@ def draw_guardian(scenario, person, personas, slots):
 
 # ---------------------------------------------------------------- 변주·활력징후
 
+OCC_GROUPS = {
+    "학생": ("student", "highschool", "middleschool", "elementary"),
+    "사무실": ("office", "teacher", "nurse", "selfemp"),
+    "현장": ("farmer", "construct", "market", "welder", "cook",
+           "delivery", "driver", "care", "soldier"),
+    "집": ("housewife", "retired", "jobless"),
+}
+
+
 def allowed(v, person):
-    """이 값이 이 사람에게 쓸 수 있는가. 성별·연령 제한을 본다."""
+    """이 값이 이 사람에게 쓸 수 있는가. 성별·연령·직업 제한을 본다."""
     if not isinstance(v, dict):
         return True
     if v.get("sexOnly") and v["sexOnly"] != person["sex"]:
         return False
+    # 직업과 안 맞는 상황문을 막는다. 배달 라이더가 학교 강의실에서 쓰러졌다고 했다.
+    want = v.get("occOnly")
+    if want:
+        ids = set()
+        for w in ([want] if isinstance(want, str) else want):
+            ids.update(OCC_GROUPS.get(w, (w,)))
+        if person["occupation"]["id"] not in ids:
+            return False
     if v.get("maxAge") is not None and person["age"] > v["maxAge"]:
         return False
     if v.get("minAge") is not None and person["age"] < v["minAge"]:

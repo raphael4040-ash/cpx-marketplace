@@ -134,7 +134,7 @@
       },
       "variations": {
         "onsetMonths": [3, 6, 12], "severity": [2, 3, 4], "interval": [3, 4],
-        "trigger": ["다이어트를 시작한", "야근이 늘어난", "이사 와서 생활이 바뀐"]
+        "trigger": ["다이어트를 시작한", "일이 몰려 바빠진", "이사 와서 생활이 바뀐"]
       },
       "disclosure": {
         "spontaneous": ["변비가 심하다는 것"],
