@@ -150,8 +150,8 @@
         "trigger": [
           "이삿짐을 옮기다가",
           "택배 상자를 들다가",
-          "환자를 부축하다가",
-          "밭에서 무거운 걸 들다가"
+          {"text": "환자를 부축하다가", "occOnly": ["nurse", "care"]},
+          {"text": "밭에서 무거운 걸 들다가", "occOnly": ["farmer"]}
         ]
       },
       "disclosure": {
@@ -327,6 +327,7 @@
           "환측 아킬레스건 반사가 감소"
         ]
       },
+      "pairedVariations": [["weakness", "motorFinding"]],
       "disclosure": {
         "spontaneous": [
           "허리와 다리가 저리다는 것"
@@ -403,8 +404,8 @@
         "체중감소나 암 병력": "없어요.",
         "다리에 힘이 빠지나": "오래 걸으면 힘이 빠지는 느낌이지만 쉬면 돌아와요."
       },
-      "pmh": "고혈압 등 만성질환 가능. 특별한 외상력 없음",
-      "meds": "만성질환 약",
+      "pmh": "특별한 외상력 없음",
+      "meds": "가끔 진통제를 사서 먹음",
       "allergy": "없음",
       "fh": "특이사항 없음",
       "sh": "인물 카드를 따름",
@@ -544,8 +545,7 @@
         "positive": [
           "소변이 잘 안 나오고 다 본 것 같지 않음",
           "사타구니와 항문 주위가 멍함",
-          "양다리 저림과 힘빠짐",
-          "{{incontinence}}"
+          "양다리 저림과 힘빠짐"
         ],
         "negative": [
           "발열 없음",
@@ -831,7 +831,7 @@
           "우측 상부 호흡음이 약간 감소"
         ]
       },
-      "pairedVariations": [["cancerHx", "breast"]],
+      "pairedVariations": [["cancerHx", "breast"], ["weakness", "motorFinding"]],
       "disclosure": {
         "spontaneous": [
           "허리가 오래 아프다는 것"

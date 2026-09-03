@@ -627,7 +627,7 @@
         ],
         "requiredRiskMin": 1,
         "forbidden": [],
-        "smoking": "heavy"
+        "smokingLabel": "하루 한 갑 이상, {{smokeYears}}년"
       },
       "occupationBias": [
         "retired",
@@ -677,7 +677,7 @@
         "열이 나나": "미열 정도예요.",
         "다리가 붓나": "없어요.",
         "피 섞인 가래": "없어요.",
-        "담배": "{{smokingAnswer}}",
+        "담배": "{{smokingSay}}",
         "흡입기를 쓰나": "받아둔 게 있는데 잘 안 써요."
       },
       "pmh": "몇 년 전 만성폐쇄폐질환 진단. 겨울마다 악화로 병원 방문",
@@ -745,9 +745,9 @@
           6,
           7
         ],
-        "smokingAnswer": [
-          "40년 피웠고 지금도 피워요.",
-          "10년 전에 끊었는데 그전에 40년 피웠어요."
+        "smokeYears": [
+          30,
+          35
         ]
       },
       "disclosure": {

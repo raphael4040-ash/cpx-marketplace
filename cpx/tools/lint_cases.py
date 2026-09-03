@@ -50,6 +50,18 @@ def slots_used(node, out):
     return out
 
 
+# 동반증상 "양성" 목록에 쓰인 슬롯이 부정 답변도 뽑으면, "필름 끊긴 적은 없어요" 가
+# 증상으로 나열된다. 한 슬롯을 red flag 답변과 양성 목록에 함께 쓸 때 생긴다
+# (08-근력/감각에서 27곳을 고쳤고 16-허리통증·35-음주상담에 3곳이 남아 있었다).
+DENIAL = re.compile(r"(적은 없|적 없|없어요|없습니다|않아요|않은 것|아니에요|아닙니다)")
+
+# 병력 칸에 남은 저자의 미결정. "고혈압 경계 또는 진단", "만성질환 가능" 은 카드를
+# 쓰는 사람의 메모지 환자가 할 수 있는 말이 아니고, 실제로 배경질환과 어긋났다
+# (16-허리통증에서 배경질환이 없는데도 "만성질환 약" 을 먹는 환자가 26% 나왔다).
+INDETERMINATE = re.compile(r"(가능\s*(?:[.。]|$)|경계 또는|또는 진단)")
+NOTE_FIELDS = ["pmh", "meds", "allergy", "fh"]
+
+
 # invariant 문장이 무엇을 요구하는지 가른다. "빈맥이 생기면 …" 같은 조건절은 요구가 아니다.
 INV_REQUIRE = ("유지", "이어야", "있어야", "반드시")
 INV_NEGATE = ("없", "않", "넣지", "금지", "안 된다", "쓰지", "내리지",
@@ -144,6 +156,22 @@ def check_file(path):
                     cap = int(m.group(1)) if m else 94
                     if spo2[1] > cap:
                         errs.append("%s: 저산소혈증을 요구하는데 SpO2 상한이 %s" % (tag, spo2[1]))
+
+        # 양성 증상 목록에 부정 답변이 섞여 들어가는지
+        pos = " ".join(str(x) for x in ((s.get("assoc") or {}).get("positive") or []))
+        for key in sorted(set(re.findall(r"\{\{(\w+)\}\}", pos))):
+            for item in (s.get("variations") or {}).get(key) or []:
+                text = item.get("text", "") if isinstance(item, dict) else str(item)
+                if DENIAL.search(text):
+                    errs.append("%s: 양성 증상 목록의 {{%s}} 가 부정 답변을 뽑는다 (%s)"
+                                % (tag, key, text[:24]))
+                    break
+
+        # 병력 칸에 저자의 미결정이 남았는지
+        for f in NOTE_FIELDS:
+            val = s.get(f)
+            if isinstance(val, str) and INDETERMINATE.search(val):
+                errs.append("%s: %s 가 환자 사실을 미결정으로 남김 (%s)" % (tag, f, val[:30]))
 
         # 짝지은 슬롯은 길이가 같아야 자리끼리 맞물린다
         vars_ = s.get("variations") or {}
