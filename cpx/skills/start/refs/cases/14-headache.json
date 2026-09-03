@@ -643,6 +643,7 @@
           "기숙사 룸메이트가 며칠 전에 열이 났어요."
         ]
       },
+      "pairedVariations": [["rash", "rashFinding"]],
       "disclosure": {
         "spontaneous": [
           "머리가 아프고 열이 난다는 것"
@@ -789,14 +790,15 @@
           "특별한 시력 문제는 없어요."
         ],
         "visualFinding": [
-          "시력·시야 정상",
-          "일과성 시야 흐림을 호소하나 현재 시력은 정상"
+          "일과성 시야 흐림을 호소하나 현재 시력은 정상",
+          "시력·시야 정상"
         ],
         "fundus": [
           "정상",
           "정상"
         ]
       },
+      "pairedVariations": [["visual", "visualFinding"]],
       "disclosure": {
         "spontaneous": [
           "관자놀이가 아프다는 것"

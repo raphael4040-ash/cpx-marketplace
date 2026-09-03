@@ -589,6 +589,7 @@
           "왼쪽 팔에 오래된 멍의 흔적이 희미하게 남아 있다"
         ]
       },
+      "pairedVariations": [["injury", "injuryFinding"]],
       "disclosure": {
         "spontaneous": [
           "배가 아프다는 것",

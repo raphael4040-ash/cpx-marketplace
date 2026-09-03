@@ -310,8 +310,14 @@ def draw_person(scenario, personas):
         habit = [r for r in required
                  if RISK_ALIAS.get(r, r) in ("흡연", "흡연:heavy", "음주", "과음")]
         illness = [r for r in required if r not in habit]
-        forced = random.sample(habit, min(need, len(habit)))
-        if len(forced) < need and illness:
+        # 습관과 지병을 나란히 놓고 need개를 고른다. 습관을 먼저 채우던 예전
+        # 방식은 습관 개수가 need 이상이면 지병이 한 번도 안 뽑혔다 — SAH 카드가
+        # "고혈압"·"흡연" 중 하나를 요구했는데 흡연만 매번 걸리고 고혈압은
+        # 죽은 코드였다. 지병은 한 자리로만 묶어 여전히 하나만 뽑히게 한다.
+        pool = list(habit) + (["__illness__"] if illness else [])
+        picked = random.sample(pool, min(need, len(pool)))
+        forced = [r for r in picked if r != "__illness__"]
+        if "__illness__" in picked:
             forced.append(random.choice(illness))
         for r in forced:
             want = RISK_ALIAS.get(r, r)
