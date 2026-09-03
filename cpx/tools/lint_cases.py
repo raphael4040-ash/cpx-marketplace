@@ -18,6 +18,9 @@ except Exception:
 HERE = os.path.dirname(os.path.abspath(__file__))
 CASES = os.path.normpath(os.path.join(HERE, "..", "skills", "start", "refs", "cases"))
 
+# 생성기가 사람에게서 바로 채우는 슬롯. 카드의 variations 에 없어도 된다.
+AUTO_SLOTS = {"smoking", "alcohol", "olderBro", "olderSis", "spouse", "inlaws"}
+
 TOP_REQUIRED = ["topicId", "topic", "scenarios"]
 SC_REQUIRED = ["id", "dx", "constraints", "opening", "hpi", "assoc",
                "redFlags", "pmh", "meds", "allergy", "fh", "sh",
@@ -207,13 +210,15 @@ def check_file(path):
             for item in pool:
                 text = str(item.get("text", "")) if isinstance(item, dict) else str(item)
                 for nested in re.findall(r"\{\{(\w+)\}\}", text):
+                    if nested in AUTO_SLOTS:
+                        continue
                     errs.append("%s: variations.%s 값 안에 {{%s}} 가 중첩되어 있음"
                                 % (tag, vkey, nested))
 
         # {{슬롯}} 이 variations 에 정의돼 있는지
         used = slots_used({k: v for k, v in s.items() if k != "variations"}, set())
         declared = set((s.get("variations") or {}).keys())
-        for miss in sorted(used - declared):
+        for miss in sorted(used - declared - AUTO_SLOTS):
             errs.append("%s: {{%s}} 이 variations 에 없음" % (tag, miss))
         for unused in sorted(declared - used):
             warns.append("%s: variations.%s 가 쓰이지 않음" % (tag, unused))

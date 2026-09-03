@@ -489,6 +489,20 @@ def draw_slots(scenario, person):
             candidates = [x for x in pool if not isinstance(x, dict)] or [""]
         slots[key] = random.choice(candidates)
 
+    # 사람에게서 바로 나오는 값들. 카드가 같은 이름의 변주를 두면 그쪽이 이긴다.
+    # 이게 없어서 카드가 답변 자리에 "인물 카드를 따름" 이라고 적어 두었고,
+    # 손위 형제 호칭이 성별과 어긋나 남성 환자가 "언니" 라고 불렀다.
+    auto = {
+        "smoking": person["smoking"]["label"],
+        "alcohol": person["alcohol"]["label"],
+        "olderBro": "형" if person["sex"] == "male" else "오빠",
+        "olderSis": "누나" if person["sex"] == "male" else "언니",
+        "spouse": "아내" if person["sex"] == "male" else "남편",
+        "inlaws": "처가" if person["sex"] == "male" else "시댁",
+    }
+    for k, v in auto.items():
+        slots.setdefault(k, v)
+
     # 함께 움직여야 하는 슬롯은 같은 자리에서 뽑는다. 따로 뽑으면
     # "다리는 별 이상 없어요" 와 "한쪽 종아리가 굵고 압통" 이 같이 나온다.
     pools = scenario.get("variations") or {}
@@ -582,14 +596,55 @@ def resolve_findings(scenario, slots):
     return out, rolled
 
 
+JOSA_PAIRS = {"이": ("이", "가"), "가": ("이", "가"), "은": ("은", "는"), "는": ("은", "는"),
+              "을": ("을", "를"), "를": ("을", "를"), "과": ("과", "와"), "와": ("과", "와")}
+SLOT_RE = re.compile(r"\{\{(\w+)\}\}(이|가|은|는|을|를|과|와|으로|로)?")
+
+
+def has_batchim(word):
+    """마지막 글자에 받침이 있는가. 없으면 None."""
+    for ch in reversed(word or ""):
+        if "가" <= ch <= "힣":
+            return (ord(ch) - 0xAC00) % 28 != 0
+        if ch.isdigit():
+            return ch not in "2459"   # 이·사·오·구 는 받침이 없다
+        if ch.isalpha():
+            return False
+    return None
+
+
 def fill(text, slots):
-    """{{슬롯}} 을 치환한다. 값이 dict 면 text 키를 쓴다."""
+    """{{슬롯}} 을 치환한다. 값이 dict 면 text 키를 쓴다.
+    치환한 값의 받침에 맞춰 뒤따르는 조사를 고친다. 안 고치면
+    "남편가 줄이라고 해요" 처럼 조사가 깨진다."""
     if not isinstance(text, str):
         return text
-    for k, val in slots.items():
+
+    def one(m):
+        key, josa = m.group(1), m.group(2)
+        if key not in slots:
+            return m.group(0)
+        val = slots[key]
         if isinstance(val, dict):
             val = val.get("text", "")
-        text = text.replace("{{%s}}" % k, str(val))
+        val = str(val)
+        if not josa:
+            return val
+        bat = has_batchim(val)
+        if bat is None:
+            return val + josa
+        if josa in ("으로", "로"):
+            # 받침이 ㄹ 이면 "로" 를 쓴다
+            last = val[-1] if val else ""
+            rieul = "가" <= last <= "힣" and (ord(last) - 0xAC00) % 28 == 8
+            return val + ("으로" if (bat and not rieul) else "로")
+        a, b = JOSA_PAIRS[josa]
+        return val + (a if bat else b)
+
+    prev = None
+    while prev != text:                 # 값 안에 또 슬롯이 있는 경우까지
+        prev = text
+        text = SLOT_RE.sub(one, text)
     return text
 
 

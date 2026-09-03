@@ -632,7 +632,7 @@
           "한 달"
         ],
         "pregnancy": [
-          "임신 계획은 없어요.",
+          {"text": "임신 계획은 없어요.", "sexOnly": "female"},
           {"text": "해당 없음(남성)", "sexOnly": "male"}
         ],
         "vaccineHx": [

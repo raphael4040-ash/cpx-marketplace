@@ -78,7 +78,7 @@
         "onsetMonths": [2, 3, 6], "severity": [3, 4, 5], "days": [3, 4], "bottles": ["한", "1.5", "두"],
         "blackout": ["가끔 기억이 안 나는 날이 있어요.", "필름 끊긴 적은 없어요."],
         "workProblem": ["몇 번 지각한 적 있어요.", "그런 적은 없어요."],
-        "family": ["아내가 줄이라고 해요.", "별말 없어요."],
+        "family": ["{{spouse}}가 줄이라고 해요.", "별말 없어요."],
         "attempt": ["줄여야지 생각만 하고 안 해봤어요.", "한 달 쉬어본 적 있어요."],
         "driving": ["대리 불러요.", "가까운 거리는 몇 번 그런 적 있어요."],
         "fhx": ["아버지가 술을 많이 드셨어요.", "특별히 없어요."]
@@ -104,7 +104,7 @@
       "constraints": { "ageRange": [38, 62], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [], "alcoholLabel": "거의 매일 소주 {{bottles}}병" },
       "occupationBias": ["construct", "selfemp", "driver", "market", "jobless"],
       "iceHint": ["family", "denial", "medicine"],
-      "opening": ["잠이 안 와서 왔어요.", "아내가 가보라고 해서 왔는데요."],
+      "opening": ["잠이 안 와서 왔어요.", "{{spouse}}가 가보라고 해서 왔는데요."],
       "hpi": {
         "onset": "{{onsetYears}}년 전부터 음주량이 늘었고 최근 {{onsetMonths}}개월 사이 더 심해짐",
         "character": "매일 마시고 안 마시면 잠이 안 오고 손이 떨림",
@@ -162,7 +162,7 @@
         "withdrawal": ["잠이 안 오고 식은땀이 나요.", "가슴이 두근거리고 손이 떨려요."],
         "attempt": ["몇 번 끊어보려 했는데 사흘을 못 넘겼어요.", "작년에 열흘 참았다가 다시 마셨어요."],
         "blackout": ["요즘 기억이 안 나는 날이 자주 있어요.", "가끔 그래요."],
-        "socialHarm": ["일을 며칠 못 나간 적이 있고 아내랑 자주 다퉈요.", "가족이랑 사이가 나빠졌어요."],
+        "socialHarm": ["일을 며칠 못 나간 적이 있고 {{spouse}}랑 자주 다퉈요.", "가족이랑 사이가 나빠졌어요."],
         "lastDrink": ["어젯밤에 마셨어요.", "이틀 됐어요."],
         "jaundice": ["황달 없음", "공막에 경한 황달이 있다"],
         "spider": ["거미혈관종 없음", "가슴 앞쪽에 거미혈관종이 두어 개 보인다"],
