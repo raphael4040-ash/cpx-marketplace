@@ -19,7 +19,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 CASES = os.path.normpath(os.path.join(HERE, "..", "skills", "start", "refs", "cases"))
 
 # 생성기가 사람에게서 바로 채우는 슬롯. 카드의 variations 에 없어도 된다.
-AUTO_SLOTS = {"smoking", "alcohol", "olderBro", "olderSis", "spouse", "inlaws"}
+AUTO_SLOTS = {"smoking", "alcohol", "olderBro", "olderSis", "spouse", "inlaws",
+              "alcoholSay", "alcoholSayHon", "smokingSay"}
 
 TOP_REQUIRED = ["topicId", "topic", "scenarios"]
 SC_REQUIRED = ["id", "dx", "constraints", "opening", "hpi", "assoc",

@@ -330,7 +330,8 @@ def draw_person(scenario, personas):
                          if (b["label"] == want or b["id"] == want) and age_ok(b, age)]
                 if match:
                     person["illness"] = match[0]
-    person["forcedRisk"] = forced
+    # 표시는 사람이 읽는 이름으로. id 로 적힌 카드가 있어 "smoking, dm" 이 그대로 나왔다.
+    person["forcedRisk"] = [RISK_ALIAS.get(r, r) for r in forced]
 
     # 카드가 흡연·음주를 요구하면 여기서 값으로 확정한다. 예전에는 이 요구가 sh 에
     # 문장으로만 적혀 있어 실행되지 않았고, 금연 상담 카드의 환자가 "비흡연"으로 나왔다.
@@ -499,6 +500,14 @@ def draw_slots(scenario, person):
         "olderSis": "누나" if person["sex"] == "male" else "언니",
         "spouse": "아내" if person["sex"] == "male" else "남편",
         "inlaws": "처가" if person["sex"] == "male" else "시댁",
+        # 카드가 문장 안에 넣어 쓰도록 자연스러운 꼴로도 준다.
+        # 라벨을 그대로 끼우면 "안 마심 정도 드세요" 가 된다.
+        "alcoholSay": ("술은 안 마셔요." if person["alcohol"]["label"] == "안 마심"
+                       else "술은 %s 정도 마셔요." % person["alcohol"]["label"]),
+        "alcoholSayHon": ("술은 안 드세요." if person["alcohol"]["label"] == "안 마심"
+                          else "술은 %s 정도 드세요." % person["alcohol"]["label"]),
+        "smokingSay": ("담배는 안 피워요." if person["smoking"]["label"] == "비흡연"
+                       else "담배는 %s 피워요." % person["smoking"]["label"]),
     }
     for k, v in auto.items():
         slots.setdefault(k, v)

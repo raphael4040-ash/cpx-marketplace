@@ -206,7 +206,7 @@
       "variations": {
         "onsetHours": [6, 10, 12], "severity": [4, 5, 6], "monthsSx": [2, 3, 6], "episodes": [3, 4],
         "nsaidHx": ["관절이 아파서 소염진통제를 거의 매일 사 먹었어요.", "심장 때문에 아스피린을 먹고 있어요."],
-        "alcoholHx": ["반주로 소주 한두 잔 해요.", "술은 거의 안 마셔요."]
+        "alcoholHx": ["{{alcoholSay}} 어제는 좀 과했어요.", "{{alcoholSay}} 평소와 비슷했어요."]
       },
       "disclosure": {
         "spontaneous": ["변이 검게 나온다는 것"],

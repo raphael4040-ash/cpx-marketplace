@@ -139,7 +139,7 @@
       "variations": {
         "onsetHours": [2, 4, 6], "severity": [5, 6, 7], "monthsSx": [2, 3, 6],
         "nsaidHx": ["관절이 아파서 소염진통제를 거의 매일 사 먹었어요.", "허리 때문에 진통제를 자주 먹었어요."],
-        "alcoholHx": ["가끔 반주로 한두 잔 해요.", "술은 거의 안 마셔요."]
+        "alcoholHx": ["{{alcoholSay}} 반주로 자주 하는 편이에요.", "{{alcoholSay}} 최근에 늘지는 않았어요."]
       },
       "disclosure": {
         "spontaneous": ["검은 것을 토했다는 것"],
