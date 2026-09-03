@@ -884,6 +884,12 @@ def as_json(case):
     kept = [x for x in re.split(r"(?<=[.。])\s+|\.\s*$", meds_card) if x and x.strip()]
     kept = [x for x in kept if not NONE_MEDS_RE.match(x.strip())]
     card_is_none = bool(NONE_MEDS_RE.match(meds_card.strip())) or not kept
+    # 카드가 그 병의 약을 이미 다루고 있으면 배경약을 앞에 또 붙이지 않는다.
+    # ACE억제제 기침 카드가 "암로디핀. 혈압약을 다른 것으로 바꿈" 이 되어
+    # 무엇을 먹는 중인지 알 수 없었다.
+    if s.get("_ownMeds"):
+        person["medsResolved"] = " ".join(kept) or meds_card
+        med_list = []
     if med_list and card_is_none:
         person["medsResolved"] = ", ".join(med_list)
     elif med_list and meds_card:
