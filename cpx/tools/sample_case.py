@@ -162,6 +162,23 @@ def validate(person, scenario, personas, problems):
     if ill["id"] in banned or ill["label"] in banned:
         problems.append("카드가 금지한 지병: %s" % ill["label"])
 
+    # 요구한 위험인자가 사람에게 실제로 붙었는지 본다. 조용히 넘어가면
+    # 간경변 환자가 "안 마심" 으로 나온 것을 아무도 모른다.
+    for r in (person.get("forcedRisk") or []):
+        want = RISK_ALIAS.get(r, r)
+        # 카드가 alcoholLabel / smokingLabel 로 직접 적어 준 값은 id 가 "card" 다
+        if want in ("음주", "과음"):
+            ok = person["alcohol"]["id"] in (
+                ("heavy", "card") if want == "과음" else ("social", "heavy", "card"))
+        elif want in ("흡연", "흡연:heavy"):
+            ok = person["smoking"]["id"] in (
+                ("light", "heavy", "card") if want.endswith("heavy")
+                else ("light", "heavy", "ex", "occasional", "card"))
+        else:
+            ok = person["illness"]["label"] == want or person["illness"]["id"] == want
+        if not ok:
+            problems.append("요구한 위험인자 미적용: %s" % r)
+
     # 카드가 요구한 흡연·음주를 못 맞추면 조용히 넘어가지 않는다.
     # 넘어가면 "비흡연" 인 사람이 금연 상담을 받으러 온 카드가 만들어진다.
     for key in ("smoking", "alcohol"):
@@ -283,17 +300,34 @@ def draw_person(scenario, personas):
     need = int(c.get("requiredRiskMin", 0))
     forced = []
     if required and need:
-        forced = random.sample(required, min(need, len(required)))
+        # 사람의 지병은 하나뿐이다. 지병 요구를 둘 뽑으면 뒤엣것이 앞엣것을 덮어
+        # 하나는 반드시 어긋난다(혈관성 치매 카드가 고혈압과 당뇨를 함께 요구했다).
+        habit = [r for r in required
+                 if RISK_ALIAS.get(r, r) in ("흡연", "흡연:heavy", "음주", "과음")]
+        illness = [r for r in required if r not in habit]
+        forced = random.sample(habit, min(need, len(habit)))
+        if len(forced) < need and illness:
+            forced.append(random.choice(illness))
         for r in forced:
-            if r == "흡연":
-                heavy = [s for s in personas["smoking"]
-                         if s["id"] in ("light", "heavy", "ex") and age_ok(s, age)
-                         and years_in(s["label"]) <= age - SMOKING_START_AGE]
-                if heavy:
-                    person["smoking"] = random.choice(heavy)
+            want = RISK_ALIAS.get(r, r)
+            if want in ("흡연", "흡연:heavy"):
+                ids = (("light", "heavy") if want.endswith("heavy")
+                       else ("occasional", "light", "heavy", "ex"))
+                pool = [s for s in personas["smoking"]
+                        if s["id"] in ids and age_ok(s, age)
+                        and years_in(s["label"]) <= age - SMOKING_START_AGE]
+                if pool:
+                    person["smoking"] = random.choice(pool)
+            # 음주 요구는 배경질환에서 찾다가 조용히 넘어가고 있었다. 그래서
+            # 간경변 환자가 "안 마심" 으로, 알코올 금단 환자가 "안 마심" 으로 나왔다.
+            elif want in ("음주", "과음"):
+                ids = ("heavy",) if want == "과음" else ("social", "heavy")
+                pool = [a for a in personas["alcohol"] if a["id"] in ids and age_ok(a, age)]
+                if pool:
+                    person["alcohol"] = random.choice(pool)
             else:
                 match = [b for b in personas["backgroundIllness"]
-                         if b["label"] == r and age_ok(b, age)]
+                         if (b["label"] == want or b["id"] == want) and age_ok(b, age)]
                 if match:
                     person["illness"] = match[0]
     person["forcedRisk"] = forced
@@ -313,6 +347,7 @@ HABIT_IDS = {
                 "notCurrent": ("never", "ex"),
                 "never": ("never",)},
     "alcohol": {"drinker": ("social", "heavy"),
+                "heavy": ("heavy",),
                 # 폭음이 섞이면 체중감소·탈수를 술로 설명하게 되어 초점이 흐려지는
                 # 카드가 있다(방임 노인). 그럴 때 쓴다.
                 "notHeavy": ("none", "social"),
@@ -408,6 +443,12 @@ def draw_guardian(scenario, person, personas, slots):
 
 
 # ---------------------------------------------------------------- 변주·활력징후
+
+# 카드가 requiredRisk 에 쓰는 여러 표기를 한 가지로 모은다.
+# id 로 적힌 것("htn")이 배경질환 라벨("고혈압")과 안 맞아 무시되고 있었다.
+RISK_ALIAS = {"smoking": "흡연", "smoking:heavy": "흡연:heavy", "alcohol": "음주",
+              "htn": "고혈압", "dm": "당뇨병", "dyslip": "이상지질혈증",
+              "thyroid": "갑상선기능저하증", "gout": "통풍", "depress": "우울증"}
 
 OCC_GROUPS = {
     "학생": ("student", "highschool", "middleschool", "elementary"),

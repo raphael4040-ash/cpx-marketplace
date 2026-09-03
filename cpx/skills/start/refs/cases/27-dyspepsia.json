@@ -657,8 +657,7 @@
           "음주"
         ],
         "requiredRiskMin": 1,
-        "forbidden": []
-      },
+        "forbidden": [], "alcoholLabel": "이십 년 이상 매일 소주 한 병" },
       "occupationBias": [
         "construct",
         "driver",
@@ -715,7 +714,7 @@
       "meds": "명치가 아플 때 약국 진통제를 사 먹음",
       "allergy": "없음",
       "fh": "특이사항 없음",
-      "sh": "인물 카드를 따르되 이십 년 이상 매일 소주 한 병 수준의 음주",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": {
           "sbp": [

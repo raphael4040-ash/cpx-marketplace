@@ -631,8 +631,7 @@
           "음주"
         ],
         "requiredRiskMin": 1,
-        "forbidden": []
-      },
+        "forbidden": [], "alcohol": "heavy" },
       "occupationBias": [
         "construct",
         "market",
@@ -711,7 +710,7 @@
       "meds": "이뇨제, 간장약. 최근 수면제 1회 복용",
       "allergy": "보호자가 아는 한 없음",
       "fh": "특이사항 없음",
-      "sh": "인물 카드를 따르되 장기 음주력이 있고 최근 재음주",
+      "sh": "장기 음주력이 있고 최근 다시 마시기 시작함",
       "pe": {
         "vitals": {
           "sbp": [

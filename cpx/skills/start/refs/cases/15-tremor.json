@@ -640,8 +640,7 @@
           "음주"
         ],
         "requiredRiskMin": 1,
-        "forbidden": []
-      },
+        "forbidden": [], "alcoholLabel": "거의 매일 소주 1병 이상" },
       "occupationBias": [
         "construct",
         "driver",
@@ -700,7 +699,7 @@
       "meds": "없음",
       "allergy": "없음",
       "fh": "아버지도 술을 많이 드셨음",
-      "sh": "인물 카드를 따르되 거의 매일 소주 1병 이상 음주",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": {
           "sbp": [

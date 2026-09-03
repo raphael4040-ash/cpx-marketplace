@@ -16,7 +16,7 @@
       "constraints": { "ageRange": [40, 62], "sex": "any", "requiredRisk": ["음주", "흡연"], "requiredRiskMin": 1, "forbidden": ["고혈압"] },
       "occupationBias": ["office", "driver", "selfemp", "market", "teacher"],
       "iceHint": ["denial", "medicine", "test"],
-      "opening": ["건강검진에서 혈압이 높다고 나와서 왔어요.", "회사 검진에서 혈압이 높으니 병원 가보라고 해서 왔어요."],
+      "opening": ["건강검진에서 혈압이 높다고 나와서 왔어요.", "검진에서 혈압이 높으니 병원 가보라고 해서 왔어요."],
       "hpi": {
         "onset": "{{yearsHigh}}년 전 건강검진 때부터 혈압이 높다는 말을 들었고, 이번에도 또 높게 나옴",
         "character": "특별히 아프거나 불편한 데는 없음. 가끔 뒷목이 뻣뻣한 정도",
@@ -74,7 +74,7 @@
       },
       "variations": {
         "yearsHigh": [2, 3, 5], "severity": [0, 1, 2], "weightGain": [5, 7, 10],
-        "familyEvent": ["형도 고혈압 약을 먹어요.", "어머니는 특별한 병은 없으세요.", "아버지가 예순에 뇌졸중으로 쓰러지셨어요."]
+        "familyEvent": ["형도 고혈압 약을 먹어요.", "어머니는 특별한 병은 없으세요.", "그 아버지가 예순에 뇌졸중으로 쓰러지셨고요."]
       },
       "disclosure": {
         "spontaneous": ["검진에서 혈압이 높게 나왔다는 것"],
@@ -90,7 +90,7 @@
       "iceHint": ["family", "cancer", "test"],
       "opening": ["혈압이 높다고 해서 왔어요.", "젊은데 혈압이 높다고 해서 걱정돼서 왔어요."],
       "hpi": {
-        "onset": "{{monthsHigh}}개월 전 회사 검진에서 처음 높게 나왔고, 약국에서 재봐도 계속 높음",
+        "onset": "{{monthsHigh}}개월 전 건강검진에서 처음 높게 나왔고, 약국에서 재봐도 계속 높음",
         "character": "특별한 증상은 없으나 가끔 {{side}}쪽 옆구리가 묵직함",
         "location": "{{side}}쪽 옆구리와 등 쪽이 가끔 뻐근함",
         "radiation": "없음",

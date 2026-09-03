@@ -13,7 +13,7 @@
     {
       "id": "hem-esophageal-varix",
       "dx": "식도정맥류 출혈 (간경변에 의한 문맥고혈압)",
-      "constraints": { "ageRange": [45, 70], "sex": "any", "requiredRisk": ["음주"], "requiredRiskMin": 1, "forbidden": [] },
+      "constraints": { "ageRange": [45, 70], "sex": "any", "requiredRisk": ["음주"], "requiredRiskMin": 1, "forbidden": [], "alcohol": "heavy" },
       "occupationBias": ["construct", "driver", "selfemp", "market", "farmer"],
       "iceHint": ["denial", "family", "test"],
       "opening": ["피를 왈칵 토했어요.", "조금 전에 검붉은 피를 한 대야 토했어요."],
@@ -150,7 +150,7 @@
     {
       "id": "hem-mallory-weiss",
       "dx": "말로리-바이스 증후군",
-      "constraints": { "ageRange": [22, 55], "sex": "any", "requiredRisk": ["음주"], "requiredRiskMin": 1, "forbidden": [] },
+      "constraints": { "ageRange": [22, 55], "sex": "any", "requiredRisk": ["음주"], "requiredRiskMin": 1, "forbidden": [], "alcohol": "drinker" },
       "occupationBias": ["office", "selfemp", "cook", "delivery", "student"],
       "iceHint": ["denial", "internet", "work"],
       "opening": ["토하다가 피가 나왔어요.", "어젯밤에 술 마시고 계속 토했는데 마지막에 피가 섞여 나왔어요."],

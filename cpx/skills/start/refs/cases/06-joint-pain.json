@@ -76,7 +76,7 @@
     {
       "id": "joint-gout",
       "dx": "급성 통풍성 관절염 (첫째 발허리발가락 관절)",
-      "constraints": { "ageRange": [35, 70], "sex": "male", "requiredRisk": ["음주"], "requiredRiskMin": 1, "forbidden": [] },
+      "constraints": { "ageRange": [35, 70], "sex": "male", "requiredRisk": ["음주"], "requiredRiskMin": 1, "forbidden": [], "alcohol": "heavy" },
       "occupationBias": ["office", "selfemp", "driver", "market", "construct"],
       "iceHint": ["internet", "work", "denial"],
       "opening": ["엄지발가락이 밤새 너무 아파서 왔어요.", "자다가 발가락이 아파서 깼는데 퉁퉁 부었어요."],
@@ -108,7 +108,7 @@
       "meds": "없음",
       "allergy": "없음",
       "fh": "{{fhGout}}",
-      "sh": "인물 카드를 따르되 음주는 주 3회 이상",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": { "sbp": [124, 142], "dbp": [76, 90], "hr": [80, 96], "rr": [16, 20], "temp": [36.8, 37.6], "spo2": [97, 99],
                     "invariant": "체온이 37.8도를 넘지 않는다. 고열이면 패혈성 관절염과 구별되지 않아 케이스가 달라진다." },
