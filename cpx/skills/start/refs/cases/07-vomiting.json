@@ -16,7 +16,7 @@
       "constraints": { "ageRange": [45, 80], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["retired", "housewife", "market", "farmer", "selfemp"],
       "iceHint": ["denial", "family", "test"],
-      "opening": ["어제부터 계속 토해요.", "배가 빵빵하고 먹기만 하면 다 토해요."],
+      "opening": ["며칠째 계속 토해요.", "배가 빵빵하고 먹기만 하면 다 토해요."],
       "hpi": {
         "onset": "{{onsetDays}}일 전부터 시작해 점점 심해짐",
         "character": "처음에는 먹은 것을 토하다가 지금은 누렇고 쓴 물이 올라오고 냄새도 고약해짐",
@@ -234,7 +234,7 @@
         "열이 나나": "열은 없어요."
       },
       "pmh": "특이 병력 없음",
-      "meds": "없음 (임신 가능성 때문에 약을 피하고 있음)",
+      "meds": "임신 가능성 때문에 약을 새로 먹지는 않고 있음",
       "allergy": "없음",
       "fh": "특이사항 없음",
       "sh": "인물 카드를 따름",
