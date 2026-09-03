@@ -239,7 +239,7 @@
     {
       "id": "mood-hypothyroid",
       "dx": "갑상선기능저하증에 의한 기분 변화",
-      "constraints": { "ageRange": [35, 68], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [35, 68], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": ["갑상선기능저하증"] },
       "occupationBias": ["housewife", "office", "teacher", "market", "care"],
       "iceHint": ["internet", "test", "denial"],
       "opening": ["기운이 없고 자꾸 처져요.", "우울증인가 싶어서 왔어요. 몸도 자꾸 붓고요."],

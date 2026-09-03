@@ -25,6 +25,13 @@ SPEECH = re.compile(r"(요\.|요$|에요|예요|어요|아요|세요|네요|죠\
 INSTRUCTION = re.compile(r"(인물 카드|카드를 따|redFlags|참고한다|그대로 쓴다|고정한다|따른다|덮어쓴다|해당 없으면|변주를 쓴다)")
 NOTE_FIELDS = ["pmh", "meds", "allergy", "fh", "sh"]
 
+# 배경질환 약 이름. 카드 자신의 meds 칸이 이 이름을 그대로 적어 두면, 같은 병이
+# 배경질환으로 또 뽑혔을 때 "암로디핀. 암로디핀" 처럼 겹친다 (12-나쁜소식,
+# 13-두근거림에서 실제로 나왔다). 구체적인 약 이름이라 오탐 위험이 거의 없다.
+_PERSONAS = sc.load(os.path.join(sc.CASES, "personas.json"))
+BG_DRUGS = sorted(set(
+    m for ill in _PERSONAS.get("backgroundIllness", []) for m in (ill.get("meds") or [])))
+
 
 def scan(case, path, problems):
     """스킬이 실제로 받는 출력(as_json)에서 문제를 찾는다.
@@ -81,6 +88,13 @@ def scan(case, path, problems):
         v = s.get(key) or ""
         if re.search(r"[^.]\.\s*(없음|없어요|복용 약 없음|특이사항 없음)\s*$", v):
             problems.append("병합 뒤에 '없음'이 매달림 %s: %s" % (key, v[:44]))
+
+    # 배경질환 약이 카드 자신의 약과 겹쳐 같은 약 이름이 두 번 나오는지.
+    # 카드가 그 병을 스스로 다루면서 forbidden 이나 _ownMeds 를 빠뜨렸을 때 생긴다.
+    meds = s.get("meds") or ""
+    for d in BG_DRUGS:
+        if meds.count(d) >= 2:
+            problems.append("약물 칸에 %s 중복: %s" % (d, meds[:50]))
 
     # 첫 대사가 비어 있는지
     if not s.get("opening"):

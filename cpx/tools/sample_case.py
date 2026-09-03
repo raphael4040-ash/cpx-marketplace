@@ -506,7 +506,10 @@ def draw_slots(scenario, person):
                        else "술은 %s 정도 마셔요." % person["alcohol"]["label"]),
         "alcoholSayHon": ("술은 안 드세요." if person["alcohol"]["label"] == "안 마심"
                           else "술은 %s 정도 드세요." % person["alcohol"]["label"]),
-        "smokingSay": ("담배는 안 피워요." if person["smoking"]["label"] == "비흡연"
+        # "ex" 는 라벨이 "과거 흡연 (끊은 지 몇 년)" 이라 그대로 끼우면
+        # "담배는 과거 흡연 (끊은 지 몇 년) 피워요" 가 된다. 따로 문장을 만든다.
+        "smokingSay": ("담배는 안 피워요." if person["smoking"]["id"] == "never"
+                       else "예전엔 피웠는데 끊었어요." if person["smoking"]["id"] == "ex"
                        else "담배는 %s 피워요." % person["smoking"]["label"]),
     }
     for k, v in auto.items():

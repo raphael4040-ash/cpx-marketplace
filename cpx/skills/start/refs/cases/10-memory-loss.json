@@ -27,7 +27,7 @@
         "sex": "any",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": ["고혈압", "당뇨병", "이상지질혈증", "갑상선기능저하증", "통풍", "우울증"]
       },
       "occupationBias": [
         "retired",
@@ -231,6 +231,7 @@
           "자녀와 함께 삽니다"
         ]
       },
+      "pairedVariations": [["pmhVar", "medsVar"]],
       "disclosure": {
         "spontaneous": [
           "가족이 가보라고 해서 왔다는 것"
@@ -257,7 +258,7 @@
         "sex": "any",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": ["고혈압", "당뇨병", "이상지질혈증", "갑상선기능저하증", "통풍", "우울증"]
       },
       "occupationBias": [
         "retired",
@@ -434,6 +435,7 @@
           "친정 어머니가 치매를 앓으셨어요."
         ]
       },
+      "pairedVariations": [["pmhVar", "medsVar"]],
       "disclosure": {
         "spontaneous": [
           "깜빡하는 일이 늘어 걱정된다는 것"
@@ -456,12 +458,10 @@
         ],
         "sex": "any",
         "requiredRisk": [
-          "htn",
-          "dm",
           "smoking"
         ],
-        "requiredRiskMin": 2,
-        "forbidden": []
+        "requiredRiskMin": 1,
+        "forbidden": ["고혈압", "당뇨병", "이상지질혈증", "갑상선기능저하증", "통풍", "우울증"]
       },
       "occupationBias": [
         "retired",
@@ -515,7 +515,7 @@
         "열이나 배뇨통": "없어요.",
         "걸음이나 소변 문제": "걸음이 종종거리고 소변이 급해서 못 참을 때가 있어요.",
         "혈압·당뇨 관리": "{{controlHx}}",
-        "담배": "{{smokingHx}}",
+        "담배": "{{smokingSay}}",
         "우울하거나 눈물이 나나": "환자: 별것 아닌데 눈물이 나요. / 보호자: 갑자기 우셨다 웃으셨다 하세요.",
         "머리 다친 적": "없어요."
       },
@@ -543,7 +543,7 @@
       "meds": "{{medsVar}}",
       "allergy": "없음",
       "fh": "{{fhVar}}",
-      "sh": "인물 카드를 따르되 흡연력은 {{smokingHx}}",
+      "sh": "",
       "pe": {
         "vitals": {
           "sbp": [
@@ -636,10 +636,6 @@
           "약은 먹는데 혈압은 늘 높게 나와요.",
           "약을 자주 거르세요."
         ],
-        "smokingHx": [
-          "40년 넘게 하루 한 갑 피우다 작년에 끊었어요.",
-          "지금도 하루 반 갑 피우세요."
-        ],
         "pmhVar": [
           "고혈압·당뇨병으로 약 복용 중, 작년 뇌경색",
           "고혈압과 이상지질혈증, 작년 뇌경색"
@@ -657,6 +653,7 @@
           "왼쪽에서 약한 잡음이 들린다"
         ]
       },
+      "pairedVariations": [["pmhVar", "medsVar"]],
       "disclosure": {
         "spontaneous": [
           "작년에 쓰러진 뒤로 예전 같지 않다는 것"
@@ -682,7 +679,7 @@
         "sex": "any",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": ["고혈압", "당뇨병", "이상지질혈증", "갑상선기능저하증", "통풍", "우울증"]
       },
       "occupationBias": [
         "retired",
@@ -760,7 +757,7 @@
         "voice": "차분하나 지쳐 있다. 자살사고 이야기가 나오면 크게 놀라며 몰랐다고 한다."
       },
       "pmh": "{{pmhVar}}",
-      "meds": "없음",
+      "meds": "{{medsVar}}",
       "allergy": "없음",
       "fh": "{{fhVar}}",
       "sh": "인물 카드를 따르되 최근 외출과 모임을 끊음",
@@ -864,11 +861,17 @@
           "고혈압으로 약 복용 중",
           {"text": "예전에 산후에 마음이 힘들었던 적 있음", "sexOnly": "female"}
         ],
+        "medsVar": [
+          "없음",
+          "암로디핀",
+          "없음"
+        ],
         "fhVar": [
           "특이사항 없음",
           "어머니가 우울증으로 약을 드셨어요."
         ]
       },
+      "pairedVariations": [["pmhVar", "medsVar"]],
       "disclosure": {
         "spontaneous": [
           "기억이 안 난다는 것",
@@ -895,7 +898,7 @@
         "sex": "any",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": ["고혈압", "당뇨병", "이상지질혈증", "갑상선기능저하증", "통풍", "우울증"]
       },
       "occupationBias": [
         "office",
@@ -1070,6 +1073,7 @@
           "특이사항 없음"
         ]
       },
+      "pairedVariations": [["pmhVar", "medsVar"]],
       "disclosure": {
         "spontaneous": [
           "깜빡거려 치매가 걱정된다는 것"
