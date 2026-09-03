@@ -46,7 +46,7 @@
       "fh": "특이사항 없음",
       "sh": "인물 카드를 따름",
       "pe": {
-        "vitals": { "sbp": [104, 124], "dbp": [64, 78], "hr": [96, 116], "rr": [18, 22], "temp": [38.2, 39.2], "spo2": [95, 98],
+        "vitals": { "sbp": [104, 124], "dbp": [64, 78], "hr": [100, 116], "rr": [18, 22], "temp": [38.2, 39.2], "spo2": [95, 98],
                     "invariant": "38도 이상 발열과 빈맥을 유지한다. 수축기 90 미만으로 내리지 않는다(패혈쇼크가 되어 케이스가 달라진다)." },
         "findings": {
           "전신 외관": "아파 보이고 무릎을 약간 굽힌 채 다리를 전혀 움직이려 하지 않는다",
@@ -76,7 +76,7 @@
     {
       "id": "joint-gout",
       "dx": "급성 통풍성 관절염 (첫째 발허리발가락 관절)",
-      "constraints": { "ageRange": [35, 70], "sex": "male", "requiredRisk": ["음주"], "requiredRiskMin": 1, "forbidden": [], "alcohol": "heavy" },
+      "constraints": { "ageRange": [35, 70], "sex": "male", "requiredRisk": ["음주"], "requiredRiskMin": 1, "forbidden": ["통풍"], "alcohol": "heavy" },
       "occupationBias": ["office", "selfemp", "driver", "market", "construct"],
       "iceHint": ["internet", "work", "denial"],
       "opening": ["엄지발가락이 밤새 너무 아파서 왔어요.", "자다가 발가락이 아파서 깼는데 퉁퉁 부었어요."],
@@ -175,7 +175,7 @@
       "fh": "{{fhRa}}",
       "sh": "인물 카드를 따름",
       "pe": {
-        "vitals": { "sbp": [110, 130], "dbp": [68, 82], "hr": [72, 90], "rr": [14, 18], "temp": [36.6, 37.4], "spo2": [97, 99],
+        "vitals": { "sbp": [110, 130], "dbp": [68, 82], "hr": [72, 90], "rr": [14, 18], "temp": [37.0, 37.4], "spo2": [97, 99],
                     "invariant": "38도 이상의 발열은 없어야 한다. 고열이면 감염 관절염과 구분되지 않는다." },
         "findings": {
           "전신 외관": "편안해 보이나 손을 조심스럽게 쓴다",

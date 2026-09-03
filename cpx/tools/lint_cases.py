@@ -46,6 +46,12 @@ def slots_used(node, out):
     return out
 
 
+# invariant 문장이 무엇을 요구하는지 가른다. "빈맥이 생기면 …" 같은 조건절은 요구가 아니다.
+INV_REQUIRE = ("유지", "이어야", "있어야", "반드시")
+INV_NEGATE = ("없", "않", "넣지", "금지", "안 된다", "쓰지", "내리지",
+              "생기면", "나오면", "되면", "사라지면", "나타나면", "뚜렷하면", "이면")
+
+
 def check_file(path):
     name = os.path.basename(path)
     errs, warns = [], []
@@ -111,6 +117,29 @@ def check_file(path):
 
             if len(s.get("redFlags") or {}) < 4:
                 warns.append("%s: redFlags 가 4개 미만" % tag)
+
+        # invariant 가 요구하는 것을 활력징후 밴드가 보장하는지 본다.
+        # "빈맥을 유지한다" 면서 맥박 하한이 96이면 빈맥이 아닌 환자가 나온다.
+        v = (s.get("pe") or {}).get("vitals")
+        if isinstance(v, dict):
+            for cl in re.split(r"[.。]", v.get("invariant", "")):
+                if not (any(w in cl for w in INV_REQUIRE)
+                        and not any(w in cl for w in INV_NEGATE)):
+                    continue
+                hr, temp, spo2 = v.get("hr"), v.get("temp"), v.get("spo2")
+                if "빈맥" in cl and hr:
+                    floor = 90 if "경한" in cl else 100
+                    if hr[0] < floor:
+                        errs.append("%s: 빈맥을 요구하는데 맥박 하한이 %s" % (tag, hr[0]))
+                if "서맥" in cl and hr and hr[1] > 60:
+                    errs.append("%s: 서맥을 요구하는데 맥박 상한이 %s" % (tag, hr[1]))
+                if "미열" in cl and temp and temp[0] < 37.0:
+                    errs.append("%s: 미열을 요구하는데 체온 하한이 %s" % (tag, temp[0]))
+                if "저산소혈증" in cl and spo2:
+                    m = re.search(r"\((\d+)\s*이하\)", cl)
+                    cap = int(m.group(1)) if m else 94
+                    if spo2[1] > cap:
+                        errs.append("%s: 저산소혈증을 요구하는데 SpO2 상한이 %s" % (tag, spo2[1]))
 
         # 짝지은 슬롯은 길이가 같아야 자리끼리 맞물린다
         vars_ = s.get("variations") or {}
