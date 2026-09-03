@@ -296,7 +296,7 @@
         "immobility": ["3주 전에 무릎 수술을 받고 거의 누워 지냈어요.", "허리를 다쳐서 2주 정도 못 움직였어요.", "최근에 수술받거나 오래 누워 지낸 적은 없어요."],
         "travel": ["그런 일은 없었어요.", "그런 일은 없었어요.", "지난주에 열두 시간 비행기를 타고 왔어요."],
         "cancerHx": ["작년부터 암 치료를 받고 있어요.", "암 진단받은 적은 없어요."],
-        "ocp": [{ "text": "피임약을 몇 달째 먹고 있어요.", "sexOnly": "female", "maxAge": 52 }, "따로 먹는 약은 없어요."]
+        "ocp": [{ "text": "피임약을 몇 달째 먹고 있어요.", "sexOnly": "female", "maxAge": 52 }, "그런 약은 안 먹어요."]
       },
       "pairedVariations": [["legSx", "legFinding"], ["immobility", "travel"]],
       "disclosure": {

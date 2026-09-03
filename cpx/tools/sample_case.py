@@ -25,6 +25,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 CASES = os.path.normpath(os.path.join(HERE, "..", "skills", "start", "refs", "cases"))
 
 MAX_RETRY = 20          # 항목 단위 재추첨 한도
+# "약이 없다" 는 말의 여러 꼴. 배경질환 약 뒤에 이 말이 붙으면 모순이 된다.
+NONE_MEDS_RE = re.compile(
+    r"^(복용\s*중인\s*|복용\s*|따로\s*|그\s*밖에\s*|새로\s*먹기\s*시작한\s*|챙겨\s*|"
+    r"먹는\s*|드시는\s*)*약(은|이)?\s*(따로\s*)?(없(음|어요|습니다|다)|안\s*먹(어요|습니다|음|는다))\.?$"
+    r"|^(복용\s*약\s*)?없(음|어요|습니다)\.?$")
+
 SMOKING_START_AGE = 19  # 흡연 기간이 (나이 - 이 값) 을 넘으면 모순
 ADULT_AGE = 19          # 이 아래는 사회력에 흡연·음주를 적지 않는다
 
@@ -749,12 +755,17 @@ def as_json(case):
 
     # 인물의 약과 카드의 약을 합친다. 다만 카드가 "없음"이라고만 적혀 있으면
     # 인물의 약 뒤에 붙이지 않는다. "에스시탈로프람. 없음" 이 되어 버린다.
-    NONE_MEDS = ("없음", "복용 약 없음", "없어요", "먹는 약 없음", "따로 먹는 약은 없어요.")
-    card_is_none = meds_card.strip().rstrip(".") in NONE_MEDS
+    # 목록으로 두면 "따로 새로 먹기 시작한 약은 없어요" 같은 새 표현이 늘 빠져나가
+    # "암로디핀. 약은 안 먹어요." 가 된다. 문장 꼴로 알아본다.
+    # "복용 중인 약 없음. 소염진통제도 자주 먹지는 않음" 처럼 앞 문장만 "없음"이고
+    # 뒤에 내용이 더 있는 카드가 있다. 문장 단위로 떼어야 뒤 내용을 잃지 않는다.
+    kept = [x for x in re.split(r"(?<=[.。])\s+|\.\s*$", meds_card) if x and x.strip()]
+    kept = [x for x in kept if not NONE_MEDS_RE.match(x.strip())]
+    card_is_none = bool(NONE_MEDS_RE.match(meds_card.strip())) or not kept
     if med_list and card_is_none:
         person["medsResolved"] = ", ".join(med_list)
     elif med_list and meds_card:
-        person["medsResolved"] = ", ".join(med_list) + ". " + meds_card
+        person["medsResolved"] = ", ".join(med_list) + ". " + " ".join(kept)
     else:
         person["medsResolved"] = (", ".join(med_list) or meds_card).strip() or "복용 약 없음"
 
