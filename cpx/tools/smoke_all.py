@@ -96,6 +96,13 @@ def scan(case, path, problems):
         if meds.count(d) >= 2:
             problems.append("약물 칸에 %s 중복: %s" % (d, meds[:50]))
 
+    # 마침표가 겹쳐 찍혔는지. "{{slot}}. 그 외 문장" 꼴인데 slot 자신의 값도
+    # 마침표로 끝나면 "...넣었어요.. 고혈압" 처럼 겹친다(13-두근거림에서 실제로 나왔다).
+    for key in ("pmh", "meds", "allergy", "fh", "sh"):
+        v = s.get(key) or ""
+        if isinstance(v, str) and ".." in v:
+            problems.append("마침표 겹침 %s: %s" % (key, v[:50]))
+
     # 첫 대사가 비어 있는지
     if not s.get("opening"):
         problems.append("opening 이 비어 있음")

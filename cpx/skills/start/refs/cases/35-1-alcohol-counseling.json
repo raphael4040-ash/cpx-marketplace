@@ -304,7 +304,7 @@
         "운전은": "{{driving}}"
       },
       "pmh": "고혈압 등 만성질환. {{fallHistory}}",
-      "meds": "{{otherMeds}}. 수면제를 술과 함께 복용",
+      "meds": "{{otherMeds}} 수면제를 술과 함께 복용",
       "allergy": "없음",
       "fh": "특이사항 없음",
       "sh": "인물 카드를 따르되 혼자 거주",
