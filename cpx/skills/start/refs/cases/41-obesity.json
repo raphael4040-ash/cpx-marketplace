@@ -257,7 +257,7 @@
       "constraints": { "ageRange": [25, 60], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["office", "construct", "market", "housewife", "driver"],
       "iceHint": ["internet", "denial", "test"],
-      "opening": ["한 달 만에 몸무게가 확 늘었어요.", "얼굴이랑 다리가 붓고 살이 쪘어요."],
+      "opening": ["{{onsetWeeks}}주 만에 몸무게가 확 늘었어요.", "얼굴이랑 다리가 붓고 살이 쪘어요."],
       "hpi": {
         "onset": "{{onsetWeeks}}주 전부터 갑자기",
         "character": "살이 쪘다기보다 물이 찬 것처럼 붓고 누르면 자국이 남음",

@@ -72,6 +72,25 @@ BEHAVIOR_NOTE = re.compile(r"(방어적|비판단적|훈계|머뭇거리)")
 ABSOLUTE_HABIT = re.compile(r"(금연|금주|비흡연|비음주|술[·,]|담배는 전혀|술은 전혀)")
 HABIT_KEYS = ("smoking", "alcohol", "smokingLabel", "alcoholLabel")
 
+# 첫 대사가 기간을 못 박아 두었는데 발병은 슬롯인 곳. "이틀째 열이 나는데" 인데
+# onsetDays 가 [2, 3] 이면 세 번 중 한 번은 어긋난다(11-기침 통독에서 3곳을 고쳤는데
+# 그때 검출이 좁아 14곳이 남아 있었다). 첫 대사만 본다 — 경과(course)의 "최근 한 달
+# 사이" 같은 표현은 전체 기간이 아니라 그 안의 구간이라 오탐이 난다.
+DURATION_WORDS = {"어제": 1, "이틀": 2, "사흘": 3, "나흘": 4,
+                  "일주일": 7, "한 달": 1, "두 달": 2, "석 달": 3}
+
+
+def duration_value(word, key):
+    """그 낱말이 뜻하는 수를 슬롯의 단위로 바꾼다. 단위가 안 맞으면 None."""
+    months = word in ("한 달", "두 달", "석 달")
+    if key == "onsetDays":
+        return None if months else DURATION_WORDS[word]
+    if key == "onsetWeeks":
+        return {"일주일": 1, "한 달": 4, "두 달": 9, "석 달": 13}.get(word)
+    if key == "onsetMonths":
+        return DURATION_WORDS[word] if months else None
+    return None
+
 
 # invariant 문장이 무엇을 요구하는지 가른다. "빈맥이 생기면 …" 같은 조건절은 요구가 아니다.
 INV_REQUIRE = ("유지", "이어야", "있어야", "반드시")
@@ -188,6 +207,25 @@ def check_file(path):
         if isinstance(sh, str) and ABSOLUTE_HABIT.search(sh) and not any(c.get(k) for k in HABIT_KEYS):
             errs.append("%s: sh 가 흡연·음주를 단정하는데 constraints 에 없음 — 인물 값과 어긋난다 (%s)"
                         % (tag, ABSOLUTE_HABIT.search(sh).group(1)))
+
+        # 첫 대사가 기간을 못 박았는데 발병이 슬롯인지
+        onset = str((s.get("hpi") or {}).get("onset") or "")
+        for key in ("onsetDays", "onsetWeeks", "onsetMonths"):
+            if "{{%s}}" % key not in onset:
+                continue
+            pool = (s.get("variations") or {}).get(key) or []
+            for line in (s.get("opening") or []):
+                line = str(line)
+                for word in DURATION_WORDS:
+                    at = line.find(word)
+                    # "일주일 넘게" 는 슬롯이 그보다 커도 참이다.
+                    # 발병 문장에 같은 낱말이 있으면 카드가 이미 맞춰 둔 것이다.
+                    if at < 0 or "넘게" in line[at:at + len(word) + 6] or word in onset:
+                        continue
+                    want = duration_value(word, key)
+                    if want is not None and [x for x in pool if x != want]:
+                        errs.append("%s: 첫 대사가 \"%s\" 로 기간을 못 박았는데 %s 는 %s"
+                                    % (tag, word, key, pool))
 
         # 병력 칸에 저자의 미결정이 남았는지
         for f in NOTE_FIELDS:

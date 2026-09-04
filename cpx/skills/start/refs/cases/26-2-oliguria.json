@@ -156,7 +156,7 @@
       "constraints": { "ageRange": [55, 80], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["retired", "farmer", "construct", "market", "selfemp", "driver"],
       "iceHint": ["medicine", "denial", "internet"],
-      "opening": ["일주일 전부터 소변이 확 줄었어요.", "검사받고 온 뒤로 소변이 잘 안 나와요."],
+      "opening": ["{{onsetDays}}일 전부터 소변이 확 줄었어요.", "검사받고 온 뒤로 소변이 잘 안 나와요."],
       "hpi": {
         "onset": "{{onsetDays}}일 전부터 소변량이 줄기 시작해 회복되지 않음",
         "character": "소변량이 적고 몸이 붓고 입맛이 없음. 배뇨할 때 아프지는 않음",

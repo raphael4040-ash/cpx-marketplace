@@ -208,7 +208,7 @@
       ],
       "opening": [
         "항생제 먹고 나서 설사가 멈추질 않아요.",
-        "일주일째 설사를 해요."
+        "{{onsetDays}}일째 설사를 해요."
       ],
       "hpi": {
         "onset": "{{onsetDays}}일 전부터. {{antibioticCourse}} 항생제를 먹은 뒤",
