@@ -38,6 +38,21 @@ def load(p):
         return json.load(f)
 
 
+def slots_walk(node, out):
+    """카드 안의 모든 문자열을 모은다. 문답 질문은 키에 들어 있으므로 키도 본다."""
+    if isinstance(node, dict):
+        for k, v in node.items():
+            if isinstance(k, str):
+                out.append(k)
+            slots_walk(v, out)
+    elif isinstance(node, list):
+        for v in node:
+            slots_walk(v, out)
+    elif isinstance(node, str):
+        out.append(node)
+    return out
+
+
 def slots_used(node, out):
     if isinstance(node, dict):
         for v in node.values():
@@ -97,6 +112,12 @@ NOT_APPLICABLE = re.compile(r"^해당 없음")
 # 동반증상·문답에 남은 저자의 미결정. "야간에 깨서 화장실 가는 일은 없음(또는 있음)" 은
 # 표준화환자가 연기할 수 없다 — 있다는 건지 없다는 건지 골라 적어야 한다.
 HEDGE = re.compile(r"\(또는|또는 있음|또는 없음")
+
+# 슬롯이 한글 낱말 한가운데에 박힌 경우. 1.3.19 에서 "처가" 를 {{inlaws}} 자동 슬롯으로
+# 옮길 때 낱말 안의 "처가" 까지 함께 치환돼 "상처가" 가 "상{{inlaws}}" 가 됐고, 여성
+# 환자에게 "상시댁 없다", "몸에 곪은 데나 상시댁 있나" 로 나왔다(8개 파일 11곳).
+# 정상적인 슬롯은 앞에 공백이나 문장 시작이 온다.
+GLUED_SLOT = re.compile(r"[가-힣]\{\{\w+\}\}")
 
 
 def duration_value(word, key):
@@ -255,6 +276,16 @@ def check_file(path):
                 if DEMONSTRATIVE_PMH.match(text.strip()):
                     errs.append("%s: 과거력이 \"%s\" 로 시작해 무엇을 가리키는지 없음"
                                 % (tag, text[:20]))
+
+        # 슬롯이 낱말 한가운데에 박혔는지
+        glued = []
+        slots_walk(s, glued)
+        for text in glued:
+            m = GLUED_SLOT.search(text)
+            if m:
+                errs.append("%s: 슬롯이 낱말 안에 박혀 있음 (…%s…)"
+                            % (tag, text[max(0, m.start() - 6):m.end() + 4]))
+                break
 
         # 동반증상·문답에 저자의 미결정이 남았는지
         assoc = s.get("assoc") or {}
