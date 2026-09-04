@@ -79,6 +79,12 @@ HABIT_KEYS = ("smoking", "alcohol", "smokingLabel", "alcoholLabel")
 DURATION_WORDS = {"어제": 1, "이틀": 2, "사흘": 3, "나흘": 4,
                   "일주일": 7, "한 달": 1, "두 달": 2, "석 달": 3}
 
+# 과거력 칸이 문답 답변을 그대로 받아 "그런 적은 없어요." 만 남는 경우.
+# 문답에서는 질문이 가리키는 대상을 주지만 과거력 칸에는 질문이 없어서
+# 무엇이 없다는 건지 알 수 없다. 가족력의 "가족 중에 그런 병은 없어요" 처럼
+# 앞에 대상을 밝히는 말이 있는 것은 이 카드 세트의 방식이라 건드리지 않는다.
+DEMONSTRATIVE_PMH = re.compile(r"^(그런|그건|그렇)")
+
 
 def duration_value(word, key):
     """그 낱말이 뜻하는 수를 슬롯의 단위로 바꾼다. 단위가 안 맞으면 None."""
@@ -226,6 +232,16 @@ def check_file(path):
                     if want is not None and [x for x in pool if x != want]:
                         errs.append("%s: 첫 대사가 \"%s\" 로 기간을 못 박았는데 %s 는 %s"
                                     % (tag, word, key, pool))
+
+        # 과거력 칸이 지시대명사로 시작해 가리키는 대상을 잃었는지
+        pmh_field = s.get("pmh")
+        if isinstance(pmh_field, str):
+            for item in ((s.get("variations") or {}).get(
+                    (re.findall(r"^\{\{(\w+)\}\}$", pmh_field.strip()) or [""])[0]) or [pmh_field]):
+                text = item.get("text", "") if isinstance(item, dict) else str(item)
+                if DEMONSTRATIVE_PMH.match(text.strip()):
+                    errs.append("%s: 과거력이 \"%s\" 로 시작해 무엇을 가리키는지 없음"
+                                % (tag, text[:20]))
 
         # 병력 칸에 저자의 미결정이 남았는지
         for f in NOTE_FIELDS:

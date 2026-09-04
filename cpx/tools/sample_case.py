@@ -26,6 +26,11 @@ CASES = os.path.normpath(os.path.join(HERE, "..", "skills", "start", "refs", "ca
 
 MAX_RETRY = 20          # 항목 단위 재추첨 한도
 # "약이 없다" 는 말의 여러 꼴. 배경질환 약 뒤에 이 말이 붙으면 모순이 된다.
+# 과거력 칸의 "없음" 문장. 배경질환이 앞에 붙으면 이 문장만 떼어 낸다.
+NONE_PMH_RE = re.compile(
+    r"^(특이 병력 없음|특이사항 없음|특별한 병력? 없음|특별한 병은 없어요|"
+    r"큰 병력 없음|병력 없음|없음)$")
+
 NONE_MEDS_RE = re.compile(
     r"^(복용\s*중인\s*|복용\s*|따로\s*|그\s*밖에\s*|새로\s*먹기\s*시작한\s*|챙겨\s*|"
     r"먹는\s*|드시는\s*)*약(은|이)?\s*(따로\s*)?(없(음|어요|습니다|다)|안\s*먹(어요|습니다|음|는다))\.?$"
@@ -866,17 +871,23 @@ def as_json(case):
     card_pmh = strip_directives(card_pmh)
     illness = p["illness"]["label"]
     parts = []
-    # 카드가 이미 그 병을 말하고 있으면 앞에 또 붙이지 않는다
-    NONE_PMH = ("특이 병력 없음", "특이사항 없음", "없음", "특별한 병은 없어요.",
-                "큰 병력 없음", "병력 없음")
-    card_is_none = card_pmh.strip() in NONE_PMH or card_pmh.startswith("특이 병력 없음")
 
-    if illness and illness != "없음" and illness not in card_pmh:
-        parts.append(illness)
     # 배경질환이 있는데 카드가 "없음"이면 그 말은 버린다.
     # 붙이면 "고혈압. 특이사항 없음" 이 되어 무엇이 없다는 건지 알 수 없다.
-    if card_pmh and not (parts and card_is_none):
-        parts.append(card_pmh)
+    # 다만 통째로 버리면 안 된다 — "특이 병력 없음. 위내시경은 2년 전에 받았고 위염
+    # 소견만 들음" 처럼 앞 문장만 "없음" 인 카드가 28개라, 뒤 문장이 통째로 사라져
+    # 물어도 안 나오는 정보가 됐다. 약물 칸과 같이 문장 단위로 뗀다.
+    segs = [x.strip() for x in re.split(r"(?<=[.。])\s+", card_pmh) if x.strip()]
+    kept = [x for x in segs if not NONE_PMH_RE.match(x.rstrip(".。"))]
+
+    # 카드가 이미 그 병을 말하고 있으면 앞에 또 붙이지 않는다
+    if illness and illness != "없음" and illness not in card_pmh:
+        parts.append(illness)
+    if card_pmh:
+        if not parts:
+            parts.append(card_pmh)
+        elif kept:
+            parts.append(" ".join(kept))
     person["pmhResolved"] = ". ".join(parts) if parts else "특이 병력 없음"
 
     meds_card = strip_directives(fill(s.get("meds") or "", slots))
