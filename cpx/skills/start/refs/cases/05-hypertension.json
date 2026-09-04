@@ -85,7 +85,7 @@
     {
       "id": "htn-pkd",
       "dx": "상염색체우성 다낭콩팥병에 의한 이차 고혈압",
-      "constraints": { "ageRange": [28, 50], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [28, 50], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": ["고혈압"] },
       "occupationBias": ["office", "teacher", "nurse", "selfemp", "student"],
       "iceHint": ["family", "cancer", "test"],
       "opening": ["혈압이 높다고 해서 왔어요.", "젊은데 혈압이 높다고 해서 걱정돼서 왔어요."],

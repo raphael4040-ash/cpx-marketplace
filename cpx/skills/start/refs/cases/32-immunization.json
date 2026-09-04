@@ -635,7 +635,7 @@
         ],
         "pregnancy": [
           {"text": "임신 계획은 없어요.", "sexOnly": "female"},
-          {"text": "해당 없음(남성)", "sexOnly": "male"}
+          {"text": "저는 남자라서 해당이 없어요.", "sexOnly": "male"}
         ],
         "vaccineHx": [
           "어릴 때 맞은 것 말고는 기억이 없어요.",

@@ -155,12 +155,12 @@
         "lmp": [
           "2주 전이요.",
           "3주 전쯤이요.",
-          {"text": "해당 없음(남성)", "sexOnly": "male"}
+          {"text": "저는 남자라서 해당이 없어요.", "sexOnly": "male"}
         ],
         "pregnancy": [
           "그럴 일 없어요.",
           "가능성은 없다고 생각해요.",
-          {"text": "해당 없음(남성)", "sexOnly": "male"}
+          {"text": "저는 남자라서 해당이 없어요.", "sexOnly": "male"}
         ]
       },
       "disclosure": {

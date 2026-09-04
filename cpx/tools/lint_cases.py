@@ -85,6 +85,15 @@ DURATION_WORDS = {"어제": 1, "이틀": 2, "사흘": 3, "나흘": 4,
 # 앞에 대상을 밝히는 말이 있는 것은 이 카드 세트의 방식이라 건드리지 않는다.
 DEMONSTRATIVE_PMH = re.compile(r"^(그런|그건|그렇)")
 
+# 저자가 붙인 라벨. "대장내시경 검사력 — 10년 전에 받고는 안 했어요" 처럼 적으면
+# 환자가 라벨까지 읽는다. hpi 의 "해당 없음 — 통증은 없음" 은 학생에게 답으로
+# 나가지 않는 칸이라 병력 계열 칸에만 건다.
+AUTHOR_LABEL = re.compile(r"\s[—–]\s")
+
+# 변주 값이 "해당 없음(남성)" 이면 red flag 답변 자리에서 환자가 그대로 읽는다.
+# 남성 환자도 "저는 남자라서 해당이 없어요" 처럼 연기할 수 있는 말이어야 한다.
+NOT_APPLICABLE = re.compile(r"^해당 없음")
+
 
 def duration_value(word, key):
     """그 낱말이 뜻하는 수를 슬롯의 단위로 바꾼다. 단위가 안 맞으면 None."""
@@ -242,6 +251,22 @@ def check_file(path):
                 if DEMONSTRATIVE_PMH.match(text.strip()):
                     errs.append("%s: 과거력이 \"%s\" 로 시작해 무엇을 가리키는지 없음"
                                 % (tag, text[:20]))
+
+        # 병력 계열 칸에 저자 라벨이 남았는지
+        for f in NOTE_FIELDS + ["sh"]:
+            val = s.get(f)
+            if isinstance(val, str) and AUTHOR_LABEL.search(val):
+                errs.append("%s: %s 에 저자 라벨이 남아 있음 (%s)" % (tag, f, val[:30]))
+
+        # 변주 값이 환자가 연기할 수 없는 "해당 없음(…)" 인지
+        for vkey, pool in (s.get("variations") or {}).items():
+            if not isinstance(pool, list):
+                continue
+            for item in pool:
+                text = str(item.get("text", "")) if isinstance(item, dict) else str(item)
+                if NOT_APPLICABLE.match(text):
+                    errs.append("%s: variations.%s 에 환자가 읽을 수 없는 \"%s\" 가 있음"
+                                % (tag, vkey, text[:16]))
 
         # 병력 칸에 저자의 미결정이 남았는지
         for f in NOTE_FIELDS:

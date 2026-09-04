@@ -173,7 +173,7 @@
         "지질약을 바로 시작하지 않는 근거 설명",
         "갑상선 기능 검사와 재평가 계획 안내"
       ],
-      "constraints": { "ageRange": [38, 66], "sex": "female", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [38, 66], "sex": "female", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": ["갑상선기능저하증", "이상지질혈증"] },
       "occupationBias": ["housewife", "office", "teacher", "market", "care"],
       "iceHint": ["internet", "medicine", "denial"],
       "opening": ["콜레스테롤이 갑자기 확 올랐다고 해서요.", "작년엔 정상이었는데 올해 많이 높아졌대요."],

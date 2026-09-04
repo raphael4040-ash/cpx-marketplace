@@ -633,7 +633,7 @@
           "가끔 까맣게 나온 것 같아요.",
           "특별히 이상한 건 못 봤어요."
         ],
-        "menses": [{"text": "요즘 생리량이 많고 오래가요.", "sexOnly": "female"}, {"text": "해당 없음(남성)", "sexOnly": "male"}, {"text": "폐경했어요.", "sexOnly": "female"}],
+        "menses": [{"text": "요즘 생리량이 많고 오래가요.", "sexOnly": "female"}, {"text": "저는 남자라서 해당이 없어요.", "sexOnly": "male"}, {"text": "폐경했어요.", "sexOnly": "female"}],
         "weightLoss": [
           "없어요.",
           "2kg 정도 빠진 것 같아요."
@@ -675,7 +675,7 @@
         "sex": "any",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": ["당뇨병"]
       },
       "occupationBias": [
         "student",
@@ -823,6 +823,7 @@
           "특이사항 없음"
         ]
       },
+      "pairedVariations": [["dmHx", "insulin"]],
       "disclosure": {
         "spontaneous": [
           "숨이 가쁘고 기운이 없다는 것"

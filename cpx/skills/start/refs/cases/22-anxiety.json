@@ -316,7 +316,7 @@
         "severity": [5, 6, 7],
         "weightLoss": [5, 6, 8],
         "stools": [3, 4],
-        "menstrual": [{"text": "생리량이 줄고 건너뛰는 달이 있어요.", "sexOnly": "female"}, {"text": "폐경한 지 오래됐어요.", "sexOnly": "female"}, {"text": "해당 없음(남성)", "sexOnly": "male"}],
+        "menstrual": [{"text": "생리량이 줄고 건너뛰는 달이 있어요.", "sexOnly": "female", "maxAge": 52}, {"text": "폐경한 지 오래됐어요.", "sexOnly": "female", "minAge": 53}, {"text": "저는 남자라서 해당이 없어요.", "sexOnly": "male"}],
         "pmhVar": ["특이 병력 없음", "몇 년 전 건강검진에서 갑상선 수치를 다시 보라는 말을 들었어요."],
         "fhVar": ["{{olderSis}}가 갑상선 약을 먹어요.", "특이사항 없음"]
       },
