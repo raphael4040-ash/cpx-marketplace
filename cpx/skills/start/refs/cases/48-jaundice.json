@@ -22,7 +22,8 @@
         "sex": "any",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": [],
+        "alcohol": "notHeavy"
       },
       "occupationBias": [
         "retired",
@@ -682,7 +683,8 @@
         "sex": "any",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": [],
+        "alcohol": "notHeavy"
       },
       "occupationBias": [
         "office",

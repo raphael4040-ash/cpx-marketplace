@@ -27,7 +27,9 @@
           "htn",
           "dm",
           "gout"
-        ]
+        ],
+        "smoking": "notCurrent",
+        "alcohol": "never"
       },
       "occupationBias": [
         "office",
@@ -220,7 +222,9 @@
         "requiredRiskMin": 0,
         "forbidden": [
           "dm"
-        ]
+        ],
+        "smoking": "notCurrent",
+        "alcohol": "never"
       },
       "occupationBias": [
         "office",
@@ -406,7 +410,9 @@
         "sex": "female",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": [],
+        "smoking": "never",
+        "alcohol": "never"
       },
       "occupationBias": [
         "office",
@@ -596,7 +602,9 @@
         "requiredRiskMin": 0,
         "forbidden": [
           "dm"
-        ]
+        ],
+        "smoking": "never",
+        "alcohol": "never"
       },
       "occupationBias": [
         "housewife",
@@ -787,7 +795,9 @@
         "sex": "female",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": [],
+        "smokingLabel": "임신 확인 후 금연 (그전 하루 반 갑)",
+        "alcohol": "never"
       },
       "occupationBias": [
         "market",
@@ -825,7 +835,7 @@
         "임신 중 검사": "임신성 당뇨 검사 정상, 빈혈이 조금 있다고 철분제를 처방받음",
         "복용 약·엽산": "엽산과 철분제 복용 중",
         "예방접종": "임신 중 독감 예방접종을 맞았고 백일해 백신은 아직 안 맞았음",
-        "위험 요인": "이전 34주 조산력, 짧은 자궁경부, 서서 일하는 직업, 흡연력({{smoking}})"
+        "위험 요인": "이전 34주 조산력, 짧은 자궁경부, 서서 일하는 직업, 임신 전 흡연력"
       },
       "assoc": {
         "positive": [
@@ -858,7 +868,7 @@
       "meds": "엽산, 철분제",
       "allergy": "없음",
       "fh": "특이사항 없음",
-      "sh": "인물 카드를 따르되 임신 확인 후 금연({{smoking}}), 금주. 하루 8시간 이상 서서 일함",
+      "sh": "인물 카드를 따르되 하루 8시간 이상 서서 일함",
       "pe": {
         "vitals": {
           "sbp": [
@@ -946,10 +956,6 @@
         "edd": [
           "두 달쯤 뒤예요",
           "9월 말이에요"
-        ],
-        "smoking": [
-          "임신 전에 하루 반 갑 피우다 끊었어요",
-          "담배는 원래 안 피워요"
         ]
       },
       "disclosure": {

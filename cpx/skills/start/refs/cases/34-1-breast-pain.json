@@ -145,7 +145,7 @@
     {
       "id": "bp-mastitis",
       "dx": "수유기 유방염",
-      "constraints": { "ageRange": [24, 38], "sex": "female", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [24, 38], "sex": "female", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [], "smoking": "notCurrent", "alcohol": "never" },
       "occupationBias": ["housewife", "office", "teacher", "nurse", "selfemp"],
       "iceHint": ["medicine", "work", "family"],
       "opening": ["젖 먹이는 중인데 한쪽 가슴이 붓고 아파요.", "가슴이 딱딱하게 뭉치고 열이 나요."],

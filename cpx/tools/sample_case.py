@@ -513,10 +513,14 @@ def draw_slots(scenario, person):
         "inlaws": "처가" if person["sex"] == "male" else "시댁",
         # 카드가 문장 안에 넣어 쓰도록 자연스러운 꼴로도 준다.
         # 라벨을 그대로 끼우면 "안 마심 정도 드세요" 가 된다.
+        # 라벨이 이미 "…1병 이상" 으로 끝나면 "정도" 를 또 붙이지 않는다.
+        # "소주 1병 이상 정도 마셔요" 가 됐다.
         "alcoholSay": ("술은 안 마셔요." if person["alcohol"]["label"] == "안 마심"
-                       else "술은 %s 정도 마셔요." % person["alcohol"]["label"]),
+                       else "술은 %s%s 마셔요." % (person["alcohol"]["label"],
+                                                "" if person["alcohol"]["label"].endswith("이상") else " 정도")),
         "alcoholSayHon": ("술은 안 드세요." if person["alcohol"]["label"] == "안 마심"
-                          else "술은 %s 정도 드세요." % person["alcohol"]["label"]),
+                          else "술은 %s%s 드세요." % (person["alcohol"]["label"],
+                                                   "" if person["alcohol"]["label"].endswith("이상") else " 정도")),
         # "ex" 는 라벨이 "과거 흡연 (끊은 지 몇 년)" 이라 그대로 끼우면
         # "담배는 과거 흡연 (끊은 지 몇 년) 피워요" 가 된다. 따로 문장을 만든다.
         "smokingSay": ("담배는 안 피워요." if person["smoking"]["id"] == "never"

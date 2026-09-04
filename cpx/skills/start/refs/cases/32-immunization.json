@@ -344,7 +344,9 @@
         "sex": "female",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": [],
+        "smoking": "notCurrent",
+        "alcohol": "never"
       },
       "occupationBias": [
         "office",

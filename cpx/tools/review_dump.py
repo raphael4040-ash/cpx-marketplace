@@ -117,6 +117,11 @@ def render(case, draw_no):
     block("공개 규칙", ["먼저 말함    %s" % ", ".join(d.get("spontaneous") or []),
                    "물어야 나옴  %s" % ", ".join(d.get("onlyIfAsked") or [])], L)
 
+    # 밑줄로 시작하는 칸은 아래 catch-all 이 건너뛴다. 연기 지시는 학생에게 읽히면
+    # 안 되지만 통독에서는 읽어야 하므로 여기서 따로 보여준다.
+    if s.get("_spBehavior"):
+        block("연기 지시(학생에게 읽지 않음)", [s["_spBehavior"]], L)
+
     # 위에서 따로 그리지 않은 칸도 반드시 보여준다. 검토지에 안 나오는 칸은
     # 통독에서 읽히지 않고, 읽지 않은 칸의 결함은 영원히 남는다.
     DRAWN = {"situation", "opening", "hpi", "assoc", "redFlags", "pmh", "meds",

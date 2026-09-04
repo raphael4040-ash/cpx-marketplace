@@ -665,7 +665,8 @@
         "sex": "any",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": [],
+        "alcohol": "drinker"
       },
       "occupationBias": [
         "construct",
@@ -716,7 +717,7 @@
       "meds": "약국에서 산 진통소염제를 자주 복용",
       "allergy": "없음",
       "fh": "특이사항 없음",
-      "sh": "인물 카드를 따르되 음주는 최소 주 1회 이상",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": {
           "sbp": [

@@ -177,7 +177,9 @@
           "흡연"
         ],
         "requiredRiskMin": 1,
-        "forbidden": []
+        "forbidden": [],
+        "smoking": "current",
+        "alcoholLabel": "주 2회 이상 소주 반 병"
       },
       "occupationBias": [
         "construct",
@@ -236,7 +238,7 @@
       "meds": "약국에서 산 진통소염제를 거의 매일 복용. 제산제 가끔",
       "allergy": "없음",
       "fh": "특이사항 없음",
-      "sh": "인물 카드를 따르되 흡연 중이고 음주는 주 2회 이상",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": {
           "sbp": [

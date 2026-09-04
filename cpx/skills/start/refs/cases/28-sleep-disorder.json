@@ -12,7 +12,7 @@
     {
       "id": "slp-chronic-insomnia",
       "dx": "만성 불면장애 (일차성, 수면위생 불량 동반)",
-      "constraints": { "ageRange": [35, 68], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [35, 68], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [], "alcoholLabel": "저녁에 한두 잔" },
       "occupationBias": ["housewife", "office", "selfemp", "retired", "market"],
       "iceHint": ["medicine", "internet", "denial"],
       "opening": ["몇 달째 잠을 못 자요. 약이라도 좀 받고 싶어서 왔어요.", "누우면 잠이 안 와서 두세 시간을 뒤척여요."],
@@ -47,7 +47,7 @@
       "meds": "{{medsVar}}",
       "allergy": "없음",
       "fh": "특이사항 없음",
-      "sh": "인물 카드를 따르되 잠자리에 든 시각은 일정하지 않고, 침대에서 휴대폰을 오래 보며, 저녁에 술을 한두 잔 마시는 습관이 있음",
+      "sh": "인물 카드를 따르되 잠자리에 든 시각은 일정하지 않고, 침대에서 휴대폰을 오래 봄",
       "pe": {
         "vitals": { "sbp": [116, 136], "dbp": [70, 84], "hr": [66, 86], "rr": [14, 18], "temp": [36.3, 37.0], "spo2": [97, 99],
                     "invariant": "정상 범위를 유지한다. 서맥이나 빈맥이 나오면 신체질환 유발로 케이스가 달라진다." },
@@ -91,7 +91,7 @@
     {
       "id": "slp-osa",
       "dx": "폐쇄성 수면무호흡",
-      "constraints": { "ageRange": [40, 66], "sex": "any", "requiredRisk": ["고혈압"], "requiredRiskMin": 1, "forbidden": [] },
+      "constraints": { "ageRange": [40, 66], "sex": "any", "requiredRisk": ["고혈압"], "requiredRiskMin": 1, "forbidden": [], "alcoholLabel": "주 {{drinkPerWeek}}회" },
       "occupationBias": ["driver", "selfemp", "office", "construct", "market"],
       "iceHint": ["family", "work", "test"],
       "opening": ["자고 일어나도 개운하지가 않고 낮에 너무 졸려요.", "{{spouse}}이 자다가 숨이 멎는다고 병원에 가보래요."],
@@ -117,7 +117,7 @@
         "밤에 소변보러 깨나": "두세 번 깨요.",
         "체중 변화": "최근 몇 년 사이 {{weightGain}}킬로 쪘어요.",
         "혈압이나 당뇨": "혈압약을 먹고 있어요.",
-        "술과 담배": "술은 주 {{drinkPerWeek}}회 마시고 담배는 {{smoking}} 피워요.",
+        "술과 담배": "술은 주 {{drinkPerWeek}}회 마셔요. {{smokingSay}}",
         "웃거나 놀랄 때 힘이 풀린 적": "그런 적은 없어요.",
         "기분이 가라앉거나 죽고 싶은 생각": "그런 건 없어요. 그냥 피곤한 거예요.",
         "다리가 근질거려 움직이고 싶은가": "그런 건 없어요."
@@ -126,7 +126,7 @@
       "meds": "혈압약 복용 중",
       "allergy": "없음",
       "fh": "{{fhVar}}",
-      "sh": "인물 카드를 따르되 저녁 늦게 식사하고 술을 주 {{drinkPerWeek}}회 마시며 운동은 거의 하지 않음",
+      "sh": "인물 카드를 따르되 저녁 늦게 식사하고 운동은 거의 하지 않음",
       "pe": {
         "vitals": { "sbp": [138, 158], "dbp": [84, 96], "hr": [72, 92], "rr": [14, 18], "temp": [36.3, 37.0], "spo2": [94, 97],
                     "invariant": "수축기 혈압이 다소 높은 상태를 유지하고 각성 시 산소포화도는 94 이상을 유지한다. 90 미만으로 내려가지 않는다." },
@@ -327,7 +327,7 @@
     {
       "id": "slp-narcolepsy",
       "dx": "기면병 (탈력발작 동반)",
-      "constraints": { "ageRange": [16, 30], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [16, 30], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [], "alcohol": "notHeavy" },
       "occupationBias": ["highschool", "student", "parttime", "office", "delivery"],
       "iceHint": ["work", "internet", "family"],
       "opening": ["수업 시간에 자꾸 잠들어서 왔어요. 게을러서 그런 게 아닌데요.", "낮에 참을 수 없이 졸려요."],

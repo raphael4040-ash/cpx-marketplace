@@ -61,6 +61,17 @@ DENIAL = re.compile(r"(적은 없|적 없|없어요|없습니다|않아요|않�
 INDETERMINATE = re.compile(r"(가능\s*(?:[.。]|$)|경계 또는|또는 진단)")
 NOTE_FIELDS = ["pmh", "meds", "allergy", "fh"]
 
+# 사회력 칸에 남은 연기 지시. "비판단적으로 물으면 실제 양을 말한다" 는 환자가 할 말이
+# 아니라 모델에게 거는 지시인데, sh 에 적으면 사회력 답변에 그대로 실려 나간다
+# (17-물질오남용 5개 시나리오 전부가 그랬다). `_spBehavior` 로 옮겨야 한다.
+BEHAVIOR_NOTE = re.compile(r"(방어적|비판단적|훈계|머뭇거리)")
+
+# 카드가 흡연·음주를 sh 에 문장으로만 적어 두면 인물 값과 어긋난다. 실제로 임신부가
+# "금연·금주"라고 적힌 카드에서 하루 한 갑 흡연·주 3~4회 폭음으로 나왔다.
+# 단정적으로 적은 것("비흡연·비음주", "금연", "금주")만 잡는다 — constraints 로 옮길 것.
+ABSOLUTE_HABIT = re.compile(r"(금연|금주|비흡연|비음주|술[·,]|담배는 전혀|술은 전혀)")
+HABIT_KEYS = ("smoking", "alcohol", "smokingLabel", "alcoholLabel")
+
 
 # invariant 문장이 무엇을 요구하는지 가른다. "빈맥이 생기면 …" 같은 조건절은 요구가 아니다.
 INV_REQUIRE = ("유지", "이어야", "있어야", "반드시")
@@ -166,6 +177,17 @@ def check_file(path):
                     errs.append("%s: 양성 증상 목록의 {{%s}} 가 부정 답변을 뽑는다 (%s)"
                                 % (tag, key, text[:24]))
                     break
+
+        # 사회력 칸에 연기 지시가 남았는지
+        sh = s.get("sh")
+        if isinstance(sh, str) and BEHAVIOR_NOTE.search(sh):
+            errs.append("%s: sh 에 연기 지시가 남아 있음 — _spBehavior 로 옮길 것 (%s)"
+                        % (tag, BEHAVIOR_NOTE.search(sh).group(1)))
+
+        # 흡연·음주를 sh 에 단정적으로 적어 놓고 constraints 로 옮기지 않았는지
+        if isinstance(sh, str) and ABSOLUTE_HABIT.search(sh) and not any(c.get(k) for k in HABIT_KEYS):
+            errs.append("%s: sh 가 흡연·음주를 단정하는데 constraints 에 없음 — 인물 값과 어긋난다 (%s)"
+                        % (tag, ABSOLUTE_HABIT.search(sh).group(1)))
 
         # 병력 칸에 저자의 미결정이 남았는지
         for f in NOTE_FIELDS:
