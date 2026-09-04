@@ -94,6 +94,10 @@ AUTHOR_LABEL = re.compile(r"\s[—–]\s")
 # 남성 환자도 "저는 남자라서 해당이 없어요" 처럼 연기할 수 있는 말이어야 한다.
 NOT_APPLICABLE = re.compile(r"^해당 없음")
 
+# 동반증상·문답에 남은 저자의 미결정. "야간에 깨서 화장실 가는 일은 없음(또는 있음)" 은
+# 표준화환자가 연기할 수 없다 — 있다는 건지 없다는 건지 골라 적어야 한다.
+HEDGE = re.compile(r"\(또는|또는 있음|또는 없음")
+
 
 def duration_value(word, key):
     """그 낱말이 뜻하는 수를 슬롯의 단위로 바꾼다. 단위가 안 맞으면 None."""
@@ -251,6 +255,15 @@ def check_file(path):
                 if DEMONSTRATIVE_PMH.match(text.strip()):
                     errs.append("%s: 과거력이 \"%s\" 로 시작해 무엇을 가리키는지 없음"
                                 % (tag, text[:20]))
+
+        # 동반증상·문답에 저자의 미결정이 남았는지
+        assoc = s.get("assoc") or {}
+        for where, node in (("assoc.positive", assoc.get("positive") or []),
+                            ("assoc.negative", assoc.get("negative") or []),
+                            ("redFlags", list((s.get("redFlags") or {}).values()))):
+            for item in node:
+                if isinstance(item, str) and HEDGE.search(item):
+                    errs.append("%s: %s 에 미결정 표기가 남아 있음 (%s)" % (tag, where, item[:30]))
 
         # 병력 계열 칸에 저자 라벨이 남았는지
         for f in NOTE_FIELDS + ["sh"]:
