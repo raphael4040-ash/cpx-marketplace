@@ -25,6 +25,10 @@ SPEECH = re.compile(r"(요\.|요$|에요|예요|어요|아요|세요|네요|죠\
 INSTRUCTION = re.compile(r"(인물 카드|카드를 따|redFlags|참고한다|그대로 쓴다|고정한다|따른다|덮어쓴다|해당 없으면|변주를 쓴다)")
 NOTE_FIELDS = ["pmh", "meds", "allergy", "fh", "sh"]
 
+# 조사가 잇달아 두 번 찍힌 것. 낱말 반복("내가 내가 아닌 것 같은")은 정상이라
+# 조사만 본다.
+DUP_PARTICLE = re.compile("에서에서|으로으로|에게에게|부터부터|까지까지|하고하고|이다이다")
+
 # 배경질환 약 이름. 카드 자신의 meds 칸이 이 이름을 그대로 적어 두면, 같은 병이
 # 배경질환으로 또 뽑혔을 때 "암로디핀. 암로디핀" 처럼 겹친다 (12-나쁜소식,
 # 13-두근거림에서 실제로 나왔다). 구체적인 약 이름이라 오탐 위험이 거의 없다.
@@ -102,6 +106,13 @@ def scan(case, path, problems):
         v = s.get(key) or ""
         if isinstance(v, str) and ".." in v:
             problems.append("마침표 겹침 %s: %s" % (key, v[:50]))
+
+    # 슬롯 값과 템플릿의 조사가 겹쳤는지. 값이 이미 "…에서" 로 끝나는데 템플릿이
+    # "{{slot}}에서" 라고 적으면 "고속도로에서 운전하다에서", "마트에서에서" 가 된다
+    # (22-불안 공황 카드에서 세 값 중 둘이 그랬다). 치환 뒤에만 보인다.
+    dup = DUP_PARTICLE.search(json.dumps(s, ensure_ascii=False))
+    if dup:
+        problems.append("조사 겹침: %s" % dup.group(0))
 
     # 첫 대사가 비어 있는지
     if not s.get("opening"):
