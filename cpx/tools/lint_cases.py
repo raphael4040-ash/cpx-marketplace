@@ -117,6 +117,12 @@ HEDGE = re.compile(r"\(또는|또는 있음|또는 없음")
 # 옮길 때 낱말 안의 "처가" 까지 함께 치환돼 "상처가" 가 "상{{inlaws}}" 가 됐고, 여성
 # 환자에게 "상시댁 없다", "몸에 곪은 데나 상시댁 있나" 로 나왔다(8개 파일 11곳).
 # 정상적인 슬롯은 앞에 공백이나 문장 시작이 온다.
+# 진찰 소견 칸 이름에 성별을 적어 둔 것. 카드가 남녀를 다 받는데 소견 내용이
+# 한쪽 성별에만 맞으면 반대 성별 환자에게 그대로 나온다 — 여성 환자에게
+# "직장 수지검사(남성) — 전립선이 매끈하게 약간 커져 있고" 가 나왔다(4곳).
+# 소견 칸 이름에서 성별 표시를 떼고 값을 sexOnly 변주로 갈라야 한다.
+SEXED_FINDING = re.compile(r"\((?:남성|여성)\)")
+
 GLUED_SLOT = re.compile(r"[가-힣]\{\{\w+\}\}")
 
 
@@ -276,6 +282,13 @@ def check_file(path):
                 if DEMONSTRATIVE_PMH.match(text.strip()):
                     errs.append("%s: 과거력이 \"%s\" 로 시작해 무엇을 가리키는지 없음"
                                 % (tag, text[:20]))
+
+        # 진찰 소견 칸 이름이 성별을 못 박았는데 카드는 남녀를 다 받는지
+        if (c.get("sex") or "any") == "any":
+            for key in ((pe0 := (s.get("pe") or {})).get("findings") or {}):
+                if SEXED_FINDING.search(str(key)):
+                    errs.append("%s: 소견 칸 이름이 성별을 못 박음 (%s) — 값을 sexOnly 변주로 가를 것"
+                                % (tag, key))
 
         # 슬롯이 낱말 한가운데에 박혔는지
         glued = []
