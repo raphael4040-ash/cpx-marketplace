@@ -121,6 +121,12 @@ HEDGE = re.compile(r"\(또는|또는 있음|또는 없음")
 # 한쪽 성별에만 맞으면 반대 성별 환자에게 그대로 나온다 — 여성 환자에게
 # "직장 수지검사(남성) — 전립선이 매끈하게 약간 커져 있고" 가 나왔다(4곳).
 # 소견 칸 이름에서 성별 표시를 떼고 값을 sexOnly 변주로 갈라야 한다.
+# 계측 소견에 백분위를 못 박아 놓고 나이는 여러 해로 열어 둔 것. 같은 백분위라도
+# 키는 한 살에 5~6 cm 씩 달라지므로 나이가 넓으면 표기와 수치가 어긋난다 —
+# 9세 아이가 108 cm 인데 "3 백분위수" 로 나왔다(25-1·25-2 열 시나리오 전부).
+# 계측값이 슬롯이면 나이를 한 살로 못 박아야 한다.
+PERCENTILE_FINDING = re.compile(r"백분위")
+
 SEXED_FINDING = re.compile(r"\((?:남성|여성)\)")
 
 GLUED_SLOT = re.compile(r"[가-힣]\{\{\w+\}\}")
@@ -282,6 +288,16 @@ def check_file(path):
                 if DEMONSTRATIVE_PMH.match(text.strip()):
                     errs.append("%s: 과거력이 \"%s\" 로 시작해 무엇을 가리키는지 없음"
                                 % (tag, text[:20]))
+
+        # 계측 소견이 백분위를 못 박았는데 나이 폭이 한 해를 넘는지
+        ar = c.get("ageRange") or []
+        if len(ar) == 2 and ar[1] > ar[0]:
+            for key, val in ((s.get("pe") or {}).get("findings") or {}).items():
+                if (isinstance(val, str) and "{{" in val
+                        and PERCENTILE_FINDING.search(val) and "계측" in str(key)):
+                    errs.append("%s: 계측 소견이 백분위를 못 박았는데 나이가 %s~%s세다 — 나이를 한 살로 고정할 것 (%s)"
+                                % (tag, ar[0], ar[1], key))
+                    break
 
         # 진찰 소견 칸 이름이 성별을 못 박았는데 카드는 남녀를 다 받는지
         if (c.get("sex") or "any") == "any":

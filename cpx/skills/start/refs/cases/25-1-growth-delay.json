@@ -17,7 +17,7 @@
     {
       "id": "gd-familial",
       "dx": "가족성 저신장 (정상 변이)",
-      "constraints": { "ageRange": [6, 9], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [7, 7], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "office", "parttime", "market", "care", "teacher"],
       "iceHint": ["family", "internet", "test"],
       "opening": ["아이가 반에서 제일 작아서 왔어요.", "또래보다 키가 너무 안 커서 걱정돼요."],
@@ -68,7 +68,7 @@
       "meds": "없음",
       "allergy": "없음",
       "fh": "아버지 {{fatherHeight}} cm, 어머니 {{motherHeight}} cm. 아버지도 또래보다 늦게까지 작았으나 결국 지금 키가 됨. 유전질환 없음",
-      "sh": "인물 카드는 보호자의 것으로 읽는다. 아이는 어린이집·초등학교 잘 다니고 친구관계 원만, 하루 1시간 이상 바깥놀이",
+      "sh": "인물 카드는 보호자의 것으로 읽는다. 아이는 초등학교 잘 다니고 친구관계 원만, 하루 1시간 이상 바깥놀이",
       "pe": {
         "vitals": { "sbp": [92, 108], "dbp": [56, 68], "hr": [78, 108], "rr": [18, 24], "temp": [36.4, 37.2], "spo2": [97, 100],
                     "invariant": "이 나이대 소아의 정상 범위를 유지한다. 서맥이나 저체온이 나오면 갑상선 질환을 시사해 케이스가 달라진다." },
@@ -91,7 +91,7 @@
       },
       "variations": {
         "severity": [2, 3, 4],
-        "height": [108, 112, 116], "weight": [17, 19, 21],
+        "height": [110, 112, 114], "weight": [19, 20, 21],
         "fatherHeight": [162, 164, 166], "motherHeight": [148, 150, 152]
       },
       "disclosure": {
@@ -103,7 +103,7 @@
     {
       "id": "gd-constitutional",
       "dx": "체질성 성장·사춘기 지연",
-      "constraints": { "ageRange": [13, 15], "sex": "male", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [14, 14], "sex": "male", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "office", "market", "care", "selfemp", "teacher"],
       "iceHint": ["family", "internet", "test"],
       "opening": ["애가 중학교 들어가서도 키가 안 커요.", "친구들은 다 크는데 우리 애만 그대로예요."],
@@ -177,7 +177,7 @@
       },
       "variations": {
         "onsetYears": [1, 2], "severity": [3, 4, 5],
-        "height": [143, 146, 149], "weight": [34, 37, 40],
+        "height": [149, 151, 153], "weight": [36, 38, 40],
         "fatherHeight": [170, 172, 174], "motherHeight": [156, 158, 160],
         "lateBloomer": ["아빠가 고등학교 때 갑자기 컸다고 하더라고요.", "남편이 늦게 큰 편이었대요. 시어머니도 그러셨어요."]
       },
@@ -190,7 +190,7 @@
     {
       "id": "gd-ghd",
       "dx": "성장호르몬 결핍",
-      "constraints": { "ageRange": [5, 9], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [7, 7], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "office", "care", "market", "parttime", "nurse"],
       "iceHint": ["internet", "test", "cancer"],
       "opening": ["작년부터 키가 거의 안 컸어요.", "옷을 몇 년째 그대로 입어요. 키가 안 커요."],
@@ -242,7 +242,7 @@
       "meds": "없음",
       "allergy": "없음",
       "fh": "아버지 {{fatherHeight}} cm, 어머니 {{motherHeight}} cm. 양가에 저신장이나 유전질환 없음",
-      "sh": "인물 카드는 보호자의 것으로 읽는다. 아이는 유치원·초등학교 잘 다니고 또래 관계 원만",
+      "sh": "인물 카드는 보호자의 것으로 읽는다. 아이는 초등학교 잘 다니고 또래 관계 원만",
       "pe": {
         "vitals": { "sbp": [90, 106], "dbp": [54, 66], "hr": [80, 110], "rr": [18, 24], "temp": [36.4, 37.2], "spo2": [97, 100],
                     "invariant": "이 나이대 소아의 정상 범위를 유지한다. 저혈압이나 서맥은 넣지 않는다." },
@@ -258,7 +258,7 @@
           "목·갑상선 촉진": "갑상선 종대 없음, 목 물갈퀴 없음",
           "심음·폐음": "정상, 잡음 없음",
           "복부": "부드럽고 간·비장 종대 없음",
-          "사춘기 징후": "연령에 맞게 아직 없음. 남아의 경우 음경이 작은 편",
+          "사춘기 징후": "{{pubertyFinding}}",
           "신경학적 검사": "국소 신경학적 이상 없음, 시야 대면검사에서 결손 없음",
           "피부": "건조하지 않고 발진 없음"
         },
@@ -266,20 +266,21 @@
       },
       "variations": {
         "onsetYears": [2, 3], "severity": [4, 5, 6],
-        "height": [98, 103, 108], "weight": [18, 20, 22], "growthRate": [2, 3],
+        "height": [102, 105, 108], "weight": [21, 22, 23], "growthRate": [2, 3],
+        "pubertyFinding": [{"text": "연령에 맞게 아직 없음. 음경이 작은 편이다", "sexOnly": "male"}, {"text": "연령에 맞게 아직 없음", "sexOnly": "female"}],
         "fatherHeight": [174, 176, 178], "motherHeight": [162, 164, 166],
         "headache": ["그런 적 없어요.", "가끔 머리 아프다고 한 적은 있는데 자주는 아니에요."]
       },
       "disclosure": {
         "spontaneous": ["키가 안 큰다는 것"],
-        "onlyIfAsked": ["성장 백분위수가 떨어진 것", "최근 1년 성장이 3 cm 미만인 것", "신생아기 저혈당 병력", "부모 키가 평균 이상인 것", "얼굴이 어려 보이고 배가 통통한 것", "예방접종력"]
+        "onlyIfAsked": ["성장 백분위수가 떨어진 것", "최근 1년 성장이 {{growthRate}} cm에 그친 것", "신생아기 저혈당 병력", "부모 키가 평균 이상인 것", "얼굴이 어려 보이고 배가 통통한 것", "예방접종력"]
       }
     },
 
     {
       "id": "gd-turner",
       "dx": "터너증후군",
-      "constraints": { "ageRange": [9, 13], "sex": "female", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [11, 11], "sex": "female", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "office", "market", "care", "teacher", "parttime"],
       "iceHint": ["family", "internet", "test"],
       "opening": ["딸아이가 또래보다 너무 작아요.", "친구들은 가슴이 나오기 시작했는데 우리 애는 아무 변화가 없어요."],
@@ -355,7 +356,7 @@
       },
       "variations": {
         "onsetYears": [2, 3, 4], "severity": [4, 5, 6],
-        "height": [124, 128, 132], "weight": [26, 29, 32],
+        "height": [125, 128, 131], "weight": [31, 32, 34],
         "fatherHeight": [172, 174, 176], "motherHeight": [158, 160, 162],
         "cardiacHx": ["그런 말은 못 들었어요.", "아기 때 심장 초음파를 한 번 봤는데 괜찮다고 했어요."]
       },
@@ -368,7 +369,7 @@
     {
       "id": "gd-crohn",
       "dx": "크론병에 의한 성장 지연 (만성질환·영양결핍)",
-      "constraints": { "ageRange": [12, 15], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [14, 14], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "office", "market", "selfemp", "care", "teacher"],
       "iceHint": ["internet", "test", "cancer"],
       "opening": ["애가 키도 안 크고 살도 빠져요.", "중학생인데 몇 년째 키가 그대로예요."],
@@ -389,7 +390,7 @@
         "milestones": "운동·언어 발달 모두 정상 시기에 도달, 학습 문제 없음",
         "immunization": "국가예방접종 모두 완료",
         "parentalHeight": "아버지 {{fatherHeight}} cm, 어머니 {{motherHeight}} cm — 부모 키는 평균",
-        "growthRecord": "초등학교까지 50 백분위수를 유지하다가 최근 2년 사이 3 백분위수 미만으로 떨어졌고 체중은 {{weightLoss}} kg 감소"
+        "growthRecord": "초등학교까지 50 백분위수를 유지하다가 최근 {{onsetYears}}년 사이 3 백분위수 미만으로 떨어졌고 체중은 {{weightLoss}} kg 감소"
       },
       "hpi": {
         "onset": "{{onsetYears}}년 전부터 키가 거의 안 크고 몸무게도 빠지기 시작",
@@ -428,7 +429,7 @@
           "신체계측 — 키": "{{height}} cm, 3 백분위수 미만",
           "신체계측 — 몸무게": "{{weight}} kg, 3 백분위수 미만 — 키보다 체중이 더 많이 떨어져 있다",
           "신체계측 — 머리둘레": "50 백분위수, 정상",
-          "성장곡선": "50 백분위수를 따라가다 최근 2년 사이 키와 체중이 모두 곡선을 가로질러 내려왔다",
+          "성장곡선": "50 백분위수를 따라가다 최근 {{onsetYears}}년 사이 키와 체중이 모두 곡선을 가로질러 내려왔다",
           "발달 평가": "인지·언어·사회성 발달은 정상이나 최근 활동량이 줄었다",
           "전신 외관": "마르고 창백해 보이며 피곤해한다",
           "결막·손톱": "결막이 창백하고 손톱이 얇다",
@@ -444,7 +445,7 @@
       },
       "variations": {
         "onsetYears": [1, 2], "severity": [4, 5, 6],
-        "height": [148, 152, 156], "weight": [36, 39, 42], "weightLoss": [3, 4, 5],
+        "height": [139, 143, 147], "weight": [30, 33, 36], "weightLoss": [3, 4, 5],
         "fatherHeight": [172, 174, 176], "motherHeight": [159, 161, 163],
         "bloodyStool": ["한두 번 화장지에 피가 묻었다고 했어요.", "피는 못 봤대요."],
         "fhx": ["큰아버지가 장에 염증이 있는 병으로 치료받는다고 들었어요.", "가족 중에 장 질환은 없어요."]

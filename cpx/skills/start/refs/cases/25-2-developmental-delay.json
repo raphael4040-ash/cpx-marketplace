@@ -17,7 +17,7 @@
     {
       "id": "dd-expressive-language",
       "dx": "단순 표현언어 발달지연",
-      "constraints": { "ageRange": [2, 3], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [3, 3], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "office", "parttime", "care", "market", "nurse"],
       "iceHint": ["internet", "family", "test"],
       "opening": ["아이가 말이 너무 늦어요.", "30개월인데 아직 단어밖에 못 해요."],
@@ -93,7 +93,7 @@
       },
       "variations": {
         "onsetMonths": [18, 20, 24], "severity": [3, 4, 5],
-        "height": [88, 92, 95], "weight": [12, 13, 14], "headCirc": [48, 49, 50],
+        "height": [94, 96, 98], "weight": [14, 15, 16], "headCirc": [49, 50, 51],
         "fhx": ["아빠도 말이 늦었다고 시어머니가 그러세요.", "가족 중에 말 늦은 사람은 없어요."]
       },
       "disclosure": {
@@ -105,7 +105,7 @@
     {
       "id": "dd-hearing-loss",
       "dx": "삼출성 중이염에 의한 청력손실·언어발달지연",
-      "constraints": { "ageRange": [2, 3], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [3, 3], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "office", "market", "care", "parttime", "selfemp"],
       "iceHint": ["internet", "family", "denial"],
       "opening": ["아이가 말을 거의 못 해요.", "불러도 대답을 안 해서 걱정돼요."],
@@ -182,7 +182,7 @@
       },
       "variations": {
         "onsetMonths": [15, 18, 20], "severity": [4, 5, 6],
-        "height": [89, 92, 95], "weight": [12, 13, 14], "headCirc": [48, 49, 50],
+        "height": [94, 96, 98], "weight": [14, 15, 16], "headCirc": [49, 50, 51],
         "ear": ["오른", "왼"], "otitisCount": [3, 4, 5],
         "fhx": ["없어요.", "친정 쪽에 보청기 쓰시는 분이 계세요."]
       },
@@ -195,7 +195,7 @@
     {
       "id": "dd-autism",
       "dx": "자폐스펙트럼장애",
-      "constraints": { "ageRange": [2, 4], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [3, 3], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "office", "teacher", "nurse", "parttime", "care"],
       "iceHint": ["internet", "denial", "test"],
       "opening": ["아이가 불러도 쳐다보지를 않아요.", "말도 늦고 저랑 눈을 잘 안 맞춰요."],
@@ -272,7 +272,7 @@
       },
       "variations": {
         "onsetMonths": [18, 20, 24], "regressionMonths": [16, 18], "severity": [5, 6, 7],
-        "height": [92, 96, 100], "weight": [13, 14, 16], "headCirc": [49, 50, 51],
+        "height": [96, 98, 100], "weight": [14, 15, 16], "headCirc": [50, 51, 52],
         "fhx": ["없어요.", "남편 사촌 아이가 비슷하다고 들은 적 있어요."]
       },
       "disclosure": {
@@ -284,7 +284,7 @@
     {
       "id": "dd-cerebral-palsy",
       "dx": "경직성 뇌성마비 (미숙아·뇌실내출혈 병력)",
-      "constraints": { "ageRange": [1, 2], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [1, 1], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "office", "care", "parttime", "market", "nurse"],
       "iceHint": ["family", "test", "internet"],
       "opening": ["아이가 아직 혼자 서지를 못해요.", "돌이 훨씬 지났는데 못 걸어요."],
@@ -361,7 +361,7 @@
       "variations": {
         "onsetMonths": [8, 10, 12], "severity": [5, 6, 7],
         "gestWeeks": [28, 29, 30], "birthWeight": [1.1, 1.2, 1.4], "nicuWeeks": [8, 10, 12],
-        "height": [74, 77, 80], "weight": [8.5, 9.2, 10.0], "headCirc": [44, 45, 46]
+        "height": [73, 74, 75], "weight": [8.3, 8.6, 8.9], "headCirc": [44, 45, 46]
       },
       "disclosure": {
         "spontaneous": ["아이가 아직 혼자 서지 못한다는 것"],
@@ -372,7 +372,7 @@
     {
       "id": "dd-dmd",
       "dx": "듀센 근이영양증",
-      "constraints": { "ageRange": [4, 6], "sex": "male", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [5, 5], "sex": "male", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "office", "market", "care", "parttime", "teacher"],
       "iceHint": ["internet", "family", "test"],
       "opening": ["아이가 자꾸 넘어져요.", "또래보다 잘 못 뛰고 계단을 힘들어해요."],
@@ -451,7 +451,7 @@
       "variations": {
         "onsetMonths": [6, 12], "severity": [4, 5, 6],
         "walkMonths": [16, 18, 19],
-        "height": [102, 108, 114], "weight": [17, 19, 21],
+        "height": [106, 107, 109], "weight": [18, 19, 20],
         "fhx": ["친정 남동생이 어릴 때 비슷하게 걷다가 일찍 세상을 떠났다고 들었어요.", "가족 중에 그런 사람은 없어요."]
       },
       "disclosure": {
