@@ -129,7 +129,30 @@ PERCENTILE_FINDING = re.compile(r"백분위")
 
 SEXED_FINDING = re.compile(r"\((?:남성|여성)\)")
 
+# 고정 문장에 "남자애는 원래 늦다" 같은 성별 전제가 박혀 있는 것. 카드는
+# sex: any 로 남녀를 다 받는데 문장은 한쪽 성별에만 말이 되면 반대 성별
+# 환자에게 그대로 나온다 — 여자 아이인데 보호자가 "남자애라 늦는 것 같다"고
+# 축소해 말했다(25-2, 2곳). variations 안에서 sexOnly 로 이미 갈라둔 값은
+# 대상이 아니므로 그 블록은 보지 않는다.
+GENDERED_ASSUMPTION = re.compile(r"남자애|여자애|아들이라|딸이라|아들이니까|딸이니까")
+
 GLUED_SLOT = re.compile(r"[가-힣]\{\{\w+\}\}")
+
+
+def walk_fixed_text(node, out):
+    """variations 블록을 뺀 나머지 문자열만 모은다. sexOnly 로 이미 가른
+    값은 variations 안에 있으므로 여기 걸리지 않는다."""
+    if isinstance(node, dict):
+        for k, v in node.items():
+            if k == "variations":
+                continue
+            walk_fixed_text(v, out)
+    elif isinstance(node, list):
+        for v in node:
+            walk_fixed_text(v, out)
+    elif isinstance(node, str):
+        out.append(node)
+    return out
 
 
 def duration_value(word, key):
@@ -305,6 +328,17 @@ def check_file(path):
                 if SEXED_FINDING.search(str(key)):
                     errs.append("%s: 소견 칸 이름이 성별을 못 박음 (%s) — 값을 sexOnly 변주로 가를 것"
                                 % (tag, key))
+
+        # 고정 문장이 "남자애는 원래 늦다" 처럼 성별을 전제하는데 카드는 남녀를 다 받는지
+        if (c.get("sex") or "any") == "any":
+            fixed_texts = walk_fixed_text(
+                {k: v for k, v in s.items() if k != "id" and k != "dx"}, [])
+            for text in fixed_texts:
+                m = GENDERED_ASSUMPTION.search(text)
+                if m:
+                    errs.append("%s: 고정 문장이 성별을 전제함 (…%s…) — {{슬롯}}으로 빼고 sexOnly 변주로 가를 것"
+                                % (tag, text[max(0, m.start() - 6):m.end() + 6]))
+                    break
 
         # 슬롯이 낱말 한가운데에 박혔는지
         glued = []
