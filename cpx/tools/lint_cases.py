@@ -240,6 +240,25 @@ def check_file(path):
                 errs.append("%s: ageRange 상하한 뒤바뀜" % tag)
             if lo < 0 or hi > 100:
                 warns.append("%s: ageRange 가 이상함 (%s~%s)" % (tag, lo, hi))
+
+            # 변주 값이 전부 minAge/maxAge 로만 걸려 있는데 ageRange 의 젊은(또는 나이 든)
+            # 쪽 끝에서 후보가 하나도 안 남으면, draw_slots 가 빈 문자열로 떨어뜨린다.
+            # 35-2 금연상담 준비단계 카드에서 32~33세가 "{{years}}" 없이 "하루 1갑, 년이요."
+            # 로 나온 것이 이 유형이었다 — ageRange 는 32부터인데 년수 슬롯의 최저 minAge 가 34였다.
+            for vkey, pool in (s.get("variations") or {}).items():
+                if not isinstance(pool, list) or not pool:
+                    continue
+                if not all(isinstance(v, dict) for v in pool):
+                    continue
+                if any(("sexOnly" in v or "occOnly" in v) for v in pool):
+                    continue  # 성별·직업 조합까지는 여기서 안 본다 — 오탐 위험이 크다
+                gaps = [age for age in range(lo, hi + 1)
+                        if not any((v.get("minAge") is None or age >= v["minAge"])
+                                   and (v.get("maxAge") is None or age <= v["maxAge"])
+                                   for v in pool)]
+                if gaps:
+                    errs.append("%s: variations.%s 가 나이 %s~%s 구간에서 후보가 없음 (ageRange 는 %s~%s) — 빈 문자열로 나온다"
+                                % (tag, vkey, gaps[0], gaps[-1], lo, hi))
         if c.get("sex") not in ("any", "male", "female", None):
             errs.append("%s: constraints.sex 값 오류 (%s)" % (tag, c.get("sex")))
         if c.get("requiredRisk") and not c.get("requiredRiskMin"):
