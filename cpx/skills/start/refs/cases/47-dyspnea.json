@@ -628,7 +628,10 @@
           5,
           6
         ],
-        "bleedingSource": ["대변이 검게 나온 적이 있어요.", {"text": "생리량이 부쩍 늘었어요.", "sexOnly": "female"}, "특별히 피 나는 데는 모르겠어요."],
+        "bleedingSource": [
+          "대변이 검게 나온 적이 있어요.",
+          "특별히 피 나는 데는 모르겠어요."
+        ],
         "stool": [
           "가끔 까맣게 나온 것 같아요.",
           "특별히 이상한 건 못 봤어요."
@@ -651,6 +654,7 @@
           "아버지가 대장암을 앓으셨어요."
         ]
       },
+      "pairedVariations": [["bleedingSource", "stool", "rectal"]],
       "disclosure": {
         "spontaneous": [
           "숨이 차고 기운이 없다는 것"
