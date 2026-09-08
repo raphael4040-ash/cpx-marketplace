@@ -129,6 +129,13 @@ PERCENTILE_FINDING = re.compile(r"백분위")
 
 SEXED_FINDING = re.compile(r"\((?:남성|여성)\)")
 
+# 소견 칸 이름 자체가 한쪽 성별의 해부 구조만 가리키는 것. "(남성)" 표시가 없어도
+# "외음부"·"음경" 처럼 이름만으로 이미 한쪽 성별 전용이면 반대 성별 환자에게
+# 그대로 나온다 — 남성 환자에게 "외음부 — 칸디다 감염을 시사하는 발적" 이 나왔다
+# (26-1). 양쪽을 다 적은 "외음부·고환 진찰" 같은 중립 이름은 대상이 아니다.
+SEXED_ANATOMY_FEMALE = re.compile(r"외음부|질(?:경|진찰)?\b|자궁|난소")
+SEXED_ANATOMY_MALE = re.compile(r"음경|고환|전립선|음낭")
+
 # 고정 문장에 "남자애는 원래 늦다" 같은 성별 전제가 박혀 있는 것. 카드는
 # sex: any 로 남녀를 다 받는데 문장은 한쪽 성별에만 말이 되면 반대 성별
 # 환자에게 그대로 나온다 — 여자 아이인데 보호자가 "남자애라 늦는 것 같다"고
@@ -327,6 +334,16 @@ def check_file(path):
             for key in ((pe0 := (s.get("pe") or {})).get("findings") or {}):
                 if SEXED_FINDING.search(str(key)):
                     errs.append("%s: 소견 칸 이름이 성별을 못 박음 (%s) — 값을 sexOnly 변주로 가를 것"
+                                % (tag, key))
+
+        # 소견 칸 이름 자체가 한쪽 성별의 해부 구조만 가리키는지 (표시가 없어도)
+        if (c.get("sex") or "any") == "any":
+            for key in ((s.get("pe") or {}).get("findings") or {}):
+                ks = str(key)
+                has_f = bool(SEXED_ANATOMY_FEMALE.search(ks))
+                has_m = bool(SEXED_ANATOMY_MALE.search(ks))
+                if has_f != has_m:  # 둘 다 있으면("외음부·고환") 중립 이름이라 대상 아님
+                    errs.append("%s: 소견 칸 이름이 한쪽 성별 해부 구조만 가리킴 (%s) — 이름을 중립으로 바꾸고 값을 sexOnly 변주로 가를 것"
                                 % (tag, key))
 
         # 고정 문장이 "남자애는 원래 늦다" 처럼 성별을 전제하는데 카드는 남녀를 다 받는지
