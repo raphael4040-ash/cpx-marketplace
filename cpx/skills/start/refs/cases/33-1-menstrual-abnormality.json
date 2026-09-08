@@ -233,7 +233,7 @@
         "생리가 불규칙해서 왔어요. 언제 할지를 모르겠어요."
       ],
       "hpi": {
-        "onset": "{{onsetYears}}년 전부터. 초경은 13세에 했고 그 뒤 2~3년은 그런대로 하다가 점점 간격이 벌어짐",
+        "onset": "{{onsetYears}}년 전부터. 초경은 13세에 했고 그 뒤로 점점 간격이 벌어짐",
         "character": "생리를 {{interval}}개월에 한 번 정도 하고 양은 오히려 적은 편. 통증은 거의 없음",
         "location": "특별히 아픈 부위는 없음",
         "radiation": "없음",
@@ -340,7 +340,7 @@
         "onsetYears": [
           4,
           5,
-          7
+          {"text": 7, "minAge": 20}
         ],
         "interval": [
           3,
@@ -363,6 +363,7 @@
         ],
         "sexLife": [
           "네, 성생활은 하고 있어요.",
+          "네, 성생활은 하고 있어요.",
           "아직 성경험은 없어요."
         ],
         "contraception": [
@@ -384,6 +385,7 @@
           "특별한 건 없는 것 같아요."
         ]
       },
+      "pairedVariations": [["sexLife", "contraception"]],
       "disclosure": {
         "spontaneous": [
           "생리를 몇 달에 한 번씩 한다는 것"
@@ -868,7 +870,7 @@
         "당뇨나 고혈압이 있나": "{{chronic}}"
       },
       "pmh": "{{chronic}} 출산 경험과 관련해 특이 수술력 없음",
-      "meds": "{{chronic}} 관련 약을 복용 중. {{hormone}}",
+      "meds": "{{chronic}} {{hormone}}",
       "allergy": "없음",
       "fh": "{{fhx}}",
       "sh": "인물 카드를 따르되 활동량이 적음",
