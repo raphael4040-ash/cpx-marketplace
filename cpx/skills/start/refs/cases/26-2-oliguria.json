@@ -134,7 +134,7 @@
           "복부 촉진": "부드럽고 압통 없음, 간·비장 종대 없음",
           "치골상부 촉진·타진": "방광 팽만 없음",
           "늑골척추각 압통": "양쪽 모두 없음",
-          "인두·피부": "인두 발적은 가라앉아 있고 피부에 아문 농가진 흔적이 있을 수 있다. 자반이나 발진은 없다",
+          "인두·피부": "{{pharynxSkinFinding}} 자반이나 발진은 없다",
           "관절": "부종이나 압통 없음"
         },
         "negatives": ["탈수 소견 없음", "방광 팽만 없음", "늑골척추각 압통 없음", "자반·발진 없음", "관절 부종 없음"]
@@ -143,8 +143,10 @@
         "onsetDays": [2, 3, 4], "severity": [3, 4, 5],
         "urineML": [300, 400, 500], "voidCount": [2, 3], "intakeML": [1000, 1200],
         "infectionWeeks": [2, 3], "infection": ["심한 목감기(편도염)", "다리에 생긴 고름 딱지(농가진)"],
+        "pharynxSkinFinding": ["인두 발적은 가라앉아 있고 피부 감염 흔적은 없다.", "인두는 정상이고 다리에 아문 농가진 딱지 흔적이 있다."],
         "weightGain": [2, 3]
       },
+      "pairedVariations": [["infection", "pharynxSkinFinding"]],
       "disclosure": {
         "spontaneous": ["소변이 콜라색이고 양이 줄었다는 것"],
         "onlyIfAsked": ["몇 주 전 인후염이나 피부 감염", "아침 눈 부종", "체중 증가", "두통", "계단 오를 때 숨참"]
@@ -157,7 +159,7 @@
       "constraints": { "ageRange": [55, 80], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["retired", "farmer", "construct", "market", "selfemp", "driver"],
       "iceHint": ["medicine", "denial", "internet"],
-      "opening": ["{{onsetDays}}일 전부터 소변이 확 줄었어요.", "검사받고 온 뒤로 소변이 잘 안 나와요."],
+      "opening": ["{{onsetDays}}일 전부터 소변이 확 줄었어요.", "{{triggerOpening}}"],
       "hpi": {
         "onset": "{{onsetDays}}일 전부터 소변량이 줄기 시작해 회복되지 않음",
         "character": "소변량이 적고 몸이 붓고 입맛이 없음. 배뇨할 때 아프지는 않음",
@@ -212,9 +214,11 @@
         "onsetDays": [5, 7, 10], "severity": [3, 4, 5],
         "urineML": [350, 400, 450], "voidCount": [2, 3], "intakeML": [800, 1000],
         "triggerAnswer": ["열흘쯤 전에 조영제 넣는 CT를 찍었어요.", "감기로 며칠 못 먹으면서도 진통제는 계속 먹었어요."],
+        "triggerOpening": ["검사받고 온 뒤로 소변이 잘 안 나와요.", "약 먹고 나서부터 소변이 잘 안 나와요."],
         "ckdHx": ["건강검진에서 콩팥 수치가 살짝 높다는 말을 들은 적 있어요.", "콩팥 얘기는 들은 적 없어요."],
         "dre": [{"text": "전립선이 경도로 커져 있으나 잔뇨를 시사할 정도는 아니고 압통 없음", "sexOnly": "male"}, {"text": "직장 내 종괴나 압통 없음", "sexOnly": "female"}]
       },
+      "pairedVariations": [["triggerAnswer", "triggerOpening"]],
       "disclosure": {
         "spontaneous": ["소변량이 줄었다는 것"],
         "onlyIfAsked": ["진통소염제 장기 복용", "최근 조영제 검사나 금식", "발등 부종", "메스꺼움과 가려움", "과거 콩팥 수치 지적"]
