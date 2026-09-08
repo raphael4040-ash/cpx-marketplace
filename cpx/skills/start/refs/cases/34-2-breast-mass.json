@@ -242,7 +242,7 @@
         "relieving": "특별히 없음",
         "severity": "통증은 {{severity}}/10 정도로 거의 없음",
         "course": "처음보다 커진 것 같고 최근에는 피부도 좀 이상해 보임",
-        "timing": "항상 만져지고 생리 주기와 무관(폐경이면 해당 없음)"
+        "timing": "항상 만져지고 생리 주기와 무관"
       },
       "assoc": {
         "positive": ["덩이가 점점 커지는 느낌", "{{skinChange}}", "{{nippleChange}}", "겨드랑이가 뻐근함"],
@@ -311,7 +311,7 @@
     {
       "id": "bm-abscess",
       "dx": "유륜하 유방고름집 (비수유기 유방농양)",
-      "constraints": { "ageRange": [25, 45], "sex": "female", "requiredRisk": ["흡연"], "requiredRiskMin": 1, "forbidden": [] },
+      "constraints": { "ageRange": [25, 45], "sex": "female", "requiredRisk": ["흡연"], "requiredRiskMin": 1, "forbidden": ["당뇨병"] },
       "occupationBias": ["market", "cook", "office", "selfemp", "care"],
       "iceHint": ["medicine", "work", "internet"],
       "opening": ["가슴에 멍울이 잡히고 빨갛게 부었어요.", "가슴 한쪽이 딱딱하게 뭉치고 아파요."],
