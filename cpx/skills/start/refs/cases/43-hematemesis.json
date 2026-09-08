@@ -139,7 +139,7 @@
       "variations": {
         "onsetHours": [2, 4, 6], "severity": [5, 6, 7], "monthsSx": [2, 3, 6],
         "nsaidHx": ["관절이 아파서 소염진통제를 거의 매일 사 먹었어요.", "허리 때문에 진통제를 자주 먹었어요."],
-        "alcoholHx": ["{{alcoholSay}} 반주로 자주 하는 편이에요.", "{{alcoholSay}} 최근에 늘지는 않았어요."]
+        "alcoholHx": ["{{alcoholSay}} 최근에 좀 늘었어요.", "{{alcoholSay}} 최근에 늘지는 않았어요."]
       },
       "disclosure": {
         "spontaneous": ["검은 것을 토했다는 것"],
@@ -275,7 +275,7 @@
       },
       "variations": {
         "onsetHours": [3, 6, 10], "severity": [3, 4, 5], "monthsSx": [3, 4, 6], "weightLoss": [6, 8, 10],
-        "scopeHx": ["위내시경은 십 년 넘게 안 받았어요.", "한 번도 안 받아봤어요."],
+        "scopeHx": ["위내시경은 십 년 넘게 안 받았어요.", "위내시경을 한 번도 안 받아봤어요."],
         "fhx": ["아버지가 위암으로 돌아가셨어요.", "가족 중에는 없어요."]
       },
       "disclosure": {
