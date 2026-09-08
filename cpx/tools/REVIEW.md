@@ -1406,6 +1406,22 @@ check_all.py 15 전체 통과. 20회 재추첨해 dys-anemia의 세 슬롯이 �
 (흡연 constraints, 과호흡의 학생 전용 스트레스 문구 등)가 모두 지켜지는 것을
 확인했다.
 
+| 2026-09-09 | 황달 (통독) | 결함 없음 |
+
+5개 시나리오(jau-cholangitis, jau-pancreatic-cancer, jau-hepatitis-a,
+jau-cirrhosis, jau-carotenemia)를 각 3회씩 정독했다. dys-anemia에서 막 잡은
+유형(같은 사실을 서로 다른 슬롯 이름으로 각자 뽑는 것)을 특히 의심하며 봤는데,
+이 카드 세트는 처음부터 그런 자리마다 슬롯 하나를 redFlags·pmh·meds·findings
+여러 곳에 그대로 재사용하고 있었다(`priorStone`, `mentalSay`/`mentalFinding`
+페어링, `dm`, `weightLoss`, `drug`, `confusion`, `bleeding`, `hepatitis`,
+`supplement` 등). 정신 상태처럼 문답과 소견이 갈라질 수 있는 자리는 이미
+`pairedVariations`로 묶여 있었다. `sh`의 "인물 카드를 따르되 흡연력을 반드시
+보유" 같은 저자 지시문도 `strip_directives`가 "반드시" 표지로 정상적으로
+걸러내는 것을 확인했다. 그 밖에 활력징후 invariant·성별/연령 게이트·직업 편향
+모두 정상이었다. 결함을 찾지 못했다.
+
+check_all.py 15 전체 통과.
+
 ## 통독 진행표
 
 "면담함"은 실제 면담으로 한 번 돌려본 것이다. 통독을 마친 주호소는 이 표의 마지막 칸에
@@ -1467,7 +1483,7 @@ check_all.py 15 전체 통과. 20회 재추첨해 dys-anemia의 세 슬롯이 �
 | 45 | 피부 발진 | 5 | 통독 2026-09-09 |
 | 46 | 혈변 | 5 | 통독 2026-09-09 |
 | 47 | 호흡곤란 | 5 | 면담함 · 통독 2026-09-09 |
-| 48 | 황달 | 5 |  |
+| 48 | 황달 | 5 | 통독 2026-09-09 |
 | 49-1 | 응급처치 (심정지) | 3 | 면담함 |
 | 49-2 | 상처 관리 | 3 |  |
 | 49-3 | 채혈 및 혈관 확보 | 3 |  |
