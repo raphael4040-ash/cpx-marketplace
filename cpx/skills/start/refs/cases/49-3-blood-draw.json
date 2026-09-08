@@ -609,6 +609,9 @@
           95
         ]
       },
+      "pairedVariations": [
+        ["reactionOnset", "reaction"]
+      ],
       "disclosure": {
         "spontaneous": [
           "숨이 차서 산소를 받고 있다는 것"
