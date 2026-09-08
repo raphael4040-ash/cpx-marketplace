@@ -53,6 +53,21 @@ def slots_walk(node, out):
     return out
 
 
+def keys_with_slots(node, out):
+    """dict 키 안에 {{슬롯}} 이 들어 있는지 모은다. fill_deep 은 값만 치환하고
+    키는 건드리지 않으므로, 소견 칸 이름에 슬롯을 넣으면 "유방 촉진({{side}}쪽)"
+    처럼 학생에게 그대로 노출된다 (34-1 유방통에서 실제로 났다)."""
+    if isinstance(node, dict):
+        for k, v in node.items():
+            if isinstance(k, str) and "{{" in k:
+                out.append(k)
+            keys_with_slots(v, out)
+    elif isinstance(node, list):
+        for v in node:
+            keys_with_slots(v, out)
+    return out
+
+
 def slots_used(node, out):
     if isinstance(node, dict):
         for v in node.values():
@@ -366,6 +381,12 @@ def check_file(path):
                 errs.append("%s: 슬롯이 낱말 안에 박혀 있음 (…%s…)"
                             % (tag, text[max(0, m.start() - 6):m.end() + 4]))
                 break
+
+        # 소견 칸 이름 등 키에 슬롯이 들어 있는지 (fill_deep 은 값만 치환한다)
+        bad_keys = keys_with_slots(s, [])
+        for k in bad_keys:
+            errs.append("%s: 칸 이름(키)에 {{슬롯}} 이 들어 있어 치환되지 않고 그대로 노출됨 (%s)"
+                        % (tag, k))
 
         # 동반증상·문답에 저자의 미결정이 남았는지
         assoc = s.get("assoc") or {}
