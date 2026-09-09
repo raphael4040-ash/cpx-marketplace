@@ -5,6 +5,11 @@
 한 세션 분량의 완성된 환자 설정을 만든다. personas.json 의 _validation 규칙을
 여기서 실제로 강제한다 — 규칙이 문서에만 있으면 지켜지지 않는다.
 
+이 파일은 별도 저장소(cpx-worker)의 src/sampleCase.js 로 손으로 1:1 포팅돼 있다
+(웹 면담이 같은 규칙으로 케이스를 뽑기 위해서). 자동 동기화가 없으므로 여기를
+고치면 그쪽도 같이 고칠 것 — 안 그러면 플러그인과 웹 면담이 다른 규칙으로
+케이스를 뽑게 된다. (pre-push 훅이 이 파일이 바뀌면 알려준다.)
+
 사용법
     python sample_case.py                     무작위 주호소 하나를 뽑아 출력
     python sample_case.py 01-chest-pain       해당 주호소에서 뽑아 출력

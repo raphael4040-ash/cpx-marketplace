@@ -22,6 +22,12 @@ claude plugin marketplace add raphael4040-ash/cpx-marketplace
 
 설치 후 `/reload-plugins` 를 실행하라는 안내가 나오면 실행하세요.
 
+**업데이트는 자동으로 되지 않습니다.** 커스텀(비공식) 마켓플레이스는 보안상 자동
+업데이트가 기본으로 꺼져 있습니다. `/plugin` → **Marketplaces** 탭에서 `cpx-marketplace`
+를 고르고 자동 업데이트를 켜두거나, 새 케이스·채점 기준이 반영되지 않는 것 같으면
+같은 메뉴에서 **Update marketplace listings** 를 눌러 새로고침한 뒤 **Installed** 탭에서
+플러그인을 업데이트하세요.
+
 ## 사용법
 
 | 명령 | 동작 |
@@ -85,8 +91,11 @@ claude --plugin-dir ./cpx
 claude plugin validate ./cpx
 ```
 
-케이스나 채점 기준을 고칠 때는 `cpx/.claude-plugin/plugin.json` 의 `version` 을 올려야
-기존 유저에게 업데이트가 전달됩니다.
+케이스나 채점 기준을 고칠 때는 `cpx/.claude-plugin/plugin.json` 의 `version` 을 올리세요
+(버전 표시·캐시 무효화용 메타데이터입니다). 다만 **버전을 올리는 것만으로는 기존 유저에게
+자동으로 전달되지 않습니다** — 마켓플레이스 자동 업데이트가 켜진 유저는 다음 실행 시
+알아서 받아가지만, 꺼져 있으면 유저가 직접 마켓플레이스를 새로고침해야 새 커밋을 받습니다.
+위 "설치 (유저용)" 안내를 함께 참고하세요.
 
 같은 변경이 두 곳에 더 걸립니다. 기록판 저장소의 `docs/topics.js`(케이스 목록)와
 `manual/cpx-manual.html`(설명서 4장 배점, 부록 A 케이스 목록)입니다. 설명서 PDF 를 다시 뽑는
