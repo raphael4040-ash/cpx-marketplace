@@ -981,7 +981,10 @@ def main(argv):
             return 1
         topic, data = match[0]
     else:
-        topic, data = random.choice(files)
+        # 기본진료술기(응급처치·상처 관리·채혈)는 문진 케이스가 아니라 절차 수행형이라
+        # 무작위 풀에서 뺀다. 이름을 직접 지정했을 때만(위 분기) 나온다.
+        pool = [(t, d) for t, d in files if not d.get("_procedureCase")]
+        topic, data = random.choice(pool or files)
 
     case = build(topic, data, argv[1] if len(argv) > 1 else None)
     if want_json:
