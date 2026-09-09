@@ -18,6 +18,25 @@ disable-model-invocation: true
 **환자 설정을 즉석에서 지어내지 않습니다.** 미리 작성된 케이스 카드를 읽어 조합합니다.
 이 단계를 건너뛰면 문진 도중 설정이 흔들리고, 학생의 유도 질문에 없던 증상이 생겨납니다.
 
+### 0-0. 최신 버전인지 확인한다
+
+이 SKILL.md 가 있는 디렉터리 기준으로 `../../.claude-plugin/plugin.json` 을 절대경로로
+바꿔, 아래 한 번의 Bash 호출로 로컬 버전과 마켓플레이스 최신 버전을 비교합니다
+(`<plugin.json 절대경로>` 자리를 실제 경로로 치환):
+
+```
+local=$(grep -o '"version"[[:space:]]*:[[:space:]]*"[^"]*"' "<plugin.json 절대경로>" | head -1 | sed -E 's/.*"([^"]*)"$/\1/')
+remote=$(curl -fsS -m 5 https://raw.githubusercontent.com/raphael4040-ash/cpx-marketplace/main/.claude-plugin/marketplace.json 2>/dev/null | grep -o '"version"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | sed -E 's/.*"([^"]*)"$/\1/')
+[ -n "$remote" ] && [ -n "$local" ] && [ "$local" != "$remote" ] && echo "OUTDATED $local -> $remote" || echo "OK"
+```
+
+`OUTDATED` 가 나오면, 이후 0단계를 마치고 낼 첫 응답(장면 지문) 바로 앞에 딱 한 줄만
+덧붙입니다: "⚠️ 새 버전($remote)이 나와 있습니다 — `/plugin` 에서 cpx-marketplace 를
+새로고침하고 업데이트하면 최신 케이스로 연습할 수 있습니다." 그 외의 경우(`OK`, 명령
+실패, 인터넷 안 됨, curl 없음)는 아무 말도 하지 않고 조용히 다음 단계로 넘어갑니다.
+이 확인 때문에 케이스 시작이 막히거나 학생이 기다리게 해서는 안 됩니다 — 실패하면
+그냥 없었던 일로 하고 진행합니다.
+
 ### 0-1. 주호소 정하기
 
 - `$ARGUMENTS` 가 있으면 그것을 주호소로 씁니다. `refs/cases/index.json` 의 `aliases` 로 먼저
