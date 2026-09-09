@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""카드 전체 점검 — 네 검사기를 한 번에 돌린다.
+"""카드 전체 점검 — 다섯 검사기를 한 번에 돌린다.
 
 카드를 고친 뒤에는 항상 이것부터 돌린다. 하나라도 실패하면 종료 코드가 1이라
 git 훅이나 CI 에 그대로 걸 수 있다.
@@ -46,6 +46,8 @@ def main(argv):
             "나이·직업·흡연·성별 제약과 상충 조합"),
         run("실사용 출력", ["smoke_all.py", reps],
             "치환 후에야 드러나는 것 — 남은 슬롯, 지시문 노출, 과거력 주어 유실"),
+        run("버전 동기화", ["check_versions.py"],
+            "plugin.json 과 marketplace.json 의 version 이 같은지 (1.3.60 배포 때 어긋난 적 있음)"),
     ]
 
     failed = [c for c in checks if not c["ok"]]

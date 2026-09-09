@@ -9,10 +9,14 @@ on:
     paths:
       - "cpx/skills/start/refs/cases/**"
       - "cpx/tools/**"
+      - ".claude-plugin/**"
+      - "cpx/.claude-plugin/**"
   pull_request:
     paths:
       - "cpx/skills/start/refs/cases/**"
       - "cpx/tools/**"
+      - ".claude-plugin/**"
+      - "cpx/.claude-plugin/**"
   workflow_dispatch: {}
 
 jobs:
@@ -25,6 +29,6 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: 카드 전체 점검 (형식·내부 모순·조합 규칙·실사용 출력)
+      - name: 카드 전체 점검 (형식·내부 모순·조합 규칙·실사용 출력·버전 동기화)
         working-directory: cpx/tools
         run: python check_all.py 10

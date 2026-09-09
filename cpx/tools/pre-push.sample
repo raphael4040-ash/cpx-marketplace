@@ -1,5 +1,5 @@
 #!/bin/sh
-# CPX 카드 점검 — 푸시 전에 네 검사기를 돌린다.
+# CPX 카드 점검 — 푸시 전에 다섯 검사기를 돌린다.
 #
 # 설치:
 #   cp cpx/tools/pre-push.sample .git/hooks/pre-push && chmod +x .git/hooks/pre-push
@@ -18,7 +18,7 @@ script="$root/cpx/tools/check_all.py"
 # 카드나 도구가 바뀌지 않았으면 굳이 돌리지 않는다.
 if git diff --cached --name-only 2>/dev/null | grep -qv . ; then :; fi
 changed=$(git diff --name-only "@{push}" HEAD 2>/dev/null || git diff --name-only HEAD~1 HEAD 2>/dev/null)
-if [ -n "$changed" ] && ! printf '%s\n' "$changed" | grep -q "cpx/skills/start/refs/cases\|cpx/tools"; then
+if [ -n "$changed" ] && ! printf '%s\n' "$changed" | grep -q "cpx/skills/start/refs/cases\|cpx/tools\|\.claude-plugin"; then
   exit 0
 fi
 
