@@ -10,6 +10,19 @@ Claude Code 안에서 문진·신체진찰을 연습하고 100점 배점으로 �
 
 ## 설치 (유저용)
 
+**터미널 없이 (권장)**
+
+1. Claude Code 채팅 하단의 **+** 버튼 → **플러그인** → **플러그인 탐색**
+2. 우상단 **추가** → **마켓플레이스 추가** → **저장소에서 추가** → URL 칸에 아래 값을 붙여넣는다.
+
+   ```
+   raphael4040-ash/cpx-marketplace
+   ```
+
+3. 추가되면 목록에서 `cpx` 플러그인을 찾아 설치한다.
+
+**터미널을 쓸 수 있다면**
+
 ```bash
 claude plugin marketplace add raphael4040-ash/cpx-marketplace
 ```
