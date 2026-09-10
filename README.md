@@ -25,9 +25,15 @@ claude plugin marketplace add raphael4040-ash/cpx-marketplace
 **설치된 플러그인은 자동으로 새 버전을 받지 않습니다.** 실제 기기에서 확인해보니
 (`~/.claude/plugins/`), 마켓플레이스 저장소 자체는 백그라운드에서 알아서 최신 커밋을
 받아오지만, 이미 설치된 플러그인은 설치 시점의 커밋에 그대로 고정돼 있고 그 갱신을
-자동으로 반영하지 않습니다. 새 케이스·채점 기준이 안 들어온 것 같으면 `/plugin` 메뉴에서
-`cpx` 플러그인을 찾아 업데이트하거나(메뉴 구성은 버전마다 다를 수 있습니다), 안 보이면
-지웠다가 `/plugin install cpx@cpx-marketplace` 로 다시 설치하세요.
+자동으로 반영하지 않습니다. 새 케이스·채점 기준이 안 들어온 것 같으면 Claude Code 안에서
+
+```
+/plugin update cpx@cpx-marketplace
+```
+
+를 실행해 업데이트하세요. 이 명령이 없는 오래된 버전이라면 `/plugin` 메뉴에서 `cpx`
+플러그인을 찾아 업데이트하거나, 그마저 안 보이면 지웠다가
+`/plugin install cpx@cpx-marketplace` 로 다시 설치하세요.
 
 ## 사용법
 
