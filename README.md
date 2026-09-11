@@ -68,6 +68,10 @@ claude plugin marketplace add raphael4040-ash/cpx-marketplace
 **연결하지 않으면 아무것도 전송되지 않습니다.** 연결한 뒤에도 업로드 훅은
 평가 메시지에 기록 블록이 있을 때만 동작하며, 그 외의 모든 대화는 네트워크를 타지 않습니다.
 
+**이 자동 업로드는 Claude Code(훅이 도는 환경)에서만 동작합니다.** claude.ai 정식 채팅처럼
+훅이 없는 환경에서는 `평가` 메시지 끝에 "기록 저장하기" 링크가 함께 나오는데, 그걸 눌러야
+점수가 계정에 저장됩니다 — 클릭 한 번으로 끝나지만 자동은 아닙니다.
+
 전사 저장을 끄려면 `~/.cpx/config` (Windows는 `%USERPROFILE%\.cpx\config`) 에:
 
 ```
