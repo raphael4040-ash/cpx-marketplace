@@ -87,7 +87,7 @@
       "constraints": { "ageRange": [35, 50], "sex": "female", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "office", "teacher", "market", "care"],
       "iceHint": ["cancer", "internet", "family"],
-      "opening": ["가슴에 갑자기 몽우리가 생겼어요.", "며칠 사이에 멍울이 잡히고 아파서 왔어요."],
+      "opening": ["가슴에 몽우리가 만져져서 왔어요.", "가슴에 멍울이 잡히고 아파서 왔어요."],
       "hpi": {
         "onset": "{{onsetWeeks}}주 전 갑자기 생김. 그전에는 없었음",
         "character": "물주머니처럼 말랑하면서 탱탱하고 누르면 아픔",
@@ -232,7 +232,7 @@
       "constraints": { "ageRange": [45, 70], "sex": "female", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "market", "farmer", "retired", "care"],
       "iceHint": ["denial", "cancer", "family"],
-      "opening": ["가슴에 멍울이 만져져서 왔어요.", "안 아프긴 한데 뭐가 잡혀서요. 별거 아니겠죠?"],
+      "opening": ["가슴에 멍울이 만져져서 왔어요.", "가슴에 뭐가 잡혀서요. 별거 아니겠죠?"],
       "hpi": {
         "onset": "{{onsetMonths}}개월 전 우연히 만져졌고 그동안 지켜봤음",
         "character": "돌처럼 단단하고 잘 안 움직이는 것이 잡힘. 아프지는 않음",

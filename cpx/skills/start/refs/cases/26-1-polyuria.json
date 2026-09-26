@@ -88,7 +88,7 @@
       "constraints": { "ageRange": [22, 48], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": ["당뇨병"] },
       "occupationBias": ["office", "student", "delivery", "construct", "soldier", "nurse"],
       "iceHint": ["internet", "test", "cancer"],
-      "opening": ["물을 계속 마시고 소변을 하루 종일 봐요.", "밤에도 물 마시러 몇 번씩 일어나요."],
+      "opening": ["물을 계속 마시고 소변을 하루 종일 봐요.", "물을 너무 많이 마셔서 왔어요."],
       "hpi": {
         "onset": "{{onsetWeeks}}주 전부터 비교적 갑자기 시작 — 어느 날부터인지 날짜를 기억할 정도",
         "character": "소변이 물처럼 맑고 양이 아주 많음. 갈증이 참기 힘들 정도",
@@ -293,7 +293,7 @@
       "constraints": { "ageRange": [55, 78], "sex": "any", "requiredRisk": ["고혈압"], "requiredRiskMin": 1, "forbidden": [] },
       "occupationBias": ["retired", "housewife", "farmer", "market", "selfemp", "driver"],
       "iceHint": ["medicine", "family", "denial"],
-      "opening": ["소변을 자꾸 봐서 외출을 못 하겠어요.", "약 바꾸고 나서 화장실을 계속 가요."],
+      "opening": ["소변을 자꾸 봐서 외출을 못 하겠어요.", "화장실을 너무 자주 가요."],
       "hpi": {
         "onset": "{{onsetWeeks}}주 전 혈압약을 바꾼 뒤부터",
         "character": "소변량이 늘고 특히 약 먹은 뒤 몇 시간 동안 자주 감",

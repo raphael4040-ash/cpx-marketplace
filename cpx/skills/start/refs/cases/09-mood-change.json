@@ -15,7 +15,7 @@
       "constraints": { "ageRange": [25, 62], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["office", "housewife", "market", "selfemp", "teacher"],
       "iceHint": ["denial", "family", "medicine"],
-      "opening": ["요즘 계속 기운이 없고 가라앉아요.", "몇 달째 아무것도 하기가 싫어서 왔어요."],
+      "opening": ["요즘 계속 기운이 없고 가라앉아요.", "몇 달째 마음이 가라앉아서 왔어요."],
       "hpi": {
         "onset": "{{onsetMonths}}개월 전부터 서서히 시작됨. {{trigger}}",
         "character": "하루 종일 가라앉아 있고 뭘 해도 재미가 없음. 아침에 특히 심함",

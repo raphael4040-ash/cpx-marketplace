@@ -85,7 +85,7 @@
       "constraints": { "ageRange": [50, 82], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["retired", "farmer", "housewife", "market", "jobless"],
       "iceHint": ["family", "medicine", "denial"],
-      "opening": ["한쪽 옆구리에 물집이 잡히고 아파요.", "{{side}}쪽이 따갑게 아프더니 발진이 났어요."],
+      "opening": ["옆구리에 물집이 잡히고 아파요.", "{{side}}쪽에 발진이 났어요."],
       "hpi": {
         "onset": "{{painDays}}일 전 먼저 따갑고 화끈거리는 통증이 생겼고, {{onsetDays}}일 전 그 자리에 발진이 돋음",
         "character": "타는 듯 화끈거리고 콕콕 쑤시며 옷이 스치기만 해도 아픔",
@@ -155,7 +155,7 @@
       "constraints": { "ageRange": [25, 70], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["construct", "market", "housewife", "care", "driver"],
       "iceHint": ["medicine", "denial", "work"],
-      "opening": ["파스 붙인 자리가 벌겋게 되고 가려워요.", "허리에 붙인 데만 발진이 나고 진물이 나요."],
+      "opening": ["허리에 벌겋게 발진이 나고 가려워요.", "피부가 벌겋게 되고 진물이 나요."],
       "hpi": {
         "onset": "{{applyDays}}일 전 파스를 붙였고 {{onsetDays}}일 전부터 그 자리가 붉어짐",
         "character": "붉게 부어오르고 좁쌀 같은 물집이 잡히며 진물이 조금 남. 몹시 가려움",
@@ -225,7 +225,7 @@
       "constraints": { "ageRange": [18, 36], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["student", "office", "nurse", "teacher", "parttime"],
       "iceHint": ["internet", "work", "test"],
-      "opening": ["열이 나더니 얼굴부터 발진이 났어요.", "며칠째 열나고 눈이 시린데 오늘 발진이 돋았어요."],
+      "opening": ["열이 나더니 발진이 났어요.", "며칠째 열이 나는데 오늘 발진이 돋았어요."],
       "hpi": {
         "onset": "{{onsetDays}}일 전 고열·기침·콧물로 시작해 {{rashDays}}일 전 발진이 돋음",
         "character": "붉은 반점과 구진이 서로 합쳐지며 번짐. 가려움은 심하지 않음",
@@ -297,7 +297,7 @@
       "constraints": { "ageRange": [18, 42], "sex": "female", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["office", "student", "teacher", "nurse", "parttime"],
       "iceHint": ["internet", "repeat", "cancer"],
-      "opening": ["얼굴에 발진이 생겼는데 안 없어져요.", "볼이 벌게지고 관절도 아파요."],
+      "opening": ["얼굴에 발진이 생겼는데 안 없어져요.", "볼이 벌게졌는데 안 없어져요."],
       "hpi": {
         "onset": "{{onsetMonths}}개월 전부터 서서히",
         "character": "양볼과 콧등이 붉게 도드라지고, 햇볕을 쬔 날은 더 심해짐",

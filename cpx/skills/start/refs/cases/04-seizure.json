@@ -99,7 +99,7 @@
       "constraints": { "ageRange": [19, 40], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["student", "soldier", "office", "nurse", "teacher"],
       "iceHint": ["internet", "family", "denial"],
-      "opening": ["어제 쓰러지면서 팔다리를 떨었다고 해서 왔어요.", "서 있다가 눈앞이 캄캄해지면서 쓰러졌는데 경련을 했대요."],
+      "opening": ["어제 쓰러지면서 팔다리를 떨었다고 해서 왔어요.", "쓰러졌는데 옆에서 경련을 했다고 해서 왔어요."],
       "hpi": {
         "onset": "{{onsetHours}}시간 전, {{trigger}} 발생",
         "character": "쓰러진 뒤 팔다리가 {{jerkSeconds}}초쯤 툭툭 튀듯 움직였다고 함. 규칙적으로 오래 떤 것은 아니라고 함",
@@ -179,7 +179,7 @@
       "constraints": { "ageRange": [55, 82], "sex": "any", "requiredRisk": ["당뇨병"], "requiredRiskMin": 1, "forbidden": [] },
       "occupationBias": ["retired", "farmer", "housewife", "market", "driver"],
       "iceHint": ["family", "medicine", "denial"],
-      "opening": ["아침에 갑자기 헛소리를 하다가 떨었대요.", "밥을 못 먹고 약을 먹었더니 정신을 잃고 경련을 했다고 해요."],
+      "opening": ["아침에 갑자기 헛소리를 하다가 떨었대요.", "정신을 잃고 경련을 했다고 해서 왔어요."],
       "hpi": {
         "onset": "오늘 아침 {{onsetHours}}시간 전. {{trigger}} 뒤에 발생",
         "character": "식구 말로는 식은땀을 뻘뻘 흘리며 헛소리를 하다가 팔다리를 몇 분 떨었다고 함",
@@ -260,7 +260,7 @@
       "constraints": { "ageRange": [38, 66], "sex": "any", "requiredRisk": ["과음"], "requiredRiskMin": 1, "forbidden": [] },
       "occupationBias": ["construct", "driver", "market", "cook", "selfemp"],
       "iceHint": ["denial", "work", "medicine"],
-      "opening": ["술을 끊었더니 며칠 만에 경련을 했어요.", "손이 떨리고 잠도 못 자다가 어제 쓰러져서 떨었대요."],
+      "opening": ["며칠 전에 갑자기 쓰러져서 떨었대요.", "어제 쓰러져서 온몸을 떨었다고 해서 왔어요."],
       "hpi": {
         "onset": "{{onsetHours}}시간 전. 술을 끊은 지 {{abstinenceDays}}일째 되는 날 발생",
         "character": "옆에서 본 사람 말로는 온몸이 굳었다가 팔다리를 같이 떨었다고 함",

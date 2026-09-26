@@ -159,7 +159,7 @@
       "constraints": { "ageRange": [35, 60], "sex": "any", "requiredRisk": ["고혈압"], "requiredRiskMin": 1, "forbidden": [] },
       "occupationBias": ["office", "market", "housewife", "selfemp", "care"],
       "iceHint": ["repeat", "test", "internet"],
-      "opening": ["약을 세 가지나 먹는데도 혈압이 안 잡혀요.", "혈압약을 먹어도 계속 높아서 왔어요."],
+      "opening": ["혈압약을 먹는데도 혈압이 안 잡혀요.", "혈압약을 먹어도 계속 높아서 왔어요."],
       "hpi": {
         "onset": "{{yearsHtn}}년 전 고혈압 진단을 받고 약을 먹기 시작했는데 갈수록 약이 늘어남",
         "character": "혈압이 계속 높고 최근에는 다리에 힘이 빠지고 쥐가 자주 남",
@@ -230,7 +230,7 @@
       "constraints": { "ageRange": [28, 55], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["office", "teacher", "selfemp", "nurse", "student"],
       "iceHint": ["cancer", "internet", "test"],
-      "opening": ["갑자기 머리가 아프고 심장이 뛰면서 땀이 쏟아져요.", "혈압이 들쭉날쭉하고 발작처럼 증상이 와요."],
+      "opening": ["갑자기 머리가 아프고 심장이 막 뛰어요.", "혈압이 들쭉날쭉해서 왔어요."],
       "hpi": {
         "onset": "{{monthsSx}}개월 전부터 발작처럼 오는 증상이 시작됨",
         "character": "갑자기 뒷머리가 지끈거리면서 가슴이 쿵쾅거리고 온몸에 식은땀이 남. 손이 떨리고 얼굴이 하얗게 질림",
@@ -302,7 +302,7 @@
       "constraints": { "ageRange": [45, 72], "sex": "any", "requiredRisk": ["고혈압"], "requiredRiskMin": 1, "forbidden": [] },
       "occupationBias": ["construct", "driver", "market", "farmer", "retired"],
       "iceHint": ["denial", "medicine", "work"],
-      "opening": ["머리가 깨질 듯이 아프고 눈이 침침해요.", "혈압을 쟀는데 너무 높게 나와서 왔어요."],
+      "opening": ["머리가 깨질 듯이 아파요.", "혈압을 쟀는데 너무 높게 나와서 왔어요."],
       "hpi": {
         "onset": "{{onsetDays}}일 전부터 머리가 아프기 시작해 오늘 아침에 특히 심해짐",
         "character": "뒷머리가 묵직하게 꽉 조이듯 아프고 눈앞이 뿌옇게 보임",

@@ -84,7 +84,7 @@
       "constraints": { "ageRange": [25, 62], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["office", "jobless", "housewife", "selfemp", "student"],
       "iceHint": ["denial", "medicine", "work"],
-      "opening": ["요즘 너무 피곤하고 아무것도 하기 싫어요.", "기운이 없어서 일을 못 하겠어요."],
+      "opening": ["요즘 너무 피곤해요.", "기운이 없어서 일을 못 하겠어요."],
       "hpi": {
         "onset": "{{onsetMonths}}개월 전 {{lossEvent}} 무렵부터",
         "character": "몸이 무겁고 아침에 일어나기가 가장 힘들며 뭘 해도 즐겁지가 않음",
@@ -152,7 +152,7 @@
       "constraints": { "ageRange": [20, 48], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["office", "student", "teacher", "selfemp", "parttime"],
       "iceHint": ["denial", "internet", "work"],
-      "opening": ["몇 달째 기운이 없고 자꾸 지쳐요.", "피곤한데 열도 나고 목에 뭐가 만져져요."],
+      "opening": ["몇 달째 기운이 없고 자꾸 지쳐요.", "피곤해서 아무것도 못 하겠어요."],
       "hpi": {
         "onset": "{{onsetMonths}}개월 전부터 서서히",
         "character": "쉬어도 회복되지 않는 피로가 계속되고 미열이 오르내림",
@@ -222,7 +222,7 @@
       "constraints": { "ageRange": [55, 80], "sex": "any", "requiredRisk": ["고혈압"], "requiredRiskMin": 1, "forbidden": [] },
       "occupationBias": ["retired", "housewife", "farmer", "market", "jobless"],
       "iceHint": ["medicine", "family", "repeat"],
-      "opening": ["약을 바꾸고 나서 기운이 하나도 없어요.", "요즘 낮에도 졸리고 축 처져요."],
+      "opening": ["기운이 하나도 없어요.", "요즘 축 처져요."],
       "hpi": {
         "onset": "{{onsetWeeks}}주 전 {{drug}}을 새로 먹기 시작한 뒤부터",
         "character": "낮에도 졸리고 몸이 무거우며 조금만 움직여도 숨이 참",

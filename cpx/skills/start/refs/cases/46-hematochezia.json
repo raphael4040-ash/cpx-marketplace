@@ -16,7 +16,7 @@
       "constraints": { "ageRange": [55, 80], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["retired", "farmer", "market", "selfemp", "housewife"],
       "iceHint": ["cancer", "family", "denial"],
-      "opening": ["변에 피가 섞여 나와요.", "몇 달 전부터 변볼 때 피가 나오고 변이 가늘어졌어요."],
+      "opening": ["변에 피가 섞여 나와요.", "몇 달 전부터 변볼 때 피가 나와요."],
       "hpi": {
         "onset": "{{onsetMonths}}개월 전부터 서서히",
         "character": "변에 검붉은 피와 점액이 섞여 나오고 변이 가늘어짐",
@@ -84,7 +84,7 @@
       "constraints": { "ageRange": [62, 84], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["retired", "housewife", "farmer", "jobless", "market"],
       "iceHint": ["family", "test", "denial"],
-      "opening": ["갑자기 피가 왈칵 쏟아지듯 나왔어요.", "아프지도 않은데 변기가 빨갛게 될 만큼 피가 나왔어요."],
+      "opening": ["갑자기 피가 왈칵 쏟아지듯 나왔어요.", "변기가 빨갛게 될 만큼 피가 나왔어요."],
       "hpi": {
         "onset": "{{onsetHours}}시간 전 갑자기, 아무 전조 없이",
         "character": "선홍색에 가까운 붉은 피가 변과 함께 왈칵 쏟아짐. 배는 아프지 않음",
@@ -151,7 +151,7 @@
       "constraints": { "ageRange": [50, 78], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["construct", "farmer", "driver", "selfemp", "retired"],
       "iceHint": ["denial", "medicine", "test"],
-      "opening": ["변이 짜장처럼 검게 나오고 어지러워요.", "새벽에 검붉은 변을 여러 번 봤어요."],
+      "opening": ["변이 짜장처럼 검게 나와요.", "새벽에 검붉은 변을 여러 번 봤어요."],
       "hpi": {
         "onset": "{{onsetHours}}시간 전부터",
         "character": "짜장처럼 검고 끈적한 변에 검붉은 피가 섞여 나옴. 냄새가 아주 고약함",
@@ -287,7 +287,7 @@
       "constraints": { "ageRange": [18, 38], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["student", "office", "soldier", "highschool", "parttime"],
       "iceHint": ["cancer", "internet", "test"],
-      "opening": ["몇 달째 배가 아프고 변에 피가 섞여요.", "설사에 피가 나오고 살이 빠져요."],
+      "opening": ["몇 달째 배가 아프고 변에 피가 섞여요.", "설사에 피가 섞여 나와요."],
       "hpi": {
         "onset": "{{onsetMonths}}개월 전부터 서서히",
         "character": "무른 변에 피가 조금씩 섞이고 오른쪽 아랫배가 쥐어짜듯 아픔",

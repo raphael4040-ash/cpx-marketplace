@@ -176,7 +176,7 @@
       "constraints": { "ageRange": [35, 55], "sex": "any", "requiredRisk": ["고혈압"], "requiredRiskMin": 1, "forbidden": [] },
       "occupationBias": ["office", "housewife", "teacher", "selfemp", "care"],
       "iceHint": ["internet", "cancer", "test"],
-      "opening": ["배만 나오고 팔다리는 가늘어졌어요.", "얼굴이 둥글게 붓고 배에 자주색 줄이 생겼어요."],
+      "opening": ["배가 자꾸 나와요.", "얼굴이 둥글게 붓고 살이 쪘어요."],
       "hpi": {
         "onset": "{{gainMonths}}개월 전부터 서서히",
         "character": "배와 얼굴, 목 뒤에만 살이 붙고 팔다리는 오히려 가늘어짐",
@@ -337,7 +337,7 @@
       "constraints": { "ageRange": [20, 50], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["office", "student", "parttime", "jobless", "selfemp"],
       "iceHint": ["medicine", "internet", "denial"],
-      "opening": ["약을 바꾸고 나서 살이 확 쪘어요.", "정신과 약을 먹기 시작한 뒤로 체중이 너무 늘었어요."],
+      "opening": ["살이 확 쪄서 왔어요.", "몇 달 사이에 체중이 너무 늘었어요."],
       "hpi": {
         "onset": "{{monthsOnDrug}}개월 전 약을 {{drug}}으로 바꾼 뒤부터",
         "character": "식욕이 갑자기 늘어 밤에도 배가 고파 깨서 먹게 됨",

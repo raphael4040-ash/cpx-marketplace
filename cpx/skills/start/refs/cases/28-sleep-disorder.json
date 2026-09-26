@@ -94,7 +94,7 @@
       "constraints": { "ageRange": [40, 66], "sex": "any", "requiredRisk": ["고혈압"], "requiredRiskMin": 1, "forbidden": [], "alcoholLabel": "주 {{drinkPerWeek}}회" },
       "occupationBias": ["driver", "selfemp", "office", "construct", "market"],
       "iceHint": ["family", "work", "test"],
-      "opening": ["자고 일어나도 개운하지가 않고 낮에 너무 졸려요.", "{{spouse}}이 자다가 숨이 멎는다고 병원에 가보래요."],
+      "opening": ["자고 일어나도 개운하지가 않고 낮에 너무 졸려요.", "{{spouse}}이 병원에 가보라고 해서 왔어요. 낮에 자꾸 졸려서요."],
       "hpi": {
         "onset": "{{onsetYears}}년 전부터 서서히. 체중이 {{weightGain}}kg 늘면서 더 심해짐",
         "character": "잠은 드는데 자주 깨고, 자고 일어나도 잔 것 같지 않으며 낮에 참을 수 없이 졸림",

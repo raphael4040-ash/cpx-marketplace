@@ -59,6 +59,9 @@ python review_dump.py --all --draws 2 --out ../../../review
 - 대표 소견이 확정이고 보조 소견만 확률인가
 - 음성 소견이 진단을 배제하지 않는가
 - 물어야 나오는 정보에 실제 답이 있는가 (고아 항목이 없는가)
+- 첫 대사(`opening`)가 `onlyIfAsked` 의 단서를 먼저 말하지 않는가
+  (BPPV 첫 대사가 "누웠다 일어날 때 돌아요", 소장폐쇄가 "배가 빵빵하고" 였다.
+  흔한 유형은 `check_contradictions.py` 의 `OPENING_LEAKS` 가 잡는다. 새 유형은 거기에 추가)
 - 주호소 이름이 기록판 목록(`cpx-tracker/docs/topics.js`)과 일치하는가
 - 소견 칸 이름이 "(남성)" 표시 없이도 한쪽 성별의 해부 구조만 가리키는가
   (`sex: any` 인데 "외음부"가 그대로 나오면 남성 환자에게도 나온다)

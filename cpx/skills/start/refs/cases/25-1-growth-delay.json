@@ -193,7 +193,7 @@
       "constraints": { "ageRange": [7, 7], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "office", "care", "market", "parttime", "nurse"],
       "iceHint": ["internet", "test", "cancer"],
-      "opening": ["작년부터 키가 거의 안 컸어요.", "옷을 몇 년째 그대로 입어요. 키가 안 커요."],
+      "opening": ["키가 잘 안 커서 왔어요.", "옷을 몇 년째 그대로 입어요. 키가 안 커요."],
       "informant": {
         "relation": "어머니",
         "presence": "아이 성장기록이 적힌 수첩을 들고 왔다",
@@ -283,7 +283,7 @@
       "constraints": { "ageRange": [11, 11], "sex": "female", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "office", "market", "care", "teacher", "parttime"],
       "iceHint": ["family", "internet", "test"],
-      "opening": ["딸아이가 또래보다 너무 작아요.", "친구들은 가슴이 나오기 시작했는데 우리 애는 아무 변화가 없어요."],
+      "opening": ["딸아이가 또래보다 너무 작아요.", "또래보다 키가 너무 안 커서 걱정돼요."],
       "informant": {
         "relation": "어머니",
         "presence": "아이와 함께 왔고 아이는 조용히 앉아 있다",

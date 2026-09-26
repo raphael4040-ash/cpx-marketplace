@@ -148,7 +148,7 @@
       "constraints": { "ageRange": [55, 80], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["retired", "housewife", "farmer", "market", "jobless"],
       "iceHint": ["medicine", "family", "denial"],
-      "opening": ["약 먹고부터 변을 통 못 봐요.", "일주일 넘게 변을 못 봤어요."],
+      "opening": ["요즘 변을 통 못 봐요.", "일주일 넘게 변을 못 봤어요."],
       "hpi": {
         "onset": "{{onsetWeeks}}주 전 {{drug}} 진통제를 먹기 시작하면서부터",
         "character": "변이 돌처럼 딱딱하고 나오다 만 느낌",

@@ -37,6 +37,30 @@ def texts_of(node, out):
     return out
 
 
+# (onlyIfAsked 에 이게 있으면, opening 에 이게 나오면 안 된다)
+OPENING_LEAKS = [
+    (r"오한", r"오한"),
+    (r"체중\s*감소|체중감소|살이 빠", r"살이 빠|살도 빠|몸무게가.*줄"),
+    (r"뻗치|뻗침|방사|등으로 이동|무릎 아래", r"뻗|등까지|어깨까지|종아리까지"),
+    (r"생리 주기", r"생리 전마다|생리랑 상관"),
+    (r"진통제가 (안|잘) 듣", r"진통제"),
+    (r"항생제", r"항생제"),
+    (r"아침 강직", r"아침에.*뻣뻣"),
+    (r"야간통|밤에 심해|새벽 통증|야간 각성", r"밤에|새벽에"),
+    (r"자세 변화|누웠을 때", r"누우|누웠다|고개를"),
+    (r"청력|이충만|이명", r"귀가|귀를|안 들려"),
+    (r"복시", r"둘로"),
+    (r"한쪽만|한쪽에만", r"한쪽"),
+    (r"이슬", r"이슬"),
+    (r"약을 바꾼|복용 시작|약을 먹기 시작|약과 증상|항응고제 복용", r"약.*(바꾸|먹고부터|먹고 나서|시작한 뒤|먹는데)"),
+    (r"식은땀", r"식은땀|땀이 쏟"),
+    (r"손발 저림", r"손발이 저"),
+    (r"잇몸", r"잇몸"),
+    (r"흑색변|검은 변", r"변이.*(검|까맣)"),
+    (r"통증이 (전혀 )?없|아프지 않다", r"안 아프|아프지(도|는) 않"),
+]
+
+
 def has(patterns, blob):
     return any(re.search(p, blob) for p in patterns)
 
@@ -106,6 +130,19 @@ def check(s):
     dup = spont & only
     if dup:
         problems.append("먼저 말함과 물어야 나옴이 겹침: %s" % ", ".join(sorted(dup)))
+
+    # 11) 첫 대사가 물어야 나오는 것을 먼저 말함
+    # 환자는 첫 개방형 질문에 opening 으로 답하므로, 여기에 onlyIfAsked 의 단서가 있으면
+    # 학생이 묻기 전에 답이 나온다 (BPPV 첫 대사가 "누웠다 일어날 때 돌아요" 였다).
+    # 의미 비교는 못 하므로 실제로 새던 유형만 키워드 짝으로 잡는다.
+    ask = " / ".join(disc.get("onlyIfAsked") or [])
+    openings = s.get("opening") or []
+    if isinstance(openings, str):
+        openings = [openings]
+    for o in openings:
+        for ask_pat, open_pat in OPENING_LEAKS:
+            if re.search(ask_pat, ask) and re.search(open_pat, o):
+                problems.append("첫 대사가 물어야 나올 단서를 먼저 말함 (%s): %s" % (ask_pat, o))
 
     # 9) 활력징후 밴드가 서로 뒤집힘 (수축기 하한이 이완기 상한보다 낮음)
     sbp, dbp = vit.get("sbp"), vit.get("dbp")
