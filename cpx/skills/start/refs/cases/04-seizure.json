@@ -14,6 +14,11 @@
       "dx": "첫 전신강직간대발작 (간질성 경련)",
       "constraints": { "ageRange": [19, 42], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": ["당뇨병"] },
       "occupationBias": ["student", "office", "delivery", "soldier", "cook"],
+      "ice": {
+        "ideas": ["피곤해서 빈혈로 쓰러진 것 같아요", "뭘 잘못 먹고 체해서 그런 건가 싶어요"],
+        "concerns": ["간질이면 운전이나 일을 못 하게 될까 봐 걱정돼요", "또 쓰러지면 어떡하나 무서워요"],
+        "expectations": ["뇌에 이상이 있는지 검사해 보고 싶어요", "다시 안 그러게 약이 있으면 받고 싶어요"]
+      },
       "iceHint": ["work", "internet", "cancer"],
       "opening": ["어제 갑자기 쓰러져서 온몸이 뻣뻣해졌다고 해요.", "저는 기억이 안 나는데 같이 있던 사람이 경련을 했다고 해서 왔어요."],
       "hpi": {
@@ -100,6 +105,11 @@
       "dx": "혈관미주신경성 실신에 동반된 경련유사 움직임 (비경련성)",
       "constraints": { "ageRange": [19, 40], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["student", "soldier", "office", "nurse", "teacher"],
+      "ice": {
+        "ideas": ["너무 피곤해서 잠깐 기절한 것 같아요", "빈혈이 있어서 그런가 싶어요"],
+        "concerns": ["떨었다고 하니 혹시 간질일까 봐 걱정돼요", "또 쓰러지다 머리를 다칠까 봐요"],
+        "expectations": ["간질인지 아닌지 확실히 알고 싶어요", "괜찮다는 확인만 받으면 좋겠어요"]
+      },
       "iceHint": ["internet", "family", "denial"],
       "opening": ["어제 쓰러지면서 팔다리를 떨었다고 해서 왔어요.", "쓰러졌는데 옆에서 경련을 했다고 해서 왔어요."],
       "hpi": {
@@ -182,6 +192,11 @@
       "dx": "저혈당에 의한 경련 (설포닐우레아 복용)",
       "constraints": { "ageRange": [55, 82], "sex": "any", "requiredRisk": ["당뇨병"], "requiredRiskMin": 1, "forbidden": [] },
       "occupationBias": ["retired", "farmer", "housewife", "market", "driver"],
+      "ice": {
+        "ideas": ["나이 들어서 중풍 기가 온 것 같아요", "요즘 기력이 없어서 그런가 싶어요"],
+        "concerns": ["혹시 치매가 시작된 건 아닐까 걱정돼요", "또 이러다 혼자 있을 때 쓰러질까 봐요"],
+        "expectations": ["뇌 검사를 해봤으면 해요", "다시 안 그러게 해주셨으면 해요"]
+      },
       "iceHint": ["family", "medicine", "denial"],
       "opening": ["아침에 갑자기 헛소리를 하다가 떨었대요.", "정신을 잃고 경련을 했다고 해서 왔어요."],
       "hpi": {
@@ -263,6 +278,11 @@
       "dx": "알코올 금단 경련",
       "constraints": { "ageRange": [38, 66], "sex": "any", "requiredRisk": ["과음"], "requiredRiskMin": 1, "forbidden": [] },
       "occupationBias": ["construct", "driver", "market", "cook", "selfemp"],
+      "ice": {
+        "ideas": ["요즘 일이 많고 피곤해서 그런 것 같아요", "잠을 못 자서 몸이 상한 건가 싶어요"],
+        "concerns": ["간질이 생긴 건 아닐까 걱정돼요", "손이 계속 떨리니 일을 못 하게 될까 봐요"],
+        "expectations": ["떨리는 것 좀 멎게 해주세요", "뇌에 문제가 없는지 확인하고 싶어요"]
+      },
       "iceHint": ["denial", "work", "medicine"],
       "opening": ["며칠 전에 갑자기 쓰러져서 떨었대요.", "어제 쓰러져서 온몸을 떨었다고 해서 왔어요."],
       "hpi": {
@@ -348,6 +368,11 @@
       "dx": "저나트륨혈증에 의한 경련 (이뇨제 유발, 비간질성 대사성)",
       "constraints": { "ageRange": [66, 86], "sex": "any", "requiredRisk": ["고혈압"], "requiredRiskMin": 1, "forbidden": [] },
       "occupationBias": ["retired", "housewife", "farmer"],
+      "ice": {
+        "ideas": ["어머니가 치매가 오신 줄 알았어요", "나이 드셔서 기력이 떨어지신 줄 알았어요"],
+        "concerns": ["뇌졸중이 오신 건 아닌지 걱정돼요", "또 경련하시다 크게 다치실까 봐 무서워요"],
+        "expectations": ["왜 이러시는지 원인을 찾아주셨으면 해요", "입원해서 제대로 봐주셨으면 해요"]
+      },
       "iceHint": ["family", "medicine", "denial"],
       "opening": ["어머니가 며칠 헛소리를 하시더니 오늘 경련을 했어요.", "요즘 기운이 없고 정신이 오락가락하다가 떨었대요."],
       "hpi": {

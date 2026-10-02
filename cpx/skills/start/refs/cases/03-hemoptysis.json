@@ -15,6 +15,11 @@
       "dx": "폐결핵",
       "constraints": { "ageRange": [28, 78], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["construct", "market", "cook", "retired", "farmer"],
+      "ice": {
+        "ideas": ["감기가 오래 가서 목이 상한 것 같아요", "기침을 하도 오래 해서 어디가 헐었나 싶어요"],
+        "concerns": ["혹시 폐암일까 봐 무서워요", "가족들한테 옮는 병이면 어쩌나 걱정돼요"],
+        "expectations": ["무슨 병인지 사진이든 뭐든 찍어서 확실히 알고 싶어요", "기침이 좀 멎는 약을 받고 싶어요"]
+      },
       "iceHint": ["cancer", "denial", "internet"],
       "opening": ["가래에 피가 섞여 나와요.", "기침하다가 피가 나와서 놀라서 왔어요."],
       "hpi": {
@@ -89,6 +94,11 @@
       "dx": "기관지확장증",
       "constraints": { "ageRange": [45, 78], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "retired", "market", "farmer", "selfemp"],
+      "ice": {
+        "ideas": ["기침을 세게 해서 목에서 피가 난 것 같아요", "원래 폐가 좀 약해서 그런가 싶어요"],
+        "concerns": ["피가 나오니까 혹시 폐암일까 봐 걱정돼요", "피가 더 많이 나오면 어떡하나 싶어요"],
+        "expectations": ["피가 안 나게 해주셨으면 해요", "폐 사진 찍어서 괜찮은지 보고 싶어요"]
+      },
       "iceHint": ["repeat", "medicine", "work"],
       "opening": ["가래에 피가 나와요.", "기침하는데 오늘 가래에 피가 섞였어요."],
       "hpi": {
@@ -161,6 +171,11 @@
       "dx": "급성 기관지염",
       "constraints": { "ageRange": [19, 55], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["student", "office", "teacher", "delivery", "nurse"],
+      "ice": {
+        "ideas": ["기침을 너무 해서 목이 터진 것 같아요", "감기가 심하게 들어서 그런 것 같아요"],
+        "concerns": ["피가 나오니까 혹시 큰 병일까 봐 놀랐어요", "결핵 같은 거면 어쩌나 싶어요"],
+        "expectations": ["별일 아닌지만 확인하고 싶어요", "기침 좀 덜 나게 약을 받고 싶어요"]
+      },
       "iceHint": ["internet", "cancer", "work"],
       "opening": ["기침하다가 가래에 피가 나와서 놀랐어요.", "가래에 피가 섞여 나와요."],
       "hpi": {
@@ -231,6 +246,11 @@
       "dx": "폐색전증",
       "constraints": { "ageRange": [38, 78], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["office", "driver", "retired", "housewife", "market"],
+      "ice": {
+        "ideas": ["폐렴이 온 것 같아요", "뭔가 폐에 탈이 난 것 같아요"],
+        "concerns": ["숨이 차서 이러다 숨이 막힐까 봐 무서워요", "피까지 나오니 폐암일까 봐 걱정돼요"],
+        "expectations": ["숨 쉬는 게 편해지게 해주세요", "왜 이러는지 빨리 검사해 주세요"]
+      },
       "iceHint": ["internet", "test", "family"],
       "opening": ["숨이 차고 가래에 피가 나와요.", "갑자기 숨이 차면서 피 섞인 가래가 나와요."],
       "hpi": {
@@ -310,6 +330,11 @@
       "dx": "항응고제(와파린) 과다항응고에 의한 출혈",
       "constraints": { "ageRange": [62, 85], "sex": "any", "requiredRisk": ["고혈압"], "requiredRiskMin": 1, "forbidden": [] },
       "occupationBias": ["retired", "housewife", "farmer", "market"],
+      "ice": {
+        "ideas": ["목이 헐어서 피가 나는 것 같아요", "나이 들어서 몸이 약해져 그런가 싶어요"],
+        "concerns": ["피가 안 멎으면 어떡하나 걱정돼요", "혹시 폐에 큰 병이 생긴 건 아닐까 싶어요"],
+        "expectations": ["피가 왜 나는지 알고 싶어요", "피 나는 것 좀 멎게 해주세요"]
+      },
       "iceHint": ["medicine", "family", "denial"],
       "opening": ["가래에 피가 섞여 나와요.", "기침할 때 피가 나와서 왔어요."],
       "hpi": {
