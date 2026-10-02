@@ -12,7 +12,7 @@
     {
       "id": "sz-gtc-first",
       "dx": "첫 전신강직간대발작 (간질성 경련)",
-      "constraints": { "ageRange": [19, 42], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": ["당뇨병"], "alcohol": "drinker" },
+      "constraints": { "ageRange": [20, 42], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": ["당뇨병"], "alcohol": "drinker" },
       "occupationBias": ["student", "office", "delivery", "soldier", "cook"],
       "ice": {
         "ideas": ["피곤해서 빈혈로 쓰러진 것 같아요", "뭘 잘못 먹고 체해서 그런 건가 싶어요"],
