@@ -15,6 +15,11 @@
       "dx": "일차(본태) 고혈압",
       "constraints": { "ageRange": [40, 62], "sex": "any", "requiredRisk": ["음주", "흡연"], "requiredRiskMin": 1, "forbidden": ["고혈압"] },
       "occupationBias": ["office", "driver", "selfemp", "market", "teacher"],
+      "ice": {
+        "ideas": ["요즘 회식이 잦고 잠을 못 자서 잠깐 오른 것 같아요", "나이 들면 다들 조금씩 오르는 거 아닌가 싶어요"],
+        "concerns": ["혈압약은 한번 먹기 시작하면 평생 먹어야 한다던데 그게 싫어요", "이러다 갑자기 쓰러지는 건 아닌가 싶어요"],
+        "expectations": ["약 없이 운동이나 식단으로 낮출 수 있는지 알고 싶어요", "검진표에 재검 받았다는 확인만 받으면 돼요"]
+      },
       "iceHint": ["denial", "medicine", "test"],
       "opening": ["건강검진에서 혈압이 높다고 나와서 왔어요.", "검진에서 혈압이 높으니 병원 가보라고 해서 왔어요."],
       "hpi": {
@@ -89,6 +94,11 @@
       "dx": "상염색체우성 다낭콩팥병에 의한 이차 고혈압",
       "constraints": { "ageRange": [28, 50], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": ["고혈압"] },
       "occupationBias": ["office", "teacher", "nurse", "selfemp", "student"],
+      "ice": {
+        "ideas": ["젊은데 왜 혈압이 높은지 모르겠어요. 스트레스 때문인가 싶기도 하고요", "짜게 먹어서 그런 것 같아요"],
+        "concerns": ["이 나이에 벌써 혈압약을 먹어야 하나 걱정돼요", "혹시 다른 큰 병이 숨어 있는 건 아닐까 걱정돼요"],
+        "expectations": ["왜 높은지 원인을 제대로 알고 싶어요", "필요한 검사는 다 해보고 싶어요"]
+      },
       "iceHint": ["family", "cancer", "test"],
       "opening": ["혈압이 높다고 해서 왔어요.", "젊은데 혈압이 높다고 해서 걱정돼서 왔어요."],
       "hpi": {
@@ -162,6 +172,11 @@
       "dx": "원발성 알도스테론증에 의한 저항성 고혈압",
       "constraints": { "ageRange": [35, 60], "sex": "any", "requiredRisk": ["고혈압"], "requiredRiskMin": 1, "forbidden": [] },
       "occupationBias": ["office", "market", "housewife", "selfemp", "care"],
+      "ice": {
+        "ideas": ["약이 몸에 안 맞는 것 같아요", "약을 먹는데도 안 떨어지니 제가 뭘 잘못하고 있나 싶어요"],
+        "concerns": ["약을 자꾸 늘리기만 하니 이러다 약만 한 주먹 먹게 될까 봐요", "다리에 힘이 빠지는 게 혹시 중풍 오려는 건가 겁나요"],
+        "expectations": ["약을 늘리는 것 말고 다른 원인이 있는지 검사해 보고 싶어요", "약을 바꿔서라도 혈압이 잡혔으면 좋겠어요"]
+      },
       "iceHint": ["repeat", "test", "internet"],
       "opening": ["혈압약을 먹는데도 혈압이 안 잡혀요.", "혈압약을 먹어도 계속 높아서 왔어요."],
       "hpi": {
@@ -235,6 +250,11 @@
       "dx": "갈색세포종",
       "constraints": { "ageRange": [28, 55], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["office", "teacher", "selfemp", "nurse", "student"],
+      "ice": {
+        "ideas": ["공황장애 같은 건가 싶어요", "갱년기나 스트레스 때문인가 했어요"],
+        "concerns": ["이러다 길에서 갑자기 쓰러질까 봐 무서워요", "심장에 문제가 있는 건 아닐까 걱정돼요"],
+        "expectations": ["왜 이런 발작이 오는지 정확히 알고 싶어요", "증상이 올 때 어떻게 해야 하는지 알려주셨으면 해요"]
+      },
       "iceHint": ["cancer", "internet", "test"],
       "opening": ["갑자기 머리가 아프고 심장이 막 뛰어요.", "혈압이 들쭉날쭉해서 왔어요."],
       "hpi": {
@@ -309,6 +329,11 @@
       "dx": "고혈압 응급증 (급성 표적장기 손상 동반)",
       "constraints": { "ageRange": [45, 72], "sex": "any", "requiredRisk": ["고혈압"], "requiredRiskMin": 1, "forbidden": [] },
       "occupationBias": ["construct", "driver", "market", "farmer", "retired"],
+      "ice": {
+        "ideas": ["요즘 잠을 못 자서 머리가 아픈 줄 알았어요", "혈압약을 잠깐 쉬었더니 올라간 것 같기도 해요"],
+        "concerns": ["아버지처럼 중풍이 오는 건 아닌가 겁나요", "눈이 이러다 안 보이게 될까 봐 걱정돼요"],
+        "expectations": ["일단 머리 아픈 것부터 빨리 가라앉혀 주셨으면 해요", "주사든 뭐든 혈압을 빨리 떨어뜨려 주세요"]
+      },
       "iceHint": ["denial", "medicine", "work"],
       "opening": ["머리가 깨질 듯이 아파요.", "혈압을 쟀는데 너무 높게 나와서 왔어요."],
       "hpi": {

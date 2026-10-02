@@ -63,6 +63,21 @@ def topic_files():
 
 # ---------------------------------------------------------------- 추첨 보조
 
+def scenario_ice(scenario):
+    """시나리오 카드의 ice {ideas, concerns, expectations} 에서 하나씩 뽑아 한 줄로 만든다.
+    셋 중 하나라도 비어 있으면 None — 그 시나리오는 인물 성향 ICE 를 그대로 쓴다.
+    cpx-worker 의 sampleCase.js scenarioIce() 와 같은 형식이어야 한다."""
+    ice = scenario.get("ice") or {}
+    picks = []
+    for k in ("ideas", "concerns", "expectations"):
+        opts = ice.get(k) or []
+        if not opts:
+            return None
+        picks.append(random.choice(opts))
+    return {"id": "scenario",
+            "idea": "생각(원인): %s / 걱정: %s / 기대: %s" % tuple(picks)}
+
+
 def weighted(pool):
     """weight 필드를 존중해 하나 고른다. weight 가 없으면 1로 본다."""
     bag = []
@@ -737,6 +752,13 @@ def build(topic, data, scenario_id=None):
     problems = []
     validate(person, scenario, personas, problems)
 
+    # 시나리오에 ICE(생각·걱정·기대)가 따로 있으면 인물 성향의 한 줄 ICE 대신 그것을 쓴다.
+    # 성향 ICE 는 케이스와 무관한 한 문장이라 "가장 걱정되는 게?"에 어느 케이스든 같은 답이 나왔다.
+    # 검증은 성향 ICE 로 끝낸 뒤에 바꾼다 — 상충 조합 규칙이 성향 id 를 보기 때문.
+    s_ice = scenario_ice(scenario)
+    if s_ice:
+        person["ice"] = s_ice
+
     findings, rolled = resolve_findings(scenario, slots)
     return {
         "topic": data["topic"], "topicFile": topic,
@@ -842,7 +864,7 @@ def as_json(case):
     변주는 이미 치환돼 있고 확률 소견도 확정돼 있다."""
     s, p, slots = case["scenario"], case["person"], case["slots"]
     filled = fill_deep({k: v for k, v in s.items()
-                        if k not in ("pe", "variations", "constraints", "occupationBias", "iceHint")},
+                        if k not in ("pe", "variations", "constraints", "occupationBias", "iceHint", "ice")},
                        slots)
     person = {
         "name": p["name"], "age": p["age"],
