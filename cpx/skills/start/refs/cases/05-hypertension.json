@@ -80,7 +80,7 @@
       },
       "variations": {
         "yearsHigh": [2, 3, 5], "severity": [0, 1, 2], "weightGain": [5, 7, 10],
-        "familyEvent": ["{{olderBro}}도 고혈압 약을 먹어요.", "어머니는 특별한 병은 없으세요.", "그 아버지가 예순에 뇌졸중으로 쓰러지셨고요."],
+        "familyEvent": ["{{olderBro}}도 고혈압 약을 먹어요.", "어머니는 특별한 병은 없으세요.", "예순에 뇌졸중으로 쓰러지셨어요."],
         "pregOcp": [{"text": "임신은 아니고 피임약도 안 먹어요.", "sexOnly": "female", "maxAge": 52}, {"text": "폐경한 지 오래됐고 호르몬제는 안 먹어요.", "sexOnly": "female", "minAge": 53}, {"text": "저는 남자라서 해당이 없어요.", "sexOnly": "male"}]
       },
       "disclosure": {
@@ -251,7 +251,7 @@
       "constraints": { "ageRange": [28, 55], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["office", "teacher", "selfemp", "nurse", "student"],
       "ice": {
-        "ideas": ["공황장애 같은 건가 싶어요", "갱년기나 스트레스 때문인가 했어요"],
+        "ideas": ["공황장애 같은 건가 싶어요", "요즘 스트레스가 심해서 그런가 했어요"],
         "concerns": ["이러다 길에서 갑자기 쓰러질까 봐 무서워요", "심장에 문제가 있는 건 아닐까 걱정돼요"],
         "expectations": ["왜 이런 발작이 오는지 정확히 알고 싶어요", "증상이 올 때 어떻게 해야 하는지 알려주셨으면 해요"]
       },
@@ -262,7 +262,7 @@
         "character": "갑자기 뒷머리가 지끈거리면서 가슴이 쿵쾅거리고 온몸에 식은땀이 남. 손이 떨리고 얼굴이 하얗게 질림",
         "location": "머리 뒤쪽이 지끈거리고 가슴이 두근거림",
         "radiation": "없음",
-        "aggravating": "{{trigger}} 때 잘 생김",
+        "aggravating": "{{trigger}} 잘 생김",
         "relieving": "{{durationMin}}분쯤 지나면 저절로 가라앉고 그 뒤엔 축 처짐",
         "severity": "발작 때는 {{severity}}/10",
         "course": "처음엔 한 달에 한 번이었는데 요즘은 일주일에 두세 번으로 잦아짐",
@@ -364,7 +364,7 @@
         "체중감소나 밤에 땀": "없어요."
       },
       "pmh": "{{yearsHtn}}년 전 고혈압 진단. 최근 {{stopped}}",
-      "meds": "혈압약을 처방받았으나 최근 복용이 불규칙함. 진통제를 사서 먹고 있음",
+      "meds": "혈압약을 처방받았으나 최근 제대로 먹지 않음. 진통제를 사서 먹고 있음",
       "allergy": "없음",
       "fh": "아버지가 뇌졸중으로 돌아가심",
       "sh": "인물 카드를 따르되 건강검진을 받은 지 오래됨",
@@ -396,8 +396,9 @@
       "variations": {
         "onsetDays": [2, 3, 4], "severity": [7, 8, 9], "yearsHtn": [5, 8, 10],
         "adherence": ["약이 떨어져서 두어 달 안 먹었어요.", "먹었다 말았다 해요. 괜찮으면 안 먹어요.", "일이 바빠서 병원을 못 갔어요."],
-        "stopped": ["약이 떨어진 뒤 병원에 가지 못함", "괜찮은 것 같아 스스로 약을 끊음"]
+        "stopped": ["약이 떨어진 뒤 두어 달 복용하지 않음", "괜찮다 싶으면 거르는 등 불규칙하게 복용", "바빠서 병원에 가지 못해 약이 끊김"]
       },
+      "pairedVariations": [["adherence", "stopped"]],
       "disclosure": {
         "spontaneous": ["머리가 아프다는 것", "혈압이 높게 나왔다는 것"],
         "onlyIfAsked": ["시야 흐림", "구토", "약을 끊은 것", "야간 호흡곤란", "소변량 감소", "코피"]
