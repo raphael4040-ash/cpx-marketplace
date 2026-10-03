@@ -93,7 +93,7 @@
       "occupationBias": ["office", "student", "nurse", "teacher", "driver"],
       "ice": {
         "ideas": ["생활이 바뀌어서 장이 예민해진 것 같아요", "체질적으로 장이 약한 것 같아요"],
-        "concerns": ["변비약을 계속 먹다가 약 없이는 못 볼까 봐 걱정돼요", "혹시 장에 무슨 병이 있는 건 아닐까 싶어요"],
+        "concerns": ["이러다 장이 아예 굳어버릴까 봐 걱정돼요", "혹시 장에 무슨 병이 있는 건 아닐까 싶어요"],
         "expectations": ["약 말고 생활에서 고칠 방법을 알고 싶어요", "변비약을 좀 처방받고 싶어요"]
       },
       "iceHint": ["internet", "work", "medicine"],

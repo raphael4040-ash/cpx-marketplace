@@ -96,7 +96,7 @@
       "occupationBias": ["housewife", "office", "teacher", "market", "care"],
       "ice": {
         "ideas": ["피곤해서 그런가 싶어요", "물혹 같은 게 생긴 것 같아요"],
-        "concerns": ["혹시 나쁜 혹일까 봐 걱정돼요", "갑자기 생겨서 무서워요"],
+        "concerns": ["혹시 나쁜 혹일까 봐 걱정돼요", "자꾸 신경이 쓰여서 불안해요"],
         "expectations": ["무슨 혹인지 검사해보고 싶어요", "아픈 게 좀 덜했으면 좋겠어요"]
       },
       "iceHint": ["cancer", "internet", "family"],

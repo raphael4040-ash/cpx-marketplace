@@ -358,8 +358,8 @@
       "constraints": { "ageRange": [24, 45], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [], "alcoholLabel": "회식 때 주 {{timesPerWeek}} 번, 소주 {{bottles}}병" },
       "occupationBias": ["office", "student", "nurse", "teacher", "parttime"],
       "ice": {
-        "ideas": ["회식 때 좀 많이 마셔서 그런 것 같아요", "간이 좀 피곤해서 그런가 싶어요"],
-        "concerns": ["간이 나빠진 건 아닐까 걱정돼요", "회식을 빠지기 어려워서 걱정이에요"],
+        "ideas": ["술자리에서 좀 많이 마셔서 그런 것 같아요", "간이 좀 피곤해서 그런가 싶어요"],
+        "concerns": ["간이 나빠진 건 아닐까 걱정돼요", "술자리를 빠지기 어려워서 걱정이에요"],
         "expectations": ["간 수치가 얼마나 나쁜 건지 알고 싶어요", "술을 어느 정도까지 마셔도 되는지 알고 싶어요"]
       },
       "iceHint": ["test", "internet", "work"],

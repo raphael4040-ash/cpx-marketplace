@@ -18,7 +18,7 @@
       "ice": {
         "ideas": ["원래 생리통이 심한 체질인 것 같아요", "몸이 차서 그런 것 같아요"],
         "concerns": ["혹시 자궁에 문제가 있는 건 아닐까 걱정돼요", "매달 이러니 생활하기가 너무 힘들어요"],
-        "expectations": ["더 잘 듣는 진통제를 받고 싶어요", "생리통을 줄이는 방법을 알고 싶어요"]
+        "expectations": ["생리할 때 먹을 약을 받고 싶어요", "생리통을 줄이는 방법을 알고 싶어요"]
       },
       "iceHint": ["internet", "work", "medicine"],
       "opening": ["생리할 때마다 배가 너무 아파요.", "생리통이 심해서 아무것도 못 할 정도예요."],
@@ -106,7 +106,7 @@
       "constraints": { "ageRange": [25, 40], "sex": "female", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["office", "teacher", "nurse", "selfemp", "care"],
       "ice": {
-        "ideas": ["나이 들면서 생리통이 심해지는 건가 싶어요", "몸이 피곤해서 그런 것 같아요"],
+        "ideas": ["요즘 무리해서 생리통이 심해진 건가 싶어요", "몸이 피곤해서 그런 것 같아요"],
         "concerns": ["자궁에 혹 같은 게 생긴 건 아닐까 걱정돼요", "이러다 일을 못 하게 될까 봐 걱정돼요"],
         "expectations": ["왜 이렇게 아픈지 검사해보고 싶어요", "통증을 확실히 줄이고 싶어요"]
       },
@@ -281,7 +281,7 @@
       "constraints": { "ageRange": [28, 45], "sex": "female", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["office", "housewife", "nurse", "teacher", "selfemp"],
       "ice": {
-        "ideas": ["나이가 들어서 생리통이 생긴 것 같아요", "몸이 피곤해서 그런가 싶어요"],
+        "ideas": ["몸이 약해져서 그런가 싶어요", "몸이 피곤해서 그런가 싶어요"],
         "concerns": ["자궁에 무슨 문제가 생긴 건 아닐까 걱정돼요", "통증이 계속될까 봐 걱정돼요"],
         "expectations": ["통증을 줄이는 방법을 알고 싶어요", "검사해서 괜찮은지 확인하고 싶어요"]
       },
