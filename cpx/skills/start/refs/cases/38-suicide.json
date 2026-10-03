@@ -12,7 +12,7 @@
     {
       "id": "sui-mdd-highrisk",
       "dx": "주요우울장애에 동반된 고위험 자살사고 (구체적 계획과 수단 접근성 있음)",
-      "constraints": { "ageRange": [35, 68], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [35, 68], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [], "alcohol": "drinker" },
       "occupationBias": ["office", "selfemp", "market", "housewife", "jobless"],
       "iceHint": ["denial", "medicine", "family"],
       "opening": ["잠이 안 오고 입맛이 없어서 왔어요.", "몸이 계속 무겁고 기운이 없어서요."],

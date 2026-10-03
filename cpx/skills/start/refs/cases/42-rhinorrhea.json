@@ -217,7 +217,7 @@
     {
       "id": "rhi-unilateral-mass",
       "dx": "편측 비강·비인두 종양 의심",
-      "constraints": { "ageRange": [45, 76], "sex": "any", "requiredRisk": ["흡연"], "requiredRiskMin": 1, "forbidden": [] },
+      "constraints": { "ageRange": [45, 76], "sex": "any", "requiredRisk": ["흡연"], "requiredRiskMin": 1, "forbidden": [], "smoking": "heavy" },
       "occupationBias": ["construct", "welder", "farmer", "driver", "market"],
       "iceHint": ["denial", "cancer", "repeat"],
       "opening": ["한쪽 코가 몇 달째 막혀 있어요.", "코가 한쪽만 계속 막혀요."],
@@ -244,7 +244,7 @@
         "체중이 줄었나": "{{weightLoss}}kg 정도 빠졌어요.",
         "귀가 먹먹하거나 안 들리나": "{{side}}쪽 귀가 물 들어간 것처럼 먹먹해요.",
         "얼굴이 저리거나 물체가 겹쳐 보이나": "저린 건 없고 겹쳐 보이지도 않아요.",
-        "담배는 얼마나 피우나": "하루 한 갑씩 삼십 년 넘게 피웠어요.",
+        "담배는 얼마나 피우나": "{{smokingSay}}",
         "코를 다치거나 수술한 적, 코에 뭔가 들어간 적이 있나": "그런 건 없어요."
       },
       "pmh": "특이 병력 없음. 이비인후과에서 비염 약만 몇 번 받아 먹었으나 효과 없었음",

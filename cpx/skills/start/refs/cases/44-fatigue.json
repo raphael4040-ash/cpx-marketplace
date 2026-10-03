@@ -81,7 +81,7 @@
     {
       "id": "fat-depression",
       "dx": "주요우울장애",
-      "constraints": { "ageRange": [25, 62], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [25, 62], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [], "alcohol": "drinker" },
       "occupationBias": ["office", "jobless", "housewife", "selfemp", "student"],
       "iceHint": ["denial", "medicine", "work"],
       "opening": ["요즘 너무 피곤해요.", "기운이 없어서 일을 못 하겠어요."],

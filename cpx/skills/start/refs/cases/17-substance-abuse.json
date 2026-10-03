@@ -175,7 +175,7 @@
     {
       "id": "sub-opioid-tramadol",
       "dx": "아편유사제(처방 진통제) 사용장애 — 초기 금단 상태",
-      "constraints": { "ageRange": [30, 60], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [30, 60], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [], "alcohol": "drinker" },
       "occupationBias": ["construct", "delivery", "driver", "market", "selfemp"],
       "iceHint": ["medicine", "denial", "repeat"],
       "opening": ["허리 때문에 먹던 진통제를 좀 더 받으려고 왔어요.", "약이 떨어져서요. 안 먹으면 몸이 너무 힘들어요."],

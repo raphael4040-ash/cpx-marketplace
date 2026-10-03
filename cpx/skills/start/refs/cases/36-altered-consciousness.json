@@ -811,7 +811,7 @@
         "sex": "any",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": [], "alcohol": "drinker"
       },
       "occupationBias": [
         "office",
