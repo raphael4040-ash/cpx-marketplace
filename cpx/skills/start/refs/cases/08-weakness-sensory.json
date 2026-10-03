@@ -88,7 +88,7 @@
       "occupationBias": ["office", "student", "teacher", "delivery", "cook", "selfemp"],
       "ice": {
         "ideas": ["피곤해서 다리에 쥐가 나는 줄 알았어요", "허리 디스크 때문에 저린 건가 싶어요"],
-        "concerns": ["자꾸 위로 올라오니까 이러다 온몸이 마비될까 봐 무서워요", "일을 못 하게 될까 봐 걱정돼요"],
+        "concerns": ["이러다 온몸에 힘이 빠질까 봐 무서워요", "일을 못 하게 될까 봐 걱정돼요"],
         "expectations": ["왜 이러는지 빨리 검사해 주세요", "더 나빠지지 않게 해주세요"]
       },
       "iceHint": ["internet", "work", "test"],
