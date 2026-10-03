@@ -390,14 +390,9 @@
         "pregnancyAnswer": [
           "임신은 아닌 것 같아요. 검사도 해봤는데 한 줄이었어요.",
           "그럴 가능성은 없어요."
-        ],
-        "fhx": [
-          "엄마도 생리가 불규칙했다고 하고 외할머니가 당뇨가 있으세요.",
-          "언니가 다낭성난소라고 진단받았어요.",
-          "특별한 건 없는 것 같아요."
         ]
       },
-      "pairedVariations": [["fhx", "fhChart"], ["sexLife", "contraception"]],
+      "pairedVariations": [["sexLife", "contraception"]],
       "disclosure": {
         "spontaneous": [
           "생리를 몇 달에 한 번씩 한다는 것"
@@ -609,14 +604,8 @@
         "pregnancyAnswer": [
           "생리를 계속 하고 있어서 임신은 아닐 거예요.",
           "가능성은 없어요."
-        ],
-        "fhx": [
-          "친정 어머니도 자궁근종으로 수술하셨어요.",
-          "특별한 건 없어요.",
-          "언니가 자궁근종이 있다고 들었어요."
         ]
       },
-      "pairedVariations": [["fhx", "fhChart"]],
       "disclosure": {
         "spontaneous": [
           "생리 양이 너무 많다는 것"

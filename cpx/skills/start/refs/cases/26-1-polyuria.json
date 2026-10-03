@@ -231,10 +231,9 @@
         "medsChart": ["없음", "약국 수면유도제를 가끔 복용", "약국 항히스타민제를 자주 복용(구강건조 유발 가능)"],
         "onsetMonths": [3, 6, 9], "severity": [3, 4],
         "urineL": [3.5, 4], "intakeL": [4, 5], "nocturia": [0, 1],
-        "meds": ["없음", "약국에서 산 수면유도제를 가끔 먹음", "구강건조를 일으킬 수 있는 항히스타민제를 자주 사 먹음"],
         "stress": ["일이 많아지고 잠을 잘 못 자요.", "집안일로 걱정이 많았어요."]
       },
-      "pairedVariations": [["meds", "medsChart", "medsSay"]],
+      "pairedVariations": [["medsChart", "medsSay"]],
       "disclosure": {
         "spontaneous": ["물을 많이 마시고 소변을 자주 본다는 것"],
         "onlyIfAsked": ["밤에는 깨지 않는다는 것", "체중 변화가 없다는 것", "스트레스와 시작 시점이 겹치는 것", "복용 중인 약", "입마름이 먼저라는 것"]

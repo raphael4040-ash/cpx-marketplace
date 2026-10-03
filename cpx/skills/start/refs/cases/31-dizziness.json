@@ -480,11 +480,6 @@
           "오른",
           "왼"
         ],
-        "extra": [
-          "말이 조금 어눌해진 것 같아요.",
-          "물이 자꾸 사레들려요.",
-          "한쪽 얼굴이 얼얼해요."
-        ],
         "diplopia": [
           "없어요.",
           "가끔 흐릿하게 겹쳐 보여요."
@@ -512,7 +507,7 @@
         "sensoryFinding": ["감각 정상", "감각 정상", "반대쪽 팔다리의 통각이 둔하다"],
         "fhx": ["아버지 뇌졸중", "특이사항 없음"]
       },
-      "pairedVariations": [["extra", "dysarthria", "dysphagia", "numb", "cranialFinding", "sensoryFinding", "extraChart"]],
+      "pairedVariations": [["dysarthria", "dysphagia", "numb", "cranialFinding", "sensoryFinding", "extraChart"]],
       "disclosure": {
         "spontaneous": [
           "어지럽고 걷지 못한다는 것"

@@ -348,16 +348,12 @@
           "혈압약을 먹는데 최근 하나 늘렸어요.",
           "혈압약과 심장약을 먹어요."
         ],
-        "cardiacHx": [
-          "특별한 심장 병력은 없어요.",
-          "부정맥이 있다는 말을 들은 적 있어요."
-        ],
         "fhx": [
           "없어요.",
           "{{olderBro}}가 갑자기 돌아가셨어요."
         ]
       },
-      "pairedVariations": [["fhx", "fhChart"], ["meds", "medsChart"], ["cardiacHx", "cardiacChart"], ["episodes", "episodesChart"], ["situation", "situationSay"]],
+      "pairedVariations": [["fhx", "fhChart"], ["meds", "medsChart"], ["episodes", "episodesChart"], ["situation", "situationSay"]],
       "disclosure": {
         "spontaneous": [
           "쓰러졌다는 것"
