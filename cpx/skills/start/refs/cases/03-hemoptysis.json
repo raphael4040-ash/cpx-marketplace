@@ -97,7 +97,7 @@
       "constraints": { "ageRange": [45, 78], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
       "occupationBias": ["housewife", "retired", "market", "farmer", "selfemp"],
       "ice": {
-        "ideas": ["기침을 세게 해서 목에서 피가 난 것 같아요", "원래 폐가 좀 약해서 그런가 싶어요"],
+        "ideas": ["기침을 세게 해서 목에서 피가 난 것 같아요", "원래 가래가 많아서 목이 상한 것 같아요"],
         "concerns": ["피가 나오니까 혹시 폐암일까 봐 걱정돼요", "피가 더 많이 나오면 어떡하나 싶어요"],
         "expectations": ["피가 안 나게 해주셨으면 해요", "폐 사진 찍어서 괜찮은지 보고 싶어요"]
       },
