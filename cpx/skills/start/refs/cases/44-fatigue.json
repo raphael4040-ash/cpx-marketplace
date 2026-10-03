@@ -15,7 +15,7 @@
       "constraints": { "ageRange": [35, 68], "sex": "female", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": ["갑상선기능저하증"] },
       "occupationBias": ["housewife", "office", "market", "care", "teacher"],
       "ice": {
-        "ideas": ["나이 들어서 기력이 떨어진 것 같아요", "갱년기가 와서 그런가 싶어요"],
+        "ideas": ["나이 들어서 기력이 떨어진 것 같아요", "요즘 신경 쓸 일이 많아서 그런가 싶어요"],
         "concerns": ["몸에 무슨 병이 있는 건 아닐까 걱정돼요", "이대로 계속 처질까 봐 걱정이에요"],
         "expectations": ["왜 이렇게 피곤한지 검사해보고 싶어요", "기운 좀 차리게 해주세요"]
       },
