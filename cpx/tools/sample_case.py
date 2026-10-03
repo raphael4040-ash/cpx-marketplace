@@ -447,6 +447,9 @@ def draw_guardian(scenario, person, personas, slots):
         g_sex = "female"
     elif any(w in rel for w in MALE_REL):
         g_sex = "male"
+    elif "배우자" in rel:
+        # 성별이 안 드러나는 관계 이름이라 추첨에 맡겼더니 여성 환자에게 여성 배우자가 나왔다.
+        g_sex = "male" if person["sex"] == "female" else "female"
 
     lo, hi = max(lo, 22), min(hi, 88)
     if lo > hi:
