@@ -22,7 +22,7 @@
         "sex": "any",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": ["고혈압"]
       },
       "occupationBias": [
         "office",
@@ -192,7 +192,7 @@
       ],
       "hpi": {
         "onset": "{{onsetMonths}}개월 전부터 서서히",
-        "character": "가래가 섞인 기침. 최근 가래에 피가 비침",
+        "character": "{{coughChar}}",
         "location": "해당 없음",
         "radiation": "해당 없음",
         "aggravating": "특별한 유발 요인 없음",
@@ -226,7 +226,7 @@
         "예전에 결핵 앓은 적": "{{pastTb}}",
         "면역을 떨어뜨리는 병이나 약을 쓰나": "스테로이드나 항암치료를 받은 적은 없어요."
       },
-      "pmh": "{{pastTb}}",
+      "pmh": "{{pastTbPmh}}",
       "meds": "감기약을 사 먹었음",
       "allergy": "없음",
       "fh": "특이사항 없음",
@@ -306,6 +306,7 @@
           "최근에 가래에 피가 비쳤어요.",
           "피는 안 섞였어요."
         ],
+        "coughChar": ["가래가 섞인 기침. 최근 가래에 피가 비침", "가래가 섞인 기침. 피는 섞이지 않음"],
         "contact": [
           "같이 일하던 분이 결핵으로 치료받았어요.",
           "짚이는 데는 없어요."
@@ -314,6 +315,7 @@
           "결핵을 앓은 적은 없어요.",
           "20년 전에 결핵 치료를 받은 적 있어요."
         ],
+        "pastTbPmh": ["특이 병력 없음", "20년 전 결핵 치료"],
         "lymph": [
           "커진 것 없음",
           "경부에 작고 단단한 림프절이 만져진다"
@@ -323,6 +325,7 @@
           "왼"
         ]
       },
+      "pairedVariations": [["hemoptysis", "coughChar"], ["pastTb", "pastTbPmh"]],
       "disclosure": {
         "spontaneous": [
           "기침이 오래간다는 것"
@@ -347,7 +350,7 @@
         "sex": "any",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": []
+        "forbidden": ["고혈압"]
       },
       "occupationBias": [
         "office",
@@ -405,9 +408,9 @@
         "밤에 기침으로 깨나": "누우면 좀 심해지긴 해요.",
         "알레르기": "{{allergyHx}}"
       },
-      "pmh": "{{allergyHx}}",
+      "pmh": "{{allergyPmh}}",
       "meds": "없음",
-      "allergy": "{{allergyHx}}",
+      "allergy": "없음",
       "fh": "특이사항 없음",
       "sh": "인물 카드를 따름",
       "pe": {
@@ -468,11 +471,10 @@
           3,
           4
         ],
-        "allergyHx": [
-          "알레르기 비염이 있어요.",
-          "특이사항 없음"
-        ]
+        "allergyHx": ["알레르기 비염이 있어요.", "특별한 알레르기는 없어요."],
+        "allergyPmh": ["알레르기 비염", "특이 병력 없음"]
       },
+      "pairedVariations": [["allergyHx", "allergyPmh"]],
       "disclosure": {
         "spontaneous": [
           "기침과 목 간지러움"
