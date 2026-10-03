@@ -652,7 +652,7 @@
         "voice": "익숙한 듯 담담하지만 지쳐 있다. 술 이야기에는 말끝을 흐린다"
       },
       "opening": [
-        "남편이 자꾸 헛소리를 하고 손을 떨어요.",
+        "{{patientRel}} 자꾸 헛소리를 하고 손을 떨어요.",
         "낮밤이 바뀌고 사람을 못 알아봐요."
       ],
       "hpi": {
@@ -757,6 +757,7 @@
         ]
       },
       "variations": {
+        "patientRel": [{"text": "남편이", "sexOnly": "male"}, {"text": "아내가", "sexOnly": "female"}],
         "onsetDays": [
           2,
           3,
