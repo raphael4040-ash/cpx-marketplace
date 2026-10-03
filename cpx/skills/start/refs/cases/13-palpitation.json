@@ -428,7 +428,7 @@
       "meds": "{{adherenceMeds}}",
       "allergy": "없음",
       "fh": "{{fhxChart}}",
-      "sh": "인물 카드를 따르되 과거 흡연력 확인이 중요",
+      "sh": "인물 카드를 따름",
       "pe": {
         "vitals": {
           "sbp": [
