@@ -622,7 +622,7 @@
       "pmh": "특이 병력 없음",
       "meds": "없음",
       "allergy": "없음",
-      "fh": "{{fhx}}",
+      "fh": "{{fhChart}}",
       "sh": "인물 카드를 따름",
       "pe": {
         "vitals": {
@@ -684,6 +684,7 @@
         ]
       },
       "variations": {
+        "fhChart": ["이모 갑상선 질환(약 복용)", "특이사항 없음"],
         "onsetMonths": [
           2,
           3,
@@ -704,6 +705,7 @@
           "가족 중에는 없어요."
         ]
       },
+      "pairedVariations": [["fhx", "fhChart"]],
       "disclosure": {
         "spontaneous": [
           "가슴이 두근거린다는 것",

@@ -737,7 +737,7 @@
       "pmh": "특별한 병력 없음. 건강검진은 몇 년 안 받음",
       "meds": "{{meds}}",
       "allergy": "없음",
-      "fh": "{{fhx}}",
+      "fh": "{{fhChart}}",
       "sh": "인물 카드를 따르되 저녁에 물이나 술을 늦게 마시는 편",
       "pe": {
         "vitals": {
@@ -787,6 +787,7 @@
         ]
       },
       "variations": {
+        "fhChart": ["형 전립선 수술", "특이사항 없음"],
         "onsetYears": [
           2,
           3,
@@ -815,6 +816,7 @@
           "가끔 코감기약을 사 먹음"
         ]
       },
+      "pairedVariations": [["fhx", "fhChart"]],
       "disclosure": {
         "spontaneous": [
           "밤에 소변 때문에 깬다는 것"

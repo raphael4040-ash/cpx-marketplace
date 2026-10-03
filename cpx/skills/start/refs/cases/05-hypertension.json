@@ -52,8 +52,8 @@
       "pmh": "특이 병력 없음. 수술 받은 적 없음",
       "meds": "복용 중인 약 없음. 소염진통제나 감기약도 자주 먹지는 않음",
       "allergy": "없음",
-      "fh": "아버지가 고혈압으로 약을 드셨고 {{familyEvent}}",
-      "sh": "인물 카드를 따르되 음주 또는 흡연 중 하나 이상 보유. 짠 음식을 좋아하고 운동은 거의 하지 않음",
+      "fh": "아버지 고혈압. {{familyEvent}}",
+      "sh": "인물 카드를 따르되 짠 음식을 좋아하고 운동은 거의 하지 않음",
       "pe": {
         "vitals": { "sbp": [148, 166], "dbp": [90, 102], "hr": [70, 88], "rr": [14, 18], "temp": [36.3, 37.0], "spo2": [97, 99],
                     "invariant": "수축기 140 이상, 이완기 90 이상을 유지한다. 180 이상으로 올리지 않는다(응급증 케이스가 되어 달라진다). 양팔 혈압 차이는 10 이내로 둔다." },
@@ -80,7 +80,7 @@
       },
       "variations": {
         "yearsHigh": [2, 3, 5], "severity": [0, 1, 2], "weightGain": [5, 7, 10],
-        "familyEvent": ["{{olderBro}}도 고혈압 약을 먹어요.", "어머니는 특별한 병은 없으세요.", "예순에 뇌졸중으로 쓰러지셨어요."],
+        "familyEvent": ["{{olderBro}}도 고혈압", "어머니는 특이사항 없음", "아버지 60세에 뇌졸중"],
         "pregOcp": [{"text": "임신은 아니고 피임약도 안 먹어요.", "sexOnly": "female", "maxAge": 52}, {"text": "폐경한 지 오래됐고 호르몬제는 안 먹어요.", "sexOnly": "female", "minAge": 53}, {"text": "저는 남자라서 해당이 없어요.", "sexOnly": "male"}]
       },
       "disclosure": {
@@ -130,7 +130,7 @@
       "pmh": "요로감염으로 몇 년 전 치료받은 적 있음. 그 외 특이 병력 없음",
       "meds": "복용 중인 약 없음",
       "allergy": "없음",
-      "fh": "{{familyKidney}} {{familyBrain}}",
+      "fh": "{{kidneyChart}}. {{brainChart}}",
       "sh": "인물 카드를 따름",
       "pe": {
         "vitals": { "sbp": [146, 164], "dbp": [92, 104], "hr": [72, 88], "rr": [14, 18], "temp": [36.3, 37.0], "spo2": [97, 99],
@@ -156,11 +156,14 @@
         "negatives": ["신동맥 잡음 없음", "하지 부종 없음", "발열 없음", "유두부종 없음", "신경학적 국소 소견 없음"]
       },
       "variations": {
+        "brainChart": ["삼촌 뇌출혈로 사망", "뇌혈관 질환 가족력 없음"],
+        "kidneyChart": ["아버지 다낭신, 투석 중", "고모 신부전으로 투석 중"],
         "monthsHigh": [3, 6, 8], "severity": [2, 3, 4], "side": ["오른", "왼", "양"],
         "familyKidney": ["아버지가 콩팥에 물혹이 많다고 하셨고 지금 투석하세요.", "고모가 콩팥 때문에 투석하신다고 들었어요."],
         "familyBrain": ["삼촌이 뇌혈관이 터져서 돌아가셨어요.", "뇌 쪽 병은 들은 적 없어요."],
         "pregOcp": [{"text": "임신은 아니고 피임약도 안 먹어요.", "sexOnly": "female", "maxAge": 52}, {"text": "폐경한 지 오래됐고 호르몬제는 안 먹어요.", "sexOnly": "female", "minAge": 53}, {"text": "저는 남자라서 해당이 없어요.", "sexOnly": "male"}]
       },
+      "pairedVariations": [["familyBrain", "brainChart"], ["familyKidney", "kidneyChart"]],
       "disclosure": {
         "spontaneous": ["혈압이 높게 나왔다는 것"],
         "onlyIfAsked": ["옆구리 불편감", "과거 혈뇨", "야간뇨", "가족의 콩팥병·투석력", "가족의 뇌출혈력"]
@@ -287,7 +290,7 @@
       "pmh": "특이 병력 없음. 몇 년 전 검진에서는 혈압이 정상이었음",
       "meds": "복용 중인 약 없음",
       "allergy": "없음",
-      "fh": "{{familyEndo}}",
+      "fh": "{{endoChart}}",
       "sh": "인물 카드를 따름",
       "pe": {
         "vitals": { "sbp": [168, 192], "dbp": [96, 112], "hr": [100, 118], "rr": [16, 22], "temp": [36.4, 37.2], "spo2": [97, 99],
@@ -313,11 +316,13 @@
         "negatives": ["갑상선 비대 없음", "안구돌출 없음", "심잡음 없음", "유두부종 없음", "복부 종괴 촉지되지 않음"]
       },
       "variations": {
+        "endoChart": ["아버지 부신 종양 수술", "특이사항 없음", "{{olderSis}} 갑상선 수술"],
         "monthsSx": [3, 5, 8], "severity": [7, 8, 9], "durationMin": [15, 20, 30], "weightLoss": [3, 4, 5],
         "trigger": ["몸을 숙이거나 무거운 걸 들 때", "긴장할 때나 잠에서 깰 때", "특별한 이유 없이 아무 때나"],
         "familyEndo": ["아버지도 부신에 혹이 있어서 수술하셨대요.", "가족 중에 그런 병은 없어요.", "{{olderSis}}가 갑상선 수술을 받은 적 있어요."],
         "pregOcp": [{"text": "임신은 아니고 피임약도 안 먹어요.", "sexOnly": "female", "maxAge": 52}, {"text": "폐경한 지 오래됐고 호르몬제는 안 먹어요.", "sexOnly": "female", "minAge": 53}, {"text": "저는 남자라서 해당이 없어요.", "sexOnly": "male"}]
       },
+      "pairedVariations": [["familyEndo", "endoChart"]],
       "disclosure": {
         "spontaneous": ["갑자기 머리가 아프고 가슴이 뛴다는 것"],
         "onlyIfAsked": ["발작적 발한", "발작 시 혈압이 200 가까이 올랐던 것", "기립성 어지럼", "체중감소", "가족의 내분비 종양력", "발작 사이에는 정상이라는 것"]

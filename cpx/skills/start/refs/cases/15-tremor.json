@@ -239,7 +239,7 @@
       "pmh": "특이 병력 없음",
       "meds": "없음",
       "allergy": "없음",
-      "fh": "{{fhTremor}}",
+      "fh": "{{tremorChart}}",
       "sh": "인물 카드를 따르되 커피를 하루 2~3잔 마심",
       "pe": {
         "vitals": {
@@ -290,6 +290,7 @@
         ]
       },
       "variations": {
+        "tremorChart": ["아버지 손떨림", "어머니 노년기 손떨림"],
         "onsetYears": [
           5,
           8,
@@ -309,6 +310,7 @@
           "어머니가 나이 들면서 손을 떠셨어요."
         ]
       },
+      "pairedVariations": [["fhTremor", "tremorChart"]],
       "disclosure": {
         "spontaneous": [
           "손이 떨려서 불편하다는 것"
