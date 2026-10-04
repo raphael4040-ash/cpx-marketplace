@@ -445,11 +445,16 @@ def draw_guardian(scenario, person, personas, slots):
     else:
         lo, hi = age + 22, age + 40
         g_sex = "female" if random.random() < 0.7 else "male"
+    # 손아래·손위 형제는 "같은 또래" 범위에서 방향만 정한다. 76세 환자의 여동생이 80세로 나왔다.
+    if "동생" in rel:
+        lo, hi = age - 12, age - 1
+    elif any(w in rel for w in ("형", "누나", "언니", "오빠")):
+        lo, hi = age + 1, age + 12
 
     # 관계가 성별을 정하는 경우에는 추첨 결과를 덮어쓴다.
     # 예전에는 '딸'인데 남자 보호자가 나왔다.
-    FEMALE_REL = ("딸", "며느리", "어머니", "엄마", "아내", "누나", "언니", "할머니", "이모", "고모")
-    MALE_REL = ("아들", "사위", "아버지", "아빠", "남편", "형", "오빠", "할아버지", "삼촌")
+    FEMALE_REL = ("딸", "며느리", "여동생", "어머니", "엄마", "아내", "누나", "언니", "할머니", "이모", "고모")
+    MALE_REL = ("아들", "사위", "남동생", "아버지", "아빠", "남편", "형", "오빠", "할아버지", "삼촌")
     if any(w in rel for w in FEMALE_REL):
         g_sex = "female"
     elif any(w in rel for w in MALE_REL):
@@ -523,6 +528,9 @@ def allowed(v, person):
     if v.get("maxAge") is not None and person["age"] > v["maxAge"]:
         return False
     if v.get("minAge") is not None and person["age"] < v["minAge"]:
+        return False
+    # 술을 전제한 답. 비음주 인물이 "예전엔 더 드셨는데… 술은 안 드세요"라고 했다.
+    if v.get("drinkerOnly") and person["alcohol"]["id"] == "none":
         return False
     return True
 
