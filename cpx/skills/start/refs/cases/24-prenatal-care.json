@@ -23,11 +23,7 @@
         "sex": "female",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": [
-          "htn",
-          "dm",
-          "gout"
-        ],
+        "forbidden": ["htn", "dm", "gout", "dyslip"],
         "smoking": "notCurrent",
         "alcohol": "never"
       },
@@ -227,9 +223,7 @@
         "sex": "female",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": [
-          "dm"
-        ],
+        "forbidden": ["dm", "htn", "dyslip", "gout"],
         "smoking": "notCurrent",
         "alcohol": "never"
       },
@@ -425,7 +419,7 @@
         "sex": "female",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": ["고혈압", "당뇨병"],
+        "forbidden": ["고혈압", "당뇨병", "dyslip", "gout"],
         "smoking": "never",
         "alcohol": "never"
       },
@@ -621,9 +615,7 @@
         "sex": "female",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": [
-          "dm"
-        ],
+        "forbidden": ["dm", "htn", "dyslip", "gout"],
         "smoking": "never",
         "alcohol": "never"
       },
@@ -821,7 +813,7 @@
         "sex": "female",
         "requiredRisk": [],
         "requiredRiskMin": 0,
-        "forbidden": [],
+        "forbidden": ["htn", "dyslip", "gout"],
         "smokingLabel": "임신 확인 후 금연 (그전 하루 반 갑)",
         "alcohol": "never"
       },
