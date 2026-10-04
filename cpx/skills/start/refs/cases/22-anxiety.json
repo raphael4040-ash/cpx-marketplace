@@ -182,7 +182,7 @@
     {
       "id": "anx-ptsd",
       "dx": "외상후스트레스장애 (교통사고 후)",
-      "constraints": { "ageRange": [24, 55], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [] },
+      "constraints": { "ageRange": [24, 55], "sex": "any", "requiredRisk": [], "requiredRiskMin": 0, "forbidden": [], "alcohol": "drinker" },
       "occupationBias": ["driver", "delivery", "office", "market", "selfemp"],
       "ice": {
         "ideas": ["시간이 지나면 괜찮아질 줄 알았는데 제가 약해서 그런 것 같아요", "그 일이 너무 충격이라 그런 것 같아요"],
