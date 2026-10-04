@@ -27,6 +27,7 @@ NOTE_FIELDS = ["pmh", "meds", "allergy", "fh", "sh"]
 
 # 조사가 잇달아 두 번 찍힌 것. 낱말 반복("내가 내가 아닌 것 같은")은 정상이라
 # 조사만 본다.
+CHART_SPEECH = re.compile(r"((?<=[가-힣])요[.!?]?(\s|,|$)|습니다)")
 DUP_PARTICLE = re.compile("에서에서|으로으로|에게에게|부터부터|까지까지|하고하고|이다이다")
 
 # 배경질환 약 이름. 카드 자신의 meds 칸이 이 이름을 그대로 적어 두면, 같은 병이
@@ -79,6 +80,17 @@ def scan(case, path, problems):
             # 그 외 진찰 소견은 서술자의 말이므로 환자 1인칭 대사가 들어가면 안 된다
             if re.search(r"(제가|저는|아파요|없어요|있어요|같아요)", v):
                 problems.append("진찰 소견에 환자 1인칭 대사 '%s': %s" % (k, v[:46]))
+
+    # 현병력·동반증상·병력 칸은 차트 문구여야 한다. 대사가 들어가면 모델이 그 칸을
+    # 그대로 읽어 준다(13-두근거림 경과 칸이 "금방 괜찮아졌어요.", 24-산전 진찰은
+    # 현병력 전체가 대사였다). "요 며칠", "요즘" 은 대사가 아니므로 앞에 한글이 붙은
+    # "…요" 만 본다.
+    chart = [("hpi." + k, v) for k, v in (s.get("hpi") or {}).items()]
+    chart += [("assoc." + k, x) for k, l in (s.get("assoc") or {}).items() for x in (l or [])]
+    chart += [(k, s.get(k)) for k in ("pmh", "meds", "allergy", "fh", "sh")]
+    for k, v in chart:
+        if isinstance(v, str) and "'" not in v and CHART_SPEECH.search(v):
+            problems.append("차트 칸에 대사 %s: %s" % (k, v[:50]))
 
     # 배경질환과 합쳐진 과거력이 주어를 잃지 않았는지.
     # "이상지질혈증. 처음이에요." 는 무엇이 처음인지 알 수 없다.
