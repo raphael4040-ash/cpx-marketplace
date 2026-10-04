@@ -7,6 +7,9 @@
 
     python smoke_all.py            시나리오당 5회
     python smoke_all.py 20         시나리오당 20회
+
+슬롯 이름 노출, 직업 없는 인물의 직장 전제 낱말, 달력 날짜 고정, 첫 대사 시간어와
+발병 시점 불일치도 여기서 본다 (2026-10-04 재통독에서 사람이 읽어 찾던 것들).
 """
 from __future__ import unicode_literals
 import io, json, os, re, sys, glob
@@ -198,7 +201,7 @@ def scan(case, path, problems):
             if m and "학교" in v and p["occupation"]["id"] in sc.OCC_GROUPS["학생"]:
                 continue
             if m:
-                problems.append("직업 없는 인물에게 직장 전제 '%s': %s" % (m.group(0), v[:44]))
+                problems.append("직업 없는 인물에게 직장 전제: '%s' / %s" % (m.group(0), v[:44]))
 
     # 달력 날짜가 고정돼 있는지
     m = CALENDAR.search(json.dumps(s, ensure_ascii=False))
@@ -214,7 +217,7 @@ def scan(case, path, problems):
             for pat, lo, hi in OPENING_TIME:
                 mm = pat.search(line)
                 if mm and not pat.search(onset) and not (lo <= h <= hi):
-                    problems.append("첫 대사 시간어 '%s'와 발병(%s) 어긋남: %s" % (mm.group(0), onset[:16], line[:30]))
+                    problems.append("첫 대사 시간어와 발병 시점 어긋남: '%s' / 발병 %s / %s" % (mm.group(0), onset[:16], line[:30]))
 
 
 def main(argv):
