@@ -63,7 +63,7 @@ def topic_files():
 
 # ---------------------------------------------------------------- 추첨 보조
 
-def scenario_ice(scenario):
+def scenario_ice(scenario, person=None):
     """시나리오 카드의 ice {ideas, concerns, expectations} 에서 하나씩 뽑아 한 줄로 만든다.
     셋 중 하나라도 비어 있으면 None — 그 시나리오는 인물 성향 ICE 를 그대로 쓴다.
     cpx-worker 의 sampleCase.js scenarioIce() 와 같은 형식이어야 한다."""
@@ -73,7 +73,12 @@ def scenario_ice(scenario):
         opts = ice.get(k) or []
         if not opts:
             return None
-        picks.append(random.choice(opts))
+        # 값이 {"text", "occOnly"…} 이면 변주와 같은 조건을 본다. 주부·은퇴자가
+        # "일을 며칠 못 나갈까 봐" 걱정했다. 다 걸러지면 원래 목록을 쓴다.
+        if person is not None:
+            opts = [o for o in opts if allowed(o, person)] or opts
+        pick = random.choice(opts)
+        picks.append(pick["text"] if isinstance(pick, dict) else pick)
     return {"id": "scenario",
             "idea": "생각(원인): %s / 걱정: %s / 기대: %s" % tuple(picks)}
 
@@ -268,6 +273,13 @@ def draw_person(scenario, personas):
     bias = [o for o in personas["occupations"]
             if o["id"] in scenario.get("occupationBias", []) and occupation_ok(o, age)]
     allowed = [o for o in personas["occupations"] if occupation_ok(o, age)]
+    # 카드 전체가 직업을 전제하면 occupationOnly 로 못박는다. occupationBias 는 60% 만
+    # 존중해서, 교대근무 불면 카드에 주부·건설 일용직이 "3교대 근무예요" 라고 했다.
+    only = c.get("occupationOnly")
+    if only:
+        fixed = [o for o in allowed if o["id"] in only]
+        if fixed:
+            bias, allowed = fixed, fixed
     if not allowed:
         # 나이에 맞는 직업이 하나도 없으면 아무거나 고르지 않고 가장 가까운 것을 쓴다.
         # 예전에는 전체에서 뽑아 나이 제약이 조용히 무시됐다.
@@ -438,11 +450,16 @@ def draw_guardian(scenario, person, personas, slots):
     else:
         lo, hi = age + 22, age + 40
         g_sex = "female" if random.random() < 0.7 else "male"
+    # 손아래·손위 형제는 "같은 또래" 범위에서 방향만 정한다. 76세 환자의 여동생이 80세로 나왔다.
+    if "동생" in rel:
+        lo, hi = age - 12, age - 1
+    elif any(w in rel for w in ("형", "누나", "언니", "오빠")):
+        lo, hi = age + 1, age + 12
 
     # 관계가 성별을 정하는 경우에는 추첨 결과를 덮어쓴다.
     # 예전에는 '딸'인데 남자 보호자가 나왔다.
-    FEMALE_REL = ("딸", "며느리", "어머니", "엄마", "아내", "누나", "언니", "할머니", "이모", "고모")
-    MALE_REL = ("아들", "사위", "아버지", "아빠", "남편", "형", "오빠", "할아버지", "삼촌")
+    FEMALE_REL = ("딸", "며느리", "여동생", "어머니", "엄마", "아내", "누나", "언니", "할머니", "이모", "고모")
+    MALE_REL = ("아들", "사위", "남동생", "아버지", "아빠", "남편", "형", "오빠", "할아버지", "삼촌")
     if any(w in rel for w in FEMALE_REL):
         g_sex = "female"
     elif any(w in rel for w in MALE_REL):
@@ -516,6 +533,9 @@ def allowed(v, person):
     if v.get("maxAge") is not None and person["age"] > v["maxAge"]:
         return False
     if v.get("minAge") is not None and person["age"] < v["minAge"]:
+        return False
+    # 술을 전제한 답. 비음주 인물이 "예전엔 더 드셨는데… 술은 안 드세요"라고 했다.
+    if v.get("drinkerOnly") and person["alcohol"]["id"] == "none":
         return False
     return True
 
@@ -758,7 +778,7 @@ def build(topic, data, scenario_id=None):
     # 시나리오에 ICE(생각·걱정·기대)가 따로 있으면 인물 성향의 한 줄 ICE 대신 그것을 쓴다.
     # 성향 ICE 는 케이스와 무관한 한 문장이라 "가장 걱정되는 게?"에 어느 케이스든 같은 답이 나왔다.
     # 검증은 성향 ICE 로 끝낸 뒤에 바꾼다 — 상충 조합 규칙이 성향 id 를 보기 때문.
-    s_ice = scenario_ice(scenario)
+    s_ice = scenario_ice(scenario, person)
     if s_ice:
         person["ice"] = s_ice
 

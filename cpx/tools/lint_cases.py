@@ -38,6 +38,9 @@ def load(p):
         return json.load(f)
 
 
+PERSONAS = load(os.path.join(CASES, "personas.json"))
+
+
 def slots_walk(node, out):
     """카드 안의 모든 문자열을 모은다. 문답 질문은 키에 들어 있으므로 키도 본다."""
     if isinstance(node, dict):
@@ -259,6 +262,21 @@ def check_file(path):
                 if gaps:
                     errs.append("%s: variations.%s 가 나이 %s~%s 구간에서 후보가 없음 (ageRange 는 %s~%s) — 빈 문자열로 나온다"
                                 % (tag, vkey, gaps[0], gaps[-1], lo, hi))
+        # occupationOnly 는 직업을 못박는다. 없는 id 이거나 ageRange 안에서 하나도
+        # 못 고르면 sample_case 가 조용히 무시하므로 여기서 잡는다.
+        only = c.get("occupationOnly")
+        if only:
+            occs = {o["id"]: o for o in PERSONAS.get("occupations", [])}
+            unknown = [o for o in only if o not in occs]
+            if unknown:
+                errs.append("%s: occupationOnly 에 없는 직업 id %s" % (tag, unknown))
+            elif "ageRange" in c:
+                lo, hi = c["ageRange"]
+                gaps = [a for a in range(lo, hi + 1)
+                        if not any(occs[o].get("ageRange", [0, 200])[0] <= a <= occs[o].get("ageRange", [0, 200])[1]
+                                   for o in only)]
+                if gaps:
+                    errs.append("%s: occupationOnly 가 나이 %s~%s 에서 고를 직업이 없음" % (tag, gaps[0], gaps[-1]))
         if c.get("sex") not in ("any", "male", "female", None):
             errs.append("%s: constraints.sex 값 오류 (%s)" % (tag, c.get("sex")))
         if c.get("requiredRisk") and not c.get("requiredRiskMin"):
@@ -447,6 +465,14 @@ def check_file(path):
                 continue
             if len({len(vars_[k]) for k in group}) > 1:
                 errs.append("%s: 짝지은 슬롯 %s 의 값 개수가 다름" % (tag, ", ".join(group)))
+        # 한 슬롯이 두 묶음에 걸리면 한쪽 묶음만 맞춰진다. 케톤산증 카드가
+        # "작년에 당뇨 진단"이라 답하는데 차트엔 "진단받은 적 없음"이 찍혔다. 한 묶음으로 합칠 것.
+        seen_pair = {}
+        for group in (s.get("pairedVariations") or []):
+            for k in group:
+                if k in seen_pair and seen_pair[k] is not group:
+                    errs.append("%s: 슬롯 %s 가 두 짝 묶음에 걸림 — 한 묶음으로 합칠 것" % (tag, k))
+                seen_pair[k] = group
 
         # informant 가 문자열이면 보호자 관계 자리에 설명문이 통째로 찍힌다
         info = s.get("informant")
