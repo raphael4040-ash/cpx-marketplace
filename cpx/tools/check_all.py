@@ -46,6 +46,8 @@ def main(argv):
             "나이·직업·흡연·성별 제약과 상충 조합"),
         run("실사용 출력", ["smoke_all.py", reps],
             "치환 후에야 드러나는 것 — 남은 슬롯, 지시문 노출, 과거력 주어 유실"),
+        run("카드 계약", ["check_contract.py", reps],
+            "카드가 선언한 조건(값 조건·짝 묶음·직업 고정·금지 지병·형제 나이)을 추첨 결과가 지키는지. 워커 cardContract.test.mjs 와 같은 검사"),
         run("버전 동기화", ["check_versions.py"],
             "plugin.json 과 marketplace.json 의 version 이 같은지 (1.3.60 배포 때 어긋난 적 있음)"),
     ]

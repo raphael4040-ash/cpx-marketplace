@@ -112,7 +112,9 @@ python review_dump.py --all --draws 2 --out ../../../review
 python check_all.py 15
 ```
 
-네 검사기를 모두 통과해야 한다. 새로 만든 규칙이 실제로 잡는지 확인하려면
+모든 검사기(형식·내부 모순·조합 규칙·실사용 출력·카드 계약·버전)를 통과해야 한다.
+카드에 새 값 조건이나 제약을 만들면 `sample_case.py` 와 워커 `sampleCase.js` 양쪽에 구현하고,
+`check_contract.py` 와 워커 `test/cardContract.test.mjs` 의 조건 목록에도 함께 넣는다. 새로 만든 규칙이 실제로 잡는지 확인하려면
 일부러 되돌려 걸리는 것을 본 뒤 원복한다.
 
 ## 4. 배포
@@ -1627,6 +1629,13 @@ drinkerOnly 가 지켜지는 것을 확인했다.
 직장 있는 인물로 `occupationOnly` 를 걸었고, 주관적 기억저하 "업무량"(10), 양극성
 "직장"(09), 결핵 "근무 환경"(11), 음주·금연 상담 "회식"·"같이 일하는"(35-1, 35-2),
 A형 간염 "동료"(48)는 직업과 무관한 말로 바꿨다.
+
+마지막으로 두 샘플러(Python·JS)가 어긋나는 것을 막는 "카드 계약" 검사를 만들었다
+(`check_contract.py`, 워커 `test/cardContract.test.mjs`). 카드가 선언한 조건 — 값 조건
+(sexOnly·occOnly·minAge·maxAge·drinkerOnly), 짝 묶음, occupationOnly, 금지 지병, 흡연·음주
+제약, ICE 값 조건, 형제 보호자 나이 방향 — 을 샘플러 코드를 쓰지 않고 다시 확인한다. 모르는
+값 조건 키를 카드에 쓰면 그것도 걸린다. 이번 통독 전 코드로 돌리면 짝 묶음 겹침(47)과
+여동생 나이(10)를 잡고, JS 샘플러에서 drinkerOnly·형제 나이 규칙을 일부러 빼면 테스트가 실패한다.
 
 ## 통독 진행표
 
