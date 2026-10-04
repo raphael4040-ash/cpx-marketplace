@@ -268,6 +268,13 @@ def draw_person(scenario, personas):
     bias = [o for o in personas["occupations"]
             if o["id"] in scenario.get("occupationBias", []) and occupation_ok(o, age)]
     allowed = [o for o in personas["occupations"] if occupation_ok(o, age)]
+    # 카드 전체가 직업을 전제하면 occupationOnly 로 못박는다. occupationBias 는 60% 만
+    # 존중해서, 교대근무 불면 카드에 주부·건설 일용직이 "3교대 근무예요" 라고 했다.
+    only = c.get("occupationOnly")
+    if only:
+        fixed = [o for o in allowed if o["id"] in only]
+        if fixed:
+            bias, allowed = fixed, fixed
     if not allowed:
         # 나이에 맞는 직업이 하나도 없으면 아무거나 고르지 않고 가장 가까운 것을 쓴다.
         # 예전에는 전체에서 뽑아 나이 제약이 조용히 무시됐다.
