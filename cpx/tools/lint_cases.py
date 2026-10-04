@@ -465,6 +465,14 @@ def check_file(path):
                 continue
             if len({len(vars_[k]) for k in group}) > 1:
                 errs.append("%s: 짝지은 슬롯 %s 의 값 개수가 다름" % (tag, ", ".join(group)))
+        # 한 슬롯이 두 묶음에 걸리면 한쪽 묶음만 맞춰진다. 케톤산증 카드가
+        # "작년에 당뇨 진단"이라 답하는데 차트엔 "진단받은 적 없음"이 찍혔다. 한 묶음으로 합칠 것.
+        seen_pair = {}
+        for group in (s.get("pairedVariations") or []):
+            for k in group:
+                if k in seen_pair and seen_pair[k] is not group:
+                    errs.append("%s: 슬롯 %s 가 두 짝 묶음에 걸림 — 한 묶음으로 합칠 것" % (tag, k))
+                seen_pair[k] = group
 
         # informant 가 문자열이면 보호자 관계 자리에 설명문이 통째로 찍힌다
         info = s.get("informant")

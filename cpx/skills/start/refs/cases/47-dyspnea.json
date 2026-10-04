@@ -849,7 +849,7 @@
         ],
         "fhx": ["아버지 당뇨", "특이사항 없음"]
       },
-      "pairedVariations": [["insulin", "insulinChart"], ["dmHx", "dmChart"], ["dmHx", "insulin"]],
+      "pairedVariations": [["dmHx", "dmChart", "insulin", "insulinChart"]],
       "disclosure": {
         "spontaneous": [
           "숨이 가쁘고 기운이 없다는 것"
