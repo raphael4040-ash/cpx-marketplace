@@ -1,10 +1,10 @@
 ---
 name: pair
-description: CPX 기록판 웹앱과 이 컴퓨터를 연결한다. 사용자가 /cpx:pair <연결코드> 로 호출할 때만 사용한다.
+description: CPXpert 웹앱과 이 컴퓨터를 연결한다. 사용자가 /cpx:pair <연결코드> 로 호출할 때만 사용한다.
 disable-model-invocation: true
 ---
 
-# CPX 기록판 연결
+# CPXpert 연결
 
 웹 기록판에서 발급받은 연결 코드를 이 컴퓨터에 저장해, 평가가 끝날 때마다 결과가
 사용자 계정에 자동으로 쌓이도록 만듭니다.
