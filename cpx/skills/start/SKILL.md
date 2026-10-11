@@ -539,7 +539,7 @@ Stop 훅이 없는 환경에서는 기록 블록이 있어도 자동으로 기�
 훨씬 크다. 그래서 매번 낸다.)
 
 ```
-자동 저장이 안 되는 환경이라면: [기록 저장하기](https://cpx-practice.github.io/?upload=1&topic=1&total=78&history=45&pe=16&ppi=17)
+자동 저장이 안 되는 환경이라면: [기록 저장하기](https://cpxpert.web.app/?upload=1&topic=1&total=78&history=45&pe=16&ppi=17)
 ```
 
 - `topic` 값은 이번 케이스를 찾을 때 읽은 `index.json` 의 `topics.<주호소>.topicId` 를
