@@ -97,8 +97,10 @@ def years_in(label):
     return max(int(x) for x in m) if m else 0
 
 
-def age_ok(item, age):
-    return age >= int(item.get("minAge", 0))
+def age_ok(item, age, sex=None):
+    """나이 하한. femaleMinAge 가 있으면 여성에게는 그 값을 쓴다 (예: 통풍은 폐경 전 여성에게 드물다)."""
+    floor = item.get("femaleMinAge") if sex == "female" and item.get("femaleMinAge") is not None else item.get("minAge", 0)
+    return age >= int(floor)
 
 
 def occupation_ok(occ, age):
@@ -159,7 +161,7 @@ def validate(person, scenario, personas, problems):
 
     for key in ("smoking", "alcohol", "illness"):
         item = person[key]
-        if not age_ok(item, age):
+        if not age_ok(item, age, person.get("sex")):
             problems.append("%s-나이: %s / %d세 (minAge %s)"
                             % (key, item["label"], age, item.get("minAge")))
 
@@ -297,14 +299,14 @@ def draw_person(scenario, personas):
     ice = random.choice(ice_pool)
 
     def pick_aged(key):
-        pool = [x for x in personas[key] if age_ok(x, age)]
+        pool = [x for x in personas[key] if age_ok(x, age, sex)]
         return weighted(pool or [personas[key][0]])
 
     # 카드가 금지한 지병은 애초에 뽑지 않는다. 갑상선기능항진증 케이스에
     # 갑상선기능저하증 병력이 붙으면 진단 자체가 무너진다.
     banned = set(c.get("forbidden") or [])
     ill_pool = [x for x in personas["backgroundIllness"]
-                if age_ok(x, age) and x["id"] not in banned and x["label"] not in banned]
+                if age_ok(x, age, sex) and x["id"] not in banned and x["label"] not in banned]
     illness = weighted(ill_pool) if ill_pool else pick_aged("backgroundIllness")
     smoking = pick_aged("smoking")
     alcohol = pick_aged("alcohol")
