@@ -769,7 +769,10 @@ def build(topic, data, scenario_id=None):
     guardian = draw_guardian(scenario, person, personas, slots)
     if guardian:
         person["guardian"] = guardian
-        person["speaksForSelf"] = person["age"] >= 13
+        # 의식장애처럼 나이와 상관없이 본인이 답할 수 없는 카드는 informant.speaksForSelf: false 로 막는다.
+        info = scenario.get("informant")
+        blocked = isinstance(info, dict) and info.get("speaksForSelf") is False
+        person["speaksForSelf"] = person["age"] >= 13 and not blocked
     # 본인이 답하지 못하는 아이의 ICE 를 아이 것으로 두면, 다섯 살의 생각이
     # "약만 좀 지어주면 될 것 같다" 가 된다. 그 생각은 데려온 보호자의 것이다.
     person["iceOwner"] = "보호자" if (guardian and not person.get("speaksForSelf")) else "환자"
