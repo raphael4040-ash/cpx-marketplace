@@ -786,6 +786,10 @@ def build(topic, data, scenario_id=None):
     s_ice = scenario_ice(scenario, person)
     if s_ice:
         person["ice"] = s_ice
+    # "ice": false — 심정지처럼 환자가 말할 수 없는 카드. 성향 ICE("별거 아닐 것 같은데
+    # 주변에서 가보라고 해서 왔다")가 쓰러진 환자에게 붙어 있었다.
+    if scenario.get("ice") is False:
+        person["ice"] = {"id": "none", "idea": "해당 없음 (환자가 의식이 없거나 말할 수 없는 상황이라 생각·걱정·기대를 말하지 않는다)"}
 
     findings, rolled = resolve_findings(scenario, slots)
     return {
