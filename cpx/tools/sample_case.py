@@ -952,6 +952,11 @@ def as_json(case):
         elif kept:
             parts.append(" ".join(kept))
     person["pmhResolved"] = ". ".join(parts) if parts else "특이 병력 없음"
+    # 보호자가 말하는 카드는 pmh·meds 가 "환자(어머니)는 …" 처럼 제3자 이야기다. 인물의
+    # 배경질환을 그 앞에 그냥 붙이면 "당뇨병. 환자(어머니)는 위암…" 이 되어 누구 병인지 갈렸다.
+    if card_pmh.startswith("환자"):
+        own = illness if illness and illness != "없음" else "특이 병력 없음"
+        person["pmhResolved"] = "보호자 본인 %s. %s" % (own, card_pmh)
 
     meds_card = strip_directives(fill(s.get("meds") or "", slots))
     med_list = [m for m in (p["illness"].get("meds") or [])]
@@ -988,6 +993,9 @@ def as_json(case):
         person["medsResolved"] = ", ".join(med_list) + ". " + " ".join(kept)
     else:
         person["medsResolved"] = (", ".join(med_list) or meds_card).strip() or "복용 약 없음"
+    if meds_card.startswith("환자"):
+        own = ", ".join(p["illness"].get("meds") or []) or "복용 약 없음"
+        person["medsResolved"] = "보호자 본인 %s. %s" % (own, meds_card)
 
     pe = dict(s.get("pe") or {})
     pe.pop("vitals", None)
