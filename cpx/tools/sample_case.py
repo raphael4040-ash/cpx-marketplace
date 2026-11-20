@@ -730,7 +730,26 @@ def fill(text, slots):
     while prev != text:                 # 값 안에 또 슬롯이 있는 경우까지
         prev = text
         text = SLOT_RE.sub(one, text)
-    return text
+    return natural_durations(text)
+
+
+# "18개월 전", "24시간 전" 은 사람이 하는 말이 아니다 — 환자가 그대로 읽어 말투가 딱딱해졌다.
+# 시점을 말하는 "… 전/째" 만 바꾼다. "생후 18개월", "16개월에 걸었다" 같은 나이는 그대로 둔다.
+# cpx-worker/src/sampleCase.js 의 naturalDurations 와 같은 규칙이다.
+HOUR_WORDS = {24: "하루", 36: "하루 반", 48: "이틀", 72: "사흘"}
+
+
+def natural_durations(text):
+    def months(m):
+        v = int(m.group(1))
+        if v < 12:
+            return m.group(0)
+        y, r = divmod(v, 12)
+        return f"{y}년" if r == 0 else f"{y}년 반" if r == 6 else f"{y}년 {r}개월"
+
+    text = re.sub(r"(?<!\d)(\d+)\s*개월(?=\s*(전|째))", months, text)
+    return re.sub(r"(?<!\d)(\d+)\s*시간(?=\s*(전|째))",
+                  lambda m: HOUR_WORDS.get(int(m.group(1)), m.group(0)), text)
 
 
 def fill_deep(node, slots):
